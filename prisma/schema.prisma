@@ -11,8 +11,68 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Example {
+// Credits to ChatGPT
+enum Emotion {
+  Joy
+  Sadness
+  Anger
+  Fear
+  Surprise
+  Disgust
+  Excitement
+  Anticipation
+  Love
+  Envy
+  Guilt
+  Shame
+  Embarrassment
+  Hope
+  Despair
+  Nostalgia
+  Loneliness
+  Gratitude
+  Contentment
+  Pride
+  Jealousy
+  Awe
+  Curiosity
+  Confusion
+  Boredom
+  Relief
+  Regret
+  Compassion
+}
+
+// Should add more, but see : https://github.com/prisma/prisma/issues/273 
+enum PhysicalSymptom {
+  None
+  Pain
+  Tingling
+  Numbness
+  Sweating
+  Trembling
+  Palpitations
+}
+
+
+
+
+model EmotionEvent {
     id        String   @id @default(cuid())
+    title     String   @db.VarChar(255)
+    userId    String  
+    emotion   Emotion  @default(Joy)
+    psymptom  PhysicalSymptom @default(None)
+    pobject   String   @db.VarChar(255)
+    cause     String   @db.VarChar(255)
+    reflective Boolean @default(true)
+
+    start     DateTime @default(now())
+    end       DateTime @default(now())
+
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@index([userId])
 }
