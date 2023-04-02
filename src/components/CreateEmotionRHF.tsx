@@ -87,25 +87,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
         {/* The actual dialog panel  */}
         <Dialog.Panel className="mx-auto max-w-sm rounded bg-white">
           <Dialog.Title>Create a new Event</Dialog.Title>
-          <Combobox.Input
-                        className={`w-full shadow-sm rounded-md px-3 py-2`}
-                        displayValue={(feat: CarpoolAddress) =>
-                          feat.place_name ? feat.place_name : ""
-                        }
-                        type="text"
-                        onChange={(e) => {
-                          if (e.target.value === "") {
-                            setStartAddressSelected({
-                              place_name: "",
-                              center: [0, 0],
-                            });
-                            fieldProps.onChange("");
-                          } else {
-                            updateStartingAddress(e.target.value);
-                          }
-                        }}
-                      />
-
+          
           
         </Dialog.Panel>
       </div>

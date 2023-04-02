@@ -16,14 +16,13 @@ interface CalendarProps {
   events: EmotionEvent[];
 }
 
-
 const Calendar = (props: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const header = () => {
     const dateFormat = "MMMM yyyy";
     return (
-      <div className="mb-6 flex justify-between">
+      <div className="p-3 flex justify-between">
         <div className="text-2xl font-semibold text-gray-800">
           {format(currentDate, dateFormat)}
         </div>
@@ -75,6 +74,35 @@ const Calendar = (props: CalendarProps) => {
     );
   };
 
+  function renderCellsHelper(
+    day: Date,
+    days: JSX.Element[],
+    rows: JSX.Element[]
+  ) {
+    for (let i = 0; i < 7; i++) {
+      const formattedDate = format(day, "d");
+      const dayEvents = props.events.filter((event) =>
+        isSameDay(event.start, day)
+      );
+
+      days.push(
+        <CalendarCell
+          key={day.toString()}
+          day={day}
+          currentDate={currentDate}
+          monthEvents={props.events}
+        />
+      );
+      day = addDays(day, 1);
+    }
+    rows.push(
+      <div key={day.toString()} className="flex">
+        {days}
+      </div>
+    );
+    days = [];
+  }
+
   const renderCells = () => {
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(monthStart);
@@ -84,31 +112,33 @@ const Calendar = (props: CalendarProps) => {
     const rows = [];
     let days = [];
     let day = startDate;
-    while (day <= endDate) {
+    // Ensure that there are 6 rows in the calendar. 
+    // Some months might only have 5 if the days of the week align in a certain way.
+    while (rows.length < 6) {
       for (let i = 0; i < 7; i++) {
-        const formattedDate = format(day, "d");
-        const dayEvents = props.events.filter((event) =>
-          isSameDay(event.start, day)
+        days.push(
+          <CalendarCell
+            key={day.toString()}
+            day={day}
+            currentDate={new Date()}
+            monthEvents={props.events}
+          />
         );
-
-        days.push(<CalendarCell  key={day.toString()}
-        day={day}
-        currentDate={currentDate}
-        monthEvents={props.events}/>);
         day = addDays(day, 1);
       }
       rows.push(
-        <div key={day.toString()} className="flex">
+        <div key={rows.length} className="flex">
           {days}
         </div>
       );
       days = [];
     }
+
     return rows;
   };
 
   return (
-    <div className="overflow-hidden rounded-lg bg-white shadow">
+    <div className="overflow-hidden rounded-lg bg-white shadow border">
       {header()}
       {weekDaysHeader()}
       {renderCells()}

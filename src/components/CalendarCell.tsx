@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { format, startOfWeek, addDays, startOfMonth, endOfMonth, endOfWeek, isSameMonth } from "date-fns";
+import {
+  format,
+  startOfWeek,
+  addDays,
+  startOfMonth,
+  endOfMonth,
+  endOfWeek,
+  isSameMonth,
+} from "date-fns";
 import { EmotionEvent } from "@prisma/client";
 import CalendarEvent from "./CalendarEvent";
 
@@ -18,22 +26,31 @@ const Cell = (props: CellProps) => {
   };
 
   const isSameDay = (day: Date, currentDate: Date) => {
-    return isSameMonth(day, currentDate) && day.getDate() === currentDate.getDate();
+    return (
+      isSameMonth(day, currentDate) && day.getDate() === currentDate.getDate()
+    );
   };
 
-  const dayEvents = props.monthEvents.filter((event) => format(new Date(event.start), "MM/dd/yyyy") === format(props.day, "MM/dd/yyyy"));
+  const dayEvents = props.monthEvents.filter(
+    (event) =>
+      format(new Date(event.start), "MM/dd/yyyy") ===
+      format(props.day, "MM/dd/yyyy")
+  );
 
   return (
-    <div key={props.day.toString()} className={`${!isSameMonth(props.day, props.currentDate) ? "text-gray-400" : ""} flex-1 border w-32 h-32`}>
-      <div
-        className={`p-1 cursor-pointer rounded-full ${
-          isSameDay(props.day, props.currentDate) ? "bg-blue-400 text-white" : ""
-        }`}
-      >
+    <div
+      key={props.day.toString()}
+      className={`${
+        !isSameMonth(props.day, props.currentDate) ? "text-gray-400" : ""
+      } ${
+        isSameDay(props.day, props.currentDate) ? "bg-gray-400 text-white" : ""
+      } h-32 w-32 flex-1 border`}
+    >
+      <div className={`cursor-pointer rounded-full p-1 `}>
         <span className="number">{formattedDate}</span>
-        <div className="bg-blue-200 rounded-md mt-1">
+        <div className="mt-1 rounded-md bg-blue-200">
           {dayEvents.map((event) => (
-            <CalendarEvent event={event}/>
+            <CalendarEvent key={event.id} event={event} />
           ))}
         </div>
       </div>

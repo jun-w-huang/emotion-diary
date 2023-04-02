@@ -3,18 +3,15 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
-import { Calendar as BigCalendar, dayjsLocalizer } from "react-big-calendar";
-import * as dayjs from "dayjs";
 
 import { api } from "~/utils/api";
-import "react-big-calendar/lib/css/react-big-calendar.css";
 import CreateEmotionRHF from "~/components/CreateEmotionRHF";
 import Calendar from "~/components/Calendar";
 
 /* TODO: 
-1. Add start and end times to EmotionEvent in Prisma,
-2. Make sure that this is reflecting correctly in calender
-3. Add other fields to EmotionEvents
+1. Handle Loading,
+2. Create RHF
+3. Create ability to click CalendarCells for detailed view.
 
 */
 
@@ -25,15 +22,10 @@ const Home: NextPage = () => {
 
   const [showingModal, isShowingModal] = useState<boolean>(false);
 
-  const localizer = dayjsLocalizer(dayjs);
-
   if (isLoading) {
     return <div>
-
     </div>
   }
-
-
 
   return (
     <>
@@ -49,16 +41,6 @@ const Home: NextPage = () => {
           {showingModal && (
             <CreateEmotionRHF closeModal={() => isShowingModal(false)} />
           )}
-          {/* <BigCalendar
-            localizer={localizer}
-            onSelectEvent={(event) => {
-              console.log(event.title);
-            }}
-            events={data}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: 500 }}
-          /> */}
           {data && <Calendar events={data}/>}
         </div>
 
