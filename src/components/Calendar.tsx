@@ -6,7 +6,6 @@ import {
   startOfWeek,
   endOfWeek,
   addDays,
-  isSameMonth,
   isSameDay,
 } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
