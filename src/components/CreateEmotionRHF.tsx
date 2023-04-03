@@ -103,7 +103,9 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
           <Dialog.Title className={"text-xl font-bold"}>
             Create a new Event
           </Dialog.Title>
-          <form onSubmit={handleSubmit(onSubmit, onError)}>
+          <form 
+          // onSubmit={handleSubmit(onSubmit, onError)}
+          >
             <div>
               <EntryLabel error={errors.title} label={"title"} required />
               <InputFieldRHF placeholder="Title" {...register("title")} />

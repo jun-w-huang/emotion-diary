@@ -73,35 +73,6 @@ const Calendar = (props: CalendarProps) => {
     );
   };
 
-  function renderCellsHelper(
-    day: Date,
-    days: JSX.Element[],
-    rows: JSX.Element[]
-  ) {
-    for (let i = 0; i < 7; i++) {
-      const formattedDate = format(day, "d");
-      const dayEvents = props.events.filter((event) =>
-        isSameDay(event.start, day)
-      );
-
-      days.push(
-        <CalendarCell
-          key={day.toString()}
-          day={day}
-          currentDate={currentDate}
-          monthEvents={props.events}
-        />
-      );
-      day = addDays(day, 1);
-    }
-    rows.push(
-      <div key={day.toString()} className="flex">
-        {days}
-      </div>
-    );
-    days = [];
-  }
-
   const renderCells = () => {
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(monthStart);
