@@ -76,13 +76,6 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   const onSubmit = () => {
     console.log("in on submit")
   }
-  const onError = (actualErrors: any) => {
-    console.log("errors")
-    console.log(actualErrors)
-    console.log(errors)
-  }
-
-  
 
   return (
     <Dialog
@@ -104,7 +97,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
             Create a new Event
           </Dialog.Title>
           <form 
-          // onSubmit={handleSubmit(onSubmit, onError)}
+          onSubmit={handleSubmit(onSubmit)}
           >
             <div>
               <EntryLabel error={errors.title} label={"title"} required />
