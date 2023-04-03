@@ -1,18 +1,17 @@
 import { Combobox } from "@headlessui/react";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Control, Controller } from "react-hook-form";
 import { CreateEmotionFormInputs } from "./CreateEmotionRHF";
 
 interface ComboBoxRHFProps {
   control: Control<CreateEmotionFormInputs>;
   name: "emotion" | "psymptom" | "pobject" | "cause";
-  autocompleteOptions : string[],
+  autocompleteOptions: string[];
   placeholder?: string;
   value?: Date;
 }
 
 const ComboBoxRHF = (props: ComboBoxRHFProps) => {
-  const [value, setValue] = useState("");
   const [query, setQuery] = useState("");
 
   const filteredResult =
@@ -27,19 +26,28 @@ const ComboBoxRHF = (props: ComboBoxRHFProps) => {
       name={props.name}
       control={props.control}
       render={({ field: { ref, ...fieldProps }, fieldState }) => (
-        <Combobox value={value} onChange={setValue}>
+        <Combobox as={"div"} value={fieldProps.value} onChange={fieldProps.onChange}>
           <Combobox.Input
             className={`w-full rounded-md bg-slate-300 p-3`}
             onChange={(event) => setQuery(event.target.value)}
           />
-          <Combobox.Options className={`relative w-full  rounded-md shadow-sm`}>
+          <Combobox.Options
+            className={`max-h-48 w-full cursor-default overflow-scroll rounded-md shadow-sm`}
+          >
             {filteredResult.map((emotion) => (
-              <Combobox.Option
-                className={`w-full bg-slate-400`}
-                key={emotion}
-                value={emotion}
-              >
-                {emotion}
+              <Combobox.Option key={emotion} value={emotion} as={Fragment}>
+                {({ active, selected }) => (
+                  <li
+                    className={`relative w-full cursor-default p-3 ${
+                      active
+                        ? "bg-blue-500 text-white"
+                        : "bg-slate-400 text-black"
+                    }`}
+                  >
+                    {selected}
+                    {emotion}
+                  </li>
+                )}
               </Combobox.Option>
             ))}
           </Combobox.Options>

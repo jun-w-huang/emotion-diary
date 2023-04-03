@@ -38,7 +38,7 @@ const Cell = (props: CellProps) => {
         !isSameMonth(props.day, props.currentDate) ? "text-gray-400" : ""
       } ${
         isSameDay(props.day, props.currentDate) ? "bg-gray-400 text-white" : ""
-      } h-32 w-48 flex-1 border`}
+      } h-32 w-32 flex-1 border`}
     >
       <div className={`cursor-pointer rounded-full p-1 `}>
         <span className="number">{formattedDate}</span>

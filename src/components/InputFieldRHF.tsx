@@ -1,10 +1,12 @@
-const InputFieldRHF = (props: React.ComponentPropsWithRef<"input">) => {
-  return (
+import React from "react";
+
+const InputFieldRHF = React.forwardRef<HTMLInputElement, React.ComponentPropsWithoutRef<"input">>(
+  (props, ref) => (
     <input
       placeholder={props.placeholder}
-      onChange={props.onChange}
+      { ...props}
+      ref={ref}
       className="w-full rounded-md bg-slate-300 p-3"
     />
-  );
-};
+  ));
 export default InputFieldRHF;

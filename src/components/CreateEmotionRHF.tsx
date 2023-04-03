@@ -8,6 +8,7 @@ import ComboBoxRHF from "./ComboBoxRHF";
 import { EntryLabel } from "./EntryLabel";
 import InputFieldRHF from "./InputFieldRHF";
 import SwitchRHF from "./SwitchRHF";
+import ControlledTimePickerRHF from "./ControlledTimePickerRHF";
 
 interface CreateEmotionRHFProps {
   closeModal: () => void;
@@ -40,12 +41,9 @@ const CreateEmotionSchema = z.intersection(
   z.union([
     z.object({
       start: z.date({ errorMap: dateErrorMap }),
-      end: z.date({ errorMap: dateErrorMap }),
-      timeDiffers: z.literal(false),
+      end: z.date({ errorMap: dateErrorMap }).optional(),
     }),
-    z.object({
-      timeDiffers: z.literal(true),
-    }),
+    z.object({}),
   ])
 );
 
@@ -54,6 +52,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   const {
     register,
     formState: { errors },
+    getValues,
     watch,
     handleSubmit,
     reset,
@@ -62,7 +61,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
     mode: "onSubmit",
     defaultValues: {
       title: "",
-      emotion: Emotion.Joy,
+      emotion: Emotion.Despair,
       psymptom: PhysicalSymptom.None,
       pobject: "",
       cause: "",
@@ -73,8 +72,15 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
     resolver: zodResolver(CreateEmotionSchema),
   });
 
-  const onSubmit = () => {
-    console.log("in on submit")
+  const onSubmit = (values: CreateEmotionFormInputs) => {
+    console.log("in on submit yay! there should be no errors");
+    console.log(values)
+  };
+  
+  const onError = (errors :any, e:any) => {
+    console.log("in errors")
+    console.log(errors)
+    console.log(getValues())
   }
 
   return (
@@ -92,16 +98,17 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
       {/* Full-screen container to center the panel */}
       <div className="fixed inset-0 flex items-center justify-center p-4">
         {/* The actual dialog panel  */}
-        <Dialog.Panel className="mx-auto flex h-3/6 w-6/12 flex-col gap-4 rounded border-8 bg-white p-6">
+        <Dialog.Panel className="mx-auto flex min-h-fit w-6/12 flex-col gap-4 rounded border-8 bg-white p-6">
           <Dialog.Title className={"text-xl font-bold"}>
             Create a new Event
           </Dialog.Title>
-          <form 
-          onSubmit={handleSubmit(onSubmit)}
+          <form
+            onSubmit={handleSubmit(onSubmit, onError)}
+            className="flex flex-col gap-4"
           >
             <div>
               <EntryLabel error={errors.title} label={"title"} required />
-              <InputFieldRHF placeholder="Title" {...register("title")} />
+              <InputFieldRHF placeholder="Coursework!!!" {...register("title")} />
             </div>
             <div>
               <EntryLabel
@@ -116,24 +123,54 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
               />
             </div>
             <div>
-              <EntryLabel error={errors.cause} label={"Cause of event"} required />
+              <EntryLabel error={errors.pobject} label={"Particular object"} required />
+              <InputFieldRHF placeholder="PHIL3305 Final Project Deadline ):" {...register("pobject")} />
+            </div>
+            <div>
+              <EntryLabel
+                error={errors.psymptom}
+                label={"Do you have any physical symptoms?"}
+                required
+              />
+              <ComboBoxRHF
+                control={control}
+                name="psymptom"
+                autocompleteOptions={Object.values(PhysicalSymptom)}
+              />
+            </div>
+            <div>
+              <EntryLabel
+                error={errors.cause}
+                label={"Cause of event"}
+                required
+              />
               <InputFieldRHF
-                placeholder="Cause of event"
+                placeholder="Bad sleep ):"
                 {...register("cause")}
               />
             </div>
             <div>
-              <EntryLabel error={errors.isReflective} label={"Is this emotion reflective of your self conception?"} required />
-              <SwitchRHF control={control}
-                name="isReflective"
+              <EntryLabel
+                error={errors.isReflective}
+                label={"Is this emotion reflective of your self conception?"}
+                required
+              />
+              <SwitchRHF control={control} name="isReflective" />
+            </div>
+            <div className="flex gap-6">
+              <div>
+                <EntryLabel
+                  error={errors.start}
+                  label={"Start time"}
+                  required
                 />
+                <ControlledTimePickerRHF control={control} name="start" />
+              </div>
+              <div>
+                <EntryLabel error={errors.end} label={"Ended?"} />
+                <ControlledTimePickerRHF control={control} name="end" />
+              </div>
             </div>
-            <div>
-              
-            </div>
-            {/*
-  start: Date | null;
-  end: Date | null; */}
             <button
               onClick={() => console.log("submit")}
               type="submit"

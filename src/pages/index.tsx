@@ -10,7 +10,9 @@ import Calendar from "~/components/Calendar";
 /* TODO: 
 1. Handle Loading,
 2. Create RHF
+3. Physical symptom, can select multiple.
 3. Create ability to click CalendarCells for detailed view.
+4. CALENDAR SWAP TO DAILY VIEW / WEEKLY VIEW
 
 */
 

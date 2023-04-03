@@ -7,7 +7,6 @@ interface EntryLabelProps {
 }
 
 export const EntryLabel = (props: EntryLabelProps) => {
-  console.log(props.error)
   return props.required ? (
     <div className={`${props.error ? "text-red-500" : ""} `}>
       {props.label}
