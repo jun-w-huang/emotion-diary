@@ -51,7 +51,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   const { mutate, isLoading : isCreating } = api.emotionEvent.create.useMutation({
     onSuccess: () => {
       closeModal();
-      ctx.emotionEvent.getAll.invalidate();
+      void ctx.emotionEvent.getAll.invalidate();
     },
     onError: (error) => {
       toast.error(`Something went wrong: ${error.message}`);

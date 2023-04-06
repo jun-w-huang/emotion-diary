@@ -5,7 +5,6 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   privateProcedure,
-  // privateProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
 
