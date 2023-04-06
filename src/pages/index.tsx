@@ -2,7 +2,6 @@ import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
-
 import { api } from "~/utils/api";
 import CreateEmotionRHF from "~/components/CreateEmotionRHF";
 import Calendar from "~/components/Calendar";
@@ -11,6 +10,8 @@ import Calendar from "~/components/Calendar";
 1. Handle Loading,
 2. Create RHF
 3. Physical symptom, can select multiple.
+4. refactor Form functions outside component body if they aren't necessary
+5. ADD TOAST FOR FORM ERROR SUBMISSION, on TRPC side... not client side...
 3. Create ability to click CalendarCells for detailed view.
 4. CALENDAR SWAP TO DAILY VIEW / WEEKLY VIEW
 
@@ -24,8 +25,7 @@ const Home: NextPage = () => {
   const [showingModal, isShowingModal] = useState<boolean>(false);
 
   if (isLoading) {
-    return <div>
-    </div>
+    return <div> is Loading... </div>;
   }
 
   return (
@@ -38,20 +38,19 @@ const Home: NextPage = () => {
 
       <main className="flex min-h-screen flex-col items-center justify-center">
         <div>
-          <button className="border bg-slate-500 text-white px-4 rounded-lg" onClick={(e) => isShowingModal(true)}>+</button>
+          <button
+            className="rounded-lg border bg-slate-500 px-4 text-white"
+            onClick={(e) => isShowingModal(true)}
+          >
+            +
+          </button>
           {showingModal && (
             <CreateEmotionRHF closeModal={() => isShowingModal(false)} />
           )}
-          {data && <Calendar events={data}/>}
+          {data && <Calendar events={data} />}
         </div>
 
         {user.isSignedIn ? <SignOutButton /> : <SignInButton />}
-
-        <div>
-          {data?.map((emotionEvent) => (
-            <div key={emotionEvent.id}>{emotionEvent.title}</div>
-          ))}
-        </div>
       </main>
     </>
   );

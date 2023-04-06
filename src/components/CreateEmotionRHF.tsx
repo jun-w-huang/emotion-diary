@@ -9,6 +9,9 @@ import { EntryLabel } from "./EntryLabel";
 import InputFieldRHF from "./InputFieldRHF";
 import SwitchRHF from "./SwitchRHF";
 import ControlledTimePickerRHF from "./ControlledTimePickerRHF";
+import { useUser } from "@clerk/nextjs";
+import { api } from "~/utils/api";
+import toast from "react-hot-toast";
 
 interface CreateEmotionRHFProps {
   closeModal: () => void;
@@ -21,34 +24,41 @@ export type CreateEmotionFormInputs = {
   pobject: string;
   cause: string;
   isReflective: boolean;
-  start: Date | null;
-  end: Date | null;
+  start: Date;
+  end: Date | undefined;
 };
 
-const dateErrorMap: z.ZodErrorMap = (issue, ctx) => {
-  return { message: "Invalid Date" };
-};
+const CreateEmotionSchema = z.object({
+  title: z.string().min(1, "Cannot be empty"),
+  emotion: z.nativeEnum(Emotion),
+  psymptom: z.nativeEnum(PhysicalSymptom),
+  pobject: z.string().min(1, "Cannot be empty"),
+  cause: z.string().min(1, "Cannot be empty"),
+  isReflective: z.boolean(),
+  start: z.date(),
+  end: z.date().optional(),
+});
 
-const CreateEmotionSchema = z.intersection(
-  z.object({
-    title: z.string().min(1, "Cannot be empty"),
-    emotion: z.nativeEnum(Emotion),
-    psymptom: z.nativeEnum(PhysicalSymptom),
-    pobject: z.string().min(1, "Cannot be empty"),
-    cause: z.string().min(1, "Cannot be empty"),
-    isReflective: z.boolean(),
-  }),
-  z.union([
-    z.object({
-      start: z.date({ errorMap: dateErrorMap }),
-      end: z.date({ errorMap: dateErrorMap }).optional(),
-    }),
-    z.object({}),
-  ])
-);
+
 
 const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(true);
+  // const { user } = useUser()
+
+  // if (!user) throw Error("user not found!!!")
+
+  const ctx = api.useContext();
+
+  const { mutate, isLoading : isCreating } = api.emotionEvent.create.useMutation({
+    onSuccess: () => {
+      closeModal();
+      ctx.emotionEvent.getAll.invalidate();
+    },
+    onError: (error) => {
+      toast.error(`Something went wrong: ${error.message}`);
+    },
+
+  });
+
   const {
     register,
     formState: { errors },
@@ -73,29 +83,40 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   });
 
   const onSubmit = (values: CreateEmotionFormInputs) => {
-    console.log("in on submit yay! there should be no errors");
-    console.log(values)
+    mutate({
+      title: values.title,
+      emotion: values.emotion,
+      psymptom: values.psymptom,
+      pobject: values.pobject,
+      cause: values.cause,
+      isReflective: values.isReflective,
+      start: values.start,
+      end: values.end,
+    });
   };
-  
-  const onError = (errors :any, e:any) => {
-    console.log("in errors")
-    console.log(errors)
-    console.log(getValues())
+
+  const onError = (errors: any, e: any) => {
+    console.log("in errors");
+    console.log(errors);
+    console.log(getValues());
+  };
+
+  const [isOpen, setIsOpen] = useState(true);
+
+  const closeModal = () => {
+    setIsOpen(false)
+    props.closeModal();
   }
 
   return (
     <Dialog
       open={isOpen}
-      onClose={() => {
-        setIsOpen(false);
-        props.closeModal();
-      }}
+      onClose={closeModal}
       className="relative z-50"
     >
       {/* The backdrop, rendered as a fixed sibling to the panel container */}
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
-      {/* Full-screen container to center the panel */}
       <div className="fixed inset-0 flex items-center justify-center p-4">
         {/* The actual dialog panel  */}
         <Dialog.Panel className="mx-auto flex min-h-fit w-6/12 flex-col gap-4 rounded border-8 bg-white p-6">
@@ -108,7 +129,10 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
           >
             <div>
               <EntryLabel error={errors.title} label={"title"} required />
-              <InputFieldRHF placeholder="Coursework!!!" {...register("title")} />
+              <InputFieldRHF
+                placeholder="Coursework!!!"
+                {...register("title")}
+              />
             </div>
             <div>
               <EntryLabel
@@ -123,8 +147,15 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
               />
             </div>
             <div>
-              <EntryLabel error={errors.pobject} label={"Particular object"} required />
-              <InputFieldRHF placeholder="PHIL3305 Final Project Deadline ):" {...register("pobject")} />
+              <EntryLabel
+                error={errors.pobject}
+                label={"Particular object"}
+                required
+              />
+              <InputFieldRHF
+                placeholder="PHIL3305 Final Project Deadline ):"
+                {...register("pobject")}
+              />
             </div>
             <div>
               <EntryLabel
