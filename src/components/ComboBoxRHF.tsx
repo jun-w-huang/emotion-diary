@@ -8,7 +8,6 @@ interface ComboBoxRHFProps {
   name: "emotion" | "psymptom" | "pobject" | "cause";
   autocompleteOptions: string[];
   placeholder?: string;
-  value?: Date;
 }
 
 const ComboBoxRHF = (props: ComboBoxRHFProps) => {

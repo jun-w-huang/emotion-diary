@@ -5,9 +5,9 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import CreateEmotionRHF from "~/components/CreateEmotionRHF";
 import Calendar from "~/components/Calendar";
+import LoadingSpinner from "~/components/LoadingSpinner";
 
 /* TODO: 
-1. Handle Loading,
 2. Create RHF
 3. Physical symptom, can select multiple.
 4. refactor Form functions outside component body if they aren't necessary
@@ -25,7 +25,11 @@ const Home: NextPage = () => {
   const [showingModal, isShowingModal] = useState<boolean>(false);
 
   if (isLoading) {
-    return <div> is Loading... </div>;
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   return (
