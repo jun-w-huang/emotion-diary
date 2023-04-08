@@ -9,10 +9,10 @@ import {
 } from "~/server/api/trpc";
 
 export const emotionEventRouter = createTRPCRouter({
-  getById: privateProcedure
+  getById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
-      const events = await ctx.prisma.emotionEvent.findUnique({
+      const events = await ctx.prisma.emotionEvent.findMany({
         where: { id: input.id },
       });
       if (!events) throw new TRPCError({ code: "NOT_FOUND" });

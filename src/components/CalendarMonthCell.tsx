@@ -11,7 +11,7 @@ interface CellProps {
   monthEvents: EmotionEvent[];
 }
 
-const Cell = (props: CellProps) => {
+const CalendarMonthCell = (props: CellProps) => {
   const formatDay = "d";
   const formattedDate = format(props.day, formatDay);
 
@@ -38,7 +38,7 @@ const Cell = (props: CellProps) => {
         !isSameMonth(props.day, props.currentDate) ? "text-gray-400" : ""
       } ${
         isSameDay(props.day, props.currentDate) ? "bg-gray-400 text-white" : ""
-      } h-32 w-32 flex-1 border`}
+      } h-48 w-32 flex-1 border`}
     >
       <div className={`cursor-pointer rounded-full p-1 `}>
         <span className="number">{formattedDate}</span>
@@ -52,4 +52,4 @@ const Cell = (props: CellProps) => {
   );
 };
 
-export default Cell;
+export default CalendarMonthCell;

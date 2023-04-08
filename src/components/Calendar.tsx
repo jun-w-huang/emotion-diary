@@ -9,7 +9,10 @@ import {
   isSameDay,
 } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
-import CalendarCell from "./CalendarCell";
+import CalendarMonthCell from "./CalendarMonthCell";
+import CalendarWeekCell from "./CalendarWeekCell";
+import CalendarMonthlyView from "./CalendarMonthlyView";
+import CalendarWeeklyView from "./CalendarWeeklyView";
 
 interface CalendarProps {
   events: EmotionEvent[];
@@ -17,11 +20,12 @@ interface CalendarProps {
 
 const Calendar = (props: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [viewMode, setViewMode] = useState("month");
 
   const header = () => {
     const dateFormat = "MMMM yyyy";
     return (
-      <div className="p-3 flex justify-between">
+      <div className="flex justify-between p-3">
         <div className="text-2xl font-semibold text-gray-800">
           {format(currentDate, dateFormat)}
         </div>
@@ -45,6 +49,12 @@ const Calendar = (props: CalendarProps) => {
             }
           >
             Next
+          </button>
+          <button
+            className="rounded-md border px-2 py-1"
+            onClick={() => setViewMode(viewMode === "month" ? "week" : "month")}
+          >
+            {viewMode === "month" ? "Weekly View" : "Monthly View"}
           </button>
         </div>
       </div>
@@ -73,45 +83,22 @@ const Calendar = (props: CalendarProps) => {
     );
   };
 
-  const renderCells = () => {
-    const monthStart = startOfMonth(currentDate);
-    const monthEnd = endOfMonth(monthStart);
-    const startDate = startOfWeek(monthStart);
-    const endDate = endOfWeek(monthEnd);
-
-    const rows = [];
-    let days = [];
-    let day = startDate;
-    // Ensure that there are 6 rows in the calendar. 
-    // Some months might only have 5 if the days of the week align in a certain way.
-    while (rows.length < 6) {
-      for (let i = 0; i < 7; i++) {
-        days.push(
-          <CalendarCell
-            key={day.toString()}
-            day={day}
-            currentDate={new Date()}
-            monthEvents={props.events}
-          />
-        );
-        day = addDays(day, 1);
-      }
-      rows.push(
-        <div key={rows.length} className="flex">
-          {days}
-        </div>
-      );
-      days = [];
-    }
-
-    return rows;
-  };
-
   return (
-    <div className="overflow-hidden rounded-lg bg-white shadow border">
-      {header()}
-      {weekDaysHeader()}
-      {renderCells()}
+    <div className="flex flex-col flex-1 rounded-lg border max-h-full bg-white shadow">
+      <div className="">
+        {header()}
+        {weekDaysHeader()}
+      </div>
+      <div className="flex-auto overflow-y-scroll max-h-full">
+        {viewMode === "month" ? (
+          <CalendarMonthlyView
+            currentDate={currentDate}
+            events={props.events}
+          />
+        ) : (
+          <CalendarWeeklyView currentDate={currentDate} events={props.events} />
+        )}
+      </div>
     </div>
   );
 };

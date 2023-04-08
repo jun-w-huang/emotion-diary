@@ -8,7 +8,6 @@ import Calendar from "~/components/Calendar";
 import LoadingSpinner from "~/components/LoadingSpinner";
 
 /* TODO: 
-2. Create RHF
 3. Physical symptom, can select multiple.
 4. refactor Form functions outside component body if they aren't necessary
 5. ADD TOAST FOR FORM ERROR SUBMISSION, on TRPC side... not client side...
@@ -18,19 +17,21 @@ import LoadingSpinner from "~/components/LoadingSpinner";
 */
 
 const Home: NextPage = () => {
-  const user = useUser();
+  const { isSignedIn, user } = useUser();
+  // Move to getById after finishing functionality
+  // const { data, isLoading } = api.emotionEvent.getById.useQuery({id: user});
 
   const { data, isLoading } = api.emotionEvent.getAll.useQuery();
 
   const [showingModal, isShowingModal] = useState<boolean>(false);
 
-  if (isLoading) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="flex h-screen w-full items-center justify-center">
+  //       <LoadingSpinner />
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
@@ -40,21 +41,22 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex min-h-screen flex-col items-center justify-center">
-        <div>
-          <button
-            className="rounded-lg border bg-slate-500 px-4 text-white"
-            onClick={(e) => isShowingModal(true)}
-          >
-            +
-          </button>
+      <main className="flex h-screen max-h-screen flex-col items-center">
+        <div className="flex max-h-full flex-1 flex-col">
+          <div className="flex justify-between">
+            <button
+              className="rounded-lg border bg-slate-500 px-4 text-white"
+              onClick={(e) => isShowingModal(true)}
+            >
+              +
+            </button>
+            {isSignedIn ? <SignOutButton /> : <SignInButton />}
+          </div>
           {showingModal && (
             <CreateEmotionRHF closeModal={() => isShowingModal(false)} />
           )}
           {data && <Calendar events={data} />}
         </div>
-
-        {user.isSignedIn ? <SignOutButton /> : <SignInButton />}
       </main>
     </>
   );

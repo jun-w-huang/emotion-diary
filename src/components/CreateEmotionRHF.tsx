@@ -42,9 +42,9 @@ const CreateEmotionSchema = z.object({
 
 
 const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
-  // const { user } = useUser()
+  const { user } = useUser()
 
-  // if (!user) throw Error("user not found!!!")
+  if (!user) throw Error("user not found!!!")
 
   const ctx = api.useContext();
 
