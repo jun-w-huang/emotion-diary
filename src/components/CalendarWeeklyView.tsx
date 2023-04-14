@@ -7,12 +7,25 @@ interface CalendarWeeklyViewProps {
   events: EmotionEvent[];
 }
 
-const hours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+const hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
 
 const TimeSidebar = () => {
   const hourDisplays: JSX.Element[] = hours.map((hour) => {
-    return <div className="p-5">{hour}AM</div>;
+    if (hour < 12) {
+      if (hour === 0) {
+        return <div key={hour} className="p-5">12AM</div>;
+      } else {
+        return <div key={hour} className="p-5">{hour}AM</div>;
+      }
+    } else {
+      if (hour === 12) {
+        return <div key={hour} className="p-5">12PM</div>;
+      } else {
+        return <div key={hour} className="p-5">{hour-12}PM</div>;
+      }
+    }
   });
+  
   return <div className="">{hourDisplays}</div>;
 };
 

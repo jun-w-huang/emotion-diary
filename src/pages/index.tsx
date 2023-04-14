@@ -25,13 +25,13 @@ const Home: NextPage = () => {
 
   const [showingModal, isShowingModal] = useState<boolean>(false);
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="flex h-screen w-full items-center justify-center">
-  //       <LoadingSpinner />
-  //     </div>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -41,9 +41,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex h-screen max-h-screen flex-col items-center">
-        <div className="flex max-h-full flex-1 flex-col">
-          <div className="flex justify-between">
+      <main className="flex h-screen flex-col items-center">
+        <div className="flex h-screen flex-col w-full">
+          <div className="flex justify-between p-5">
             <button
               className="rounded-lg border bg-slate-500 px-4 text-white"
               onClick={(e) => isShowingModal(true)}
@@ -52,10 +52,13 @@ const Home: NextPage = () => {
             </button>
             {isSignedIn ? <SignOutButton /> : <SignInButton />}
           </div>
+          <div className="relative flex-1 flex flex-col justify-center items-center">
           {showingModal && (
             <CreateEmotionRHF closeModal={() => isShowingModal(false)} />
           )}
           {data && <Calendar events={data} />}
+
+          </div>
         </div>
       </main>
     </>

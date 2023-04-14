@@ -84,12 +84,12 @@ const Calendar = (props: CalendarProps) => {
   };
 
   return (
-    <div className="flex flex-col flex-1 rounded-lg border max-h-full bg-white shadow">
+    <div className="flex flex-col absolute overflow-auto max-h-full rounded-lg border bg-white shadow">
       <div className="">
         {header()}
         {weekDaysHeader()}
       </div>
-      <div className="flex-auto overflow-y-scroll max-h-full">
+      <div className="flex-auto overflow-y-scroll">
         {viewMode === "month" ? (
           <CalendarMonthlyView
             currentDate={currentDate}
