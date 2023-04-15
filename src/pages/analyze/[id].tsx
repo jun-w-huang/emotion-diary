@@ -3,18 +3,15 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
 import { api } from "~/utils/api";
-import Calendar from "~/components/Calendar/Calendar";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import Link from "next/link";
-import CreateEmotionRHF from "~/components/RHF/CreateEmotionRHF";
-import { Button } from "~/components/Button";
 
 const Home: NextPage = () => {
   const { isSignedIn, user } = useUser();
   // Move to getById after finishing functionality
   // const { data, isLoading } = api.emotionEvent.getById.useQuery({id: user});
 
-  const { data, isLoading } = api.emotionEvent.getAll.useQuery();
+  const { data, isLoading } = api.emotionEvent.getMostCommonEmotions.useQuery();
 
   const [showingModal, isShowingModal] = useState<boolean>(false);
 
@@ -37,23 +34,19 @@ const Home: NextPage = () => {
       <main className="flex h-screen flex-col items-center">
         <div className="flex h-screen flex-col w-full">
           <div className="flex justify-between p-5">
-            <Button
-              className="rounded-lg border bg-slate-500 px-4 text-white"
-              onClick={() => isShowingModal(true)}
-            >
-              +
-            </Button>
-            <Link href={`/analyze/${user?.id}`}>
-            View Data analysis
+            <Link href={"/"}>
+            Home
             </Link>
             {isSignedIn ? <SignOutButton /> : <SignInButton />}
           </div>
           <div className="relative flex-1 flex flex-col justify-center items-center">
-          {showingModal && (
-            <CreateEmotionRHF closeModal={() => isShowingModal(false)} />
-          )}
-          {data && <Calendar events={data} />}
-
+            <div className="bg-slate-200 p-48">
+                Top ten most frequent emotions
+                {data?.map((value) => {
+                  return(
+                  <div>{value.emotion}, {value.count}</div>)
+                })}
+            </div>
           </div>
         </div>
       </main>

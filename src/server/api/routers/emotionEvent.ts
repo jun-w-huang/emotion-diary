@@ -54,4 +54,30 @@ export const emotionEventRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.emotionEvent.findMany();
   }),
+  
+  getMostCommonEmotions: privateProcedure
+  .query(async ({ ctx }) => {
+    const userId = ctx.userId;
+    
+    // Find all the user's EmotionEvents
+    const events = await ctx.prisma.emotionEvent.findMany({
+      where: { userId },
+    });
+  
+    // Count the occurrences of each emotion
+    const counts = events.reduce((acc, event) => {
+      const emotion = event.emotion;
+      acc[emotion] = acc[emotion] ? acc[emotion] + 1 : 1;
+      return acc;
+    }, {} as Record<Emotion, number>);
+  
+    // Sort the emotions by their occurrence counts
+    const sortedEmotions = Object.entries(counts).sort(([, a], [, b]) => b - a);
+  
+    // Take the top 10 emotions with their frequencies
+    const topEmotions = sortedEmotions.slice(0, 10).map(([emotion, count]) => ({ emotion, count }));
+
+    return topEmotions;
+
+  }),
 });
