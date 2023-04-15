@@ -5,15 +5,15 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import Link from "next/link";
+import { DoughnutChart } from "~/components/Analysis/DoughnutChart";
 
-const Home: NextPage = () => {
+const Analysis: NextPage = () => {
   const { isSignedIn, user } = useUser();
-  // Move to getById after finishing functionality
-  // const { data, isLoading } = api.emotionEvent.getById.useQuery({id: user});
 
-  const { data, isLoading } = api.emotionEvent.getMostCommonEmotions.useQuery();
+  const { data : commonEmotions, isLoading } = api.emotionEvent.getMostCommonEmotions.useQuery();
+  const { data : commonPsymptoms } = api.emotionEvent.getMostCommonPSymptoms.useQuery();
 
-  const [showingModal, isShowingModal] = useState<boolean>(false);
+  
 
   if (isLoading) {
     return (
@@ -39,13 +39,14 @@ const Home: NextPage = () => {
             </Link>
             {isSignedIn ? <SignOutButton /> : <SignInButton />}
           </div>
-          <div className="relative flex-1 flex flex-col justify-center items-center">
-            <div className="bg-slate-200 p-48">
-                Top ten most frequent emotions
-                {data?.map((value) => {
-                  return(
-                  <div>{value.emotion}, {value.count}</div>)
-                })}
+          <div className="relative flex-1 flex justify-evenly items-center">
+            <div className="bg-slate-200 p-24 text-center">
+                Your most common emotions
+                {commonEmotions && <DoughnutChart labels={commonEmotions.map((entry) => entry.emotion)} values={commonEmotions.map((entry) => entry.count)}/>}
+            </div>
+            <div className="bg-slate-200 p-24 text-center">
+                Your most common physical symptoms
+                {commonPsymptoms && <DoughnutChart labels={commonPsymptoms.map((entry) => entry.psymptom)} values={commonPsymptoms.map((entry) => entry.count)}/>}
             </div>
           </div>
         </div>
@@ -54,4 +55,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Analysis;
