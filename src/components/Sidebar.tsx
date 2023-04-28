@@ -23,8 +23,8 @@ export const Sidebar = (props: SidebarProps) => {
           Add event
         </EmotionButton>
       )}
-      {props.isHome ? <EmotionButton>
-        <Link href={`/analyze/${props.user?.id}`}>View Data analysis</Link>
+      {props.isHome && props.user ? <EmotionButton>
+        <Link href={`/analyze/${props.user.id}`}>View Data analysis</Link>
       </EmotionButton> : <EmotionButton>
         <Link href={`/`}>Home</Link>
       </EmotionButton>}

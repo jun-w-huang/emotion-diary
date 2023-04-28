@@ -16,6 +16,19 @@ const Home: NextPage = () => {
 
   const [showingModal, isShowingModal] = useState<boolean>(false);
 
+  if (!isSignedIn || !user) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
+          <h1 className="py-5 text-5xl text-black">Emotion Diary</h1>
+          <div className="flex h-12 w-48 items-center justify-center rounded-lg border bg-slate-500 text-white">
+            <SignInButton />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (isLoading) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
@@ -35,7 +48,12 @@ const Home: NextPage = () => {
       <main className="flex h-screen flex-col items-center">
         <div className="flex h-screen w-full flex-row">
           {/* Remove the isSignedIn in the future, once login is set up properly */}
-          <Sidebar user={user} isSignedIn={isSignedIn!} isShowingModal={isShowingModal} isHome/>
+          <Sidebar
+            user={user}
+            isSignedIn={isSignedIn}
+            isShowingModal={isShowingModal}
+            isHome
+          />
           <div className="relative my-24 flex flex-1 flex-col items-center justify-center">
             {showingModal && (
               <CreateEmotionRHF closeModal={() => isShowingModal(false)} />
