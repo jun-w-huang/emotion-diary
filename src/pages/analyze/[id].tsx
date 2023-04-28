@@ -1,12 +1,10 @@
-import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
 import { api } from "~/utils/api";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import Link from "next/link";
 import { DoughnutChart } from "~/components/Analysis/DoughnutChart";
-import { EmotionButton } from "~/components/EmotionButton";
 import { Sidebar } from "~/components/Sidebar";
 
 const Analysis: NextPage = () => {
@@ -16,6 +14,8 @@ const Analysis: NextPage = () => {
     api.emotionEvent.getMostCommonEmotions.useQuery();
   const { data: commonPsymptoms } =
     api.emotionEvent.getMostCommonPSymptoms.useQuery();
+
+  const { data: areReflective } = api.emotionEvent.getAreReflective.useQuery();
 
   if (isLoading) {
     return (
@@ -34,24 +34,34 @@ const Analysis: NextPage = () => {
       </Head>
 
       <main className="flex h-screen flex-col items-center">
-        <div className="flex h-screen w-full flex-col">
-        <Sidebar user={user} isSignedIn={isSignedIn!}/>
-          <div className="relative flex flex-1 items-center justify-evenly">
-            <div className="bg-slate-200 p-24 text-center">
-              Your most common emotions
+        <div className="flex h-screen w-full flex-row">
+          <Sidebar user={user} isSignedIn={isSignedIn!} isHome={false}/>
+          <div className="flex flex-1 justify-center items-center">
+            <div className="flex h-5/6 w-5/6 flex-wrap items-center justify-center">
               {commonEmotions && (
                 <DoughnutChart
                   labels={commonEmotions.map((entry) => entry.emotion)}
                   values={commonEmotions.map((entry) => entry.count)}
+                  title="Your most common emotions"
                 />
               )}
-            </div>
-            <div className="bg-slate-200 p-24 text-center">
-              Your most common physical symptoms
               {commonPsymptoms && (
                 <DoughnutChart
                   labels={commonPsymptoms.map((entry) => entry.psymptom)}
                   values={commonPsymptoms.map((entry) => entry.count)}
+                  title="Your most common physical symptoms"
+                />
+              )}
+              {areReflective && (
+                <DoughnutChart
+                  labels={["Are reflective", "Are not reflective"]}
+                  values={[
+                    areReflective.areReflective,
+                    areReflective.areNotReflective,
+                  ]}
+                  title={
+                    "Are your emotions reflective of your self conception?"
+                  }
                 />
               )}
             </div>

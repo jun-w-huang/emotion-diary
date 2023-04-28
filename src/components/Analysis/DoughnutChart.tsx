@@ -5,6 +5,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 interface DoughnutChartProps {
   labels: string[];
   values: number[];
+  title?: string;
 }
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -38,8 +39,16 @@ export function DoughnutChart(props: DoughnutChartProps): ReactElement {
   };
 
   return (
-    <div>
-      <Doughnut data={data} />
+    <div className="h-80 w-80 m-1">
+      <div className="flex flex-col border border-black bg-slate-200 text-center">
+        <h2>{props.title}</h2>
+        <Doughnut
+          onClick={() => {
+            console.log("clicked");
+          }}
+          data={data}
+        />
+      </div>
     </div>
   );
 }

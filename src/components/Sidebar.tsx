@@ -9,25 +9,29 @@ interface SidebarProps {
   user: UserResource | null | undefined;
 
   // Will remove these in future.
-  isSignedIn : boolean;
-  isShowingModal? : (b : boolean) => void;
-
-
+  isSignedIn: boolean;
+  isHome?: boolean;
+  isShowingModal?: (b: boolean) => void;
 }
 
 export const Sidebar = (props: SidebarProps) => {
   return (
-    <div className="flex justify-center p-5 flex-col items-center gap-4 w-1/5">
-        <h1 className="py-5 text-black text-5xl">
-            Emotion Diary
-        </h1>
-        {props.isShowingModal && <EmotionButton onClick={() => props.isShowingModal!(true)}>Add event</EmotionButton>}
-        <EmotionButton>
-          <Link href={`/analyze/${props.user?.id}`}>View Data analysis</Link>
+    <div className="flex w-1/5 flex-col items-center justify-center gap-4 p-5 border border-black">
+      <h1 className="py-5 text-5xl text-black">Emotion Diary</h1>
+      {props.isShowingModal && (
+        <EmotionButton onClick={() => props.isShowingModal!(true)}>
+          Add event
         </EmotionButton>
-        <EmotionButton>
-          {props.isSignedIn ? <SignOutButton /> : <SignInButton />}
-        </EmotionButton>
+      )}
+      {props.isHome ? <EmotionButton>
+        <Link href={`/analyze/${props.user?.id}`}>View Data analysis</Link>
+      </EmotionButton> : <EmotionButton>
+        <Link href={`/`}>Home</Link>
+      </EmotionButton>}
+      
+      <div className="flex h-12 w-48 items-center justify-center rounded-lg border bg-slate-500 text-white">
+        {props.isSignedIn ? <SignOutButton /> : <SignInButton />}
+      </div>
     </div>
   );
 };

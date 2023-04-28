@@ -98,6 +98,28 @@ export const emotionEventRouter = createTRPCRouter({
     const topPsymptoms = sortedPsymptoms.slice(0, 10).map(([psymptom, count]) => ({ psymptom, count }));
 
     return topPsymptoms;
+  }),
 
+  getAreReflective: privateProcedure
+  .query(async ({ ctx }) => {
+    const userId = ctx.userId;
+
+    const events = await ctx.prisma.emotionEvent.findMany({
+      where: { userId },
+    });
+    let reflectiveTrueCount = 0;
+    let reflectiveFalseCount = 0;
+    events.map((event) => {
+      if (event.reflective) {
+        reflectiveTrueCount++
+      } else {
+        reflectiveFalseCount++
+      }
+    })
+
+    return {
+      areReflective: reflectiveTrueCount,
+      areNotReflective: reflectiveFalseCount
+    };
   }),
 });

@@ -128,7 +128,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
             className="flex flex-col gap-4"
           >
             <div>
-              <EntryLabel error={errors.title} label={"title"} required />
+              <EntryLabel error={errors.title} label={"Event Title"} required />
               <InputFieldRHF
                 placeholder="Coursework!!!"
                 {...register("title")}
@@ -137,7 +137,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
             <div>
               <EntryLabel
                 error={errors.emotion}
-                label={"Enter in an emotion"}
+                label={"What emotion are you feeling?"}
                 required
               />
               <ComboBoxRHF
@@ -149,7 +149,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
             <div>
               <EntryLabel
                 error={errors.pobject}
-                label={"Particular object"}
+                label={"What is your emotion towards or about?"}
                 required
               />
               <InputFieldRHF
@@ -172,7 +172,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
             <div>
               <EntryLabel
                 error={errors.cause}
-                label={"Cause of event"}
+                label={"What caused the emotion?"}
               />
               <InputFieldRHF
                 placeholder="Bad sleep ):"
