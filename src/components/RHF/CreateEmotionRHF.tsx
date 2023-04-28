@@ -28,12 +28,12 @@ export type CreateEmotionFormInputs = {
   end: Date | undefined;
 };
 
-const CreateEmotionSchema = z.object({
+export const CreateEmotionSchema = z.object({
   title: z.string().min(1, "Cannot be empty"),
   emotion: z.nativeEnum(Emotion),
   psymptom: z.nativeEnum(PhysicalSymptom),
   pobject: z.string().min(1, "Cannot be empty"),
-  cause: z.string().min(1, "Cannot be empty"),
+  cause: z.string().optional(),
   isReflective: z.boolean(),
   start: z.date(),
   end: z.date().optional(),
@@ -173,7 +173,6 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
               <EntryLabel
                 error={errors.cause}
                 label={"Cause of event"}
-                required
               />
               <InputFieldRHF
                 placeholder="Bad sleep ):"

@@ -5,15 +5,13 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import Calendar from "~/components/Calendar/Calendar";
 import LoadingSpinner from "~/components/LoadingSpinner";
-import Link from "next/link";
 import CreateEmotionRHF from "~/components/RHF/CreateEmotionRHF";
-import { Button } from "~/components/Button";
+import { Sidebar } from "~/components/Sidebar";
 
 const Home: NextPage = () => {
   const { isSignedIn, user } = useUser();
   // Move to getById after finishing functionality
   // const { data, isLoading } = api.emotionEvent.getById.useQuery({id: user});
-
   const { data, isLoading } = api.emotionEvent.getAll.useQuery();
 
   const [showingModal, isShowingModal] = useState<boolean>(false);
@@ -35,16 +33,10 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex h-screen flex-col items-center">
-        <div className="flex h-screen w-full flex-col">
-          <div className="flex justify-between p-5">
-            <Button onClick={() => isShowingModal(true)}>+</Button>
-            <Button>
-              <Link href={`/analyze/${user?.id}`}>View Data analysis</Link>
-            </Button>
-
-            <Button>{isSignedIn ? <SignOutButton /> : <SignInButton />}</Button>
-          </div>
-          <div className="relative flex flex-1 flex-col items-center justify-center pb-8">
+        <div className="flex h-screen w-full flex-row">
+          {/* Remove the isSignedIn in the future, once login is set up properly */}
+          <Sidebar user={user} isSignedIn={isSignedIn!} isShowingModal={isShowingModal}/>
+          <div className="relative my-24 flex flex-1 flex-col items-center justify-center">
             {showingModal && (
               <CreateEmotionRHF closeModal={() => isShowingModal(false)} />
             )}

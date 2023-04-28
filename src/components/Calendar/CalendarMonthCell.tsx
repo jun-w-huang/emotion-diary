@@ -34,15 +34,15 @@ const CalendarMonthCell = (props: CellProps) => {
   return (
     <div
       key={props.day.toString()}
-      className={`${
+      className={`overflow-y-scroll ${
         !isSameMonth(props.day, props.currentDate) ? "text-gray-400" : ""
       } ${
         isSameDay(props.day, props.currentDate) ? "bg-gray-400 text-white" : ""
-      } h-48 w-32 flex-1 border`}
+      } h-36 w-32 flex-1 border`}
     >
-      <div className={`cursor-pointer rounded-full p-1 `}>
+      <div className={`cursor-pointer p-1 overflow-y-scroll`}>
         <span className="number">{formattedDate}</span>
-        <div className="mt-1 rounded-md bg-blue-200">
+        <div className="mt-1 rounded-md bg-blue-200 ">
           {dayEvents.map((event) => (
             <CalendarEvent key={event.id} event={event} />
           ))}

@@ -6,14 +6,16 @@ import { api } from "~/utils/api";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import Link from "next/link";
 import { DoughnutChart } from "~/components/Analysis/DoughnutChart";
+import { EmotionButton } from "~/components/EmotionButton";
+import { Sidebar } from "~/components/Sidebar";
 
 const Analysis: NextPage = () => {
   const { isSignedIn, user } = useUser();
 
-  const { data : commonEmotions, isLoading } = api.emotionEvent.getMostCommonEmotions.useQuery();
-  const { data : commonPsymptoms } = api.emotionEvent.getMostCommonPSymptoms.useQuery();
-
-  
+  const { data: commonEmotions, isLoading } =
+    api.emotionEvent.getMostCommonEmotions.useQuery();
+  const { data: commonPsymptoms } =
+    api.emotionEvent.getMostCommonPSymptoms.useQuery();
 
   if (isLoading) {
     return (
@@ -32,21 +34,26 @@ const Analysis: NextPage = () => {
       </Head>
 
       <main className="flex h-screen flex-col items-center">
-        <div className="flex h-screen flex-col w-full">
-          <div className="flex justify-between p-5">
-            <Link href={"/"}>
-            Home
-            </Link>
-            {isSignedIn ? <SignOutButton /> : <SignInButton />}
-          </div>
-          <div className="relative flex-1 flex justify-evenly items-center">
+        <div className="flex h-screen w-full flex-col">
+        <Sidebar user={user} isSignedIn={isSignedIn!}/>
+          <div className="relative flex flex-1 items-center justify-evenly">
             <div className="bg-slate-200 p-24 text-center">
-                Your most common emotions
-                {commonEmotions && <DoughnutChart labels={commonEmotions.map((entry) => entry.emotion)} values={commonEmotions.map((entry) => entry.count)}/>}
+              Your most common emotions
+              {commonEmotions && (
+                <DoughnutChart
+                  labels={commonEmotions.map((entry) => entry.emotion)}
+                  values={commonEmotions.map((entry) => entry.count)}
+                />
+              )}
             </div>
             <div className="bg-slate-200 p-24 text-center">
-                Your most common physical symptoms
-                {commonPsymptoms && <DoughnutChart labels={commonPsymptoms.map((entry) => entry.psymptom)} values={commonPsymptoms.map((entry) => entry.count)}/>}
+              Your most common physical symptoms
+              {commonPsymptoms && (
+                <DoughnutChart
+                  labels={commonPsymptoms.map((entry) => entry.psymptom)}
+                  values={commonPsymptoms.map((entry) => entry.count)}
+                />
+              )}
             </div>
           </div>
         </div>

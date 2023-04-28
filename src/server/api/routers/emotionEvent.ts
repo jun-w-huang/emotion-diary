@@ -1,12 +1,15 @@
 import { Emotion, PhysicalSymptom } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { CreateEmotionSchema } from "~/components/RHF/CreateEmotionRHF";
 
 import {
   createTRPCRouter,
   privateProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
+
+
 
 export const emotionEventRouter = createTRPCRouter({
   getById: publicProcedure
@@ -21,16 +24,7 @@ export const emotionEventRouter = createTRPCRouter({
 
   create: privateProcedure
     .input(
-      z.object({
-        title: z.string().min(1, "Cannot be empty"),
-        emotion: z.nativeEnum(Emotion),
-        psymptom: z.nativeEnum(PhysicalSymptom),
-        pobject: z.string().min(1, "Cannot be empty"),
-        cause: z.string().min(1, "Cannot be empty"),
-        isReflective: z.boolean(),
-        start: z.date(),
-        end: z.date().optional(),
-      })
+      CreateEmotionSchema
     )
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.userId;

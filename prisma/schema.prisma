@@ -64,7 +64,7 @@ model EmotionEvent {
     emotion   Emotion  @default(Joy)
     psymptom  PhysicalSymptom @default(None)
     pobject   String   @db.VarChar(255)
-    cause     String   @db.VarChar(255)
+    cause     String   
     reflective Boolean @default(true)
 
     start     DateTime @default(now())

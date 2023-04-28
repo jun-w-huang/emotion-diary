@@ -14,7 +14,7 @@ export function DoughnutChart(props: DoughnutChartProps): ReactElement {
     labels: props.labels,
     datasets: [
       {
-        label: "# of Votes",
+        label: "Frequency",
         data: props.values,
         backgroundColor: [
           "rgba(255, 99, 132, 0.3)",
