@@ -58,21 +58,20 @@ enum PhysicalSymptom {
 
 
 model EmotionEvent {
-    id        String   @id @default(cuid())
-    title     String   @db.VarChar(255)
+    id        String    @id @default(cuid())
+    title     String    @db.VarChar(255)
     userId    String  
-    emotion   Emotion  @default(Joy)
+    emotion   Emotion   @default(Joy)
     psymptom  PhysicalSymptom @default(None)
-    pobject   String   @db.VarChar(255)
-    cause     String   
-    reflective Boolean @default(true)
+    pobject   String    @db.VarChar(255)
+    cause     String?   @db.VarChar(255)
+    reflective Boolean  @default(true)
 
-    start     DateTime @default(now())
-    end       DateTime @default(now())
+    start     DateTime  @default(now())
+    end       DateTime? @default(now())
 
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
 
     @@index([userId])
 }
