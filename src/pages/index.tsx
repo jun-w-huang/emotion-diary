@@ -35,25 +35,20 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex h-screen flex-col items-center">
-        <div className="flex h-screen flex-col w-full">
+        <div className="flex h-screen w-full flex-col">
           <div className="flex justify-between p-5">
-            <Button
-              className="rounded-lg border bg-slate-500 px-4 text-white"
-              onClick={() => isShowingModal(true)}
-            >
-              +
+            <Button onClick={() => isShowingModal(true)}>+</Button>
+            <Button>
+              <Link href={`/analyze/${user?.id}`}>View Data analysis</Link>
             </Button>
-            <Link href={`/analyze/${user?.id}`}>
-            View Data analysis
-            </Link>
-            {isSignedIn ? <SignOutButton /> : <SignInButton />}
-          </div>
-          <div className="relative flex-1 flex flex-col justify-center items-center">
-          {showingModal && (
-            <CreateEmotionRHF closeModal={() => isShowingModal(false)} />
-          )}
-          {data && <Calendar events={data} />}
 
+            <Button>{isSignedIn ? <SignOutButton /> : <SignInButton />}</Button>
+          </div>
+          <div className="relative flex flex-1 flex-col items-center justify-center pb-8">
+            {showingModal && (
+              <CreateEmotionRHF closeModal={() => isShowingModal(false)} />
+            )}
+            {data && <Calendar events={data} />}
           </div>
         </div>
       </main>
