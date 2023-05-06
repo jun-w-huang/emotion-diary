@@ -42,6 +42,8 @@ export const CreateEmotionSchema = z.object({
   end: z.date().optional(),
 });
 
+export const DeleteSchema = z.object({id: z.string()})
+
 const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   const { user } = useUser();
 
@@ -62,6 +64,17 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
 
   const { mutate: update, isLoading: isUpdating } =
     api.emotionEvent.update.useMutation({
+      onSuccess: () => {
+        closeModal();
+        void ctx.emotionEvent.getAll.invalidate();
+      },
+      onError: (error) => {
+        toast.error(`Something went wrong: ${error.message}`);
+      },
+    });
+
+  const { mutate: remove, isLoading: isDeleting } =
+    api.emotionEvent.delete.useMutation({
       onSuccess: () => {
         closeModal();
         void ctx.emotionEvent.getAll.invalidate();
@@ -232,13 +245,35 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                 />
               </div>
             </div>
-            <button
-              onClick={() => console.log("submit")}
-              type="submit"
-              className="flex h-12 w-24 items-center justify-center self-end rounded-md bg-slate-300 p-2"
-            >
-              Done
-            </button>
+            <div className="flex w-full justify-between self-end">
+              <div>
+                {props.existingEvent && (
+                  <button
+                    onClick={() => remove({id: props.existingEvent!.id})}
+                    className="flex h-12 w-24 items-center justify-center rounded-md bg-slate-300 p-2 text-red-600"
+                  >
+                    Delete
+                  </button>
+                )}
+              </div>
+              <div className="flex gap-3 self-end">
+                {props.existingEvent && (
+                  <button
+                    onClick={() => props.closeModal()}
+                    className="flex h-12 w-24 items-center justify-center rounded-md bg-slate-300 p-2"
+                  >
+                    Cancel
+                  </button>
+                )}
+                <button
+                  onClick={() => console.log("submit")}
+                  type="submit"
+                  className="flex h-12 w-24 items-center justify-center rounded-md bg-slate-300 p-2"
+                >
+                  Done
+                </button>
+              </div>
+            </div>
           </form>
         </Dialog.Panel>
       </div>

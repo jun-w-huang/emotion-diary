@@ -2,7 +2,7 @@ import type { Emotion, PhysicalSymptom } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import {
-  CreateEmotionSchema,
+  CreateEmotionSchema, DeleteSchema,
 } from "~/components/RHF/CreateEmotionRHF";
 
 import {
@@ -61,6 +61,17 @@ export const emotionEventRouter = createTRPCRouter({
           reflective: input.isReflective,
           start: input.start,
           end: input.end,
+        },
+      });
+      return event;
+    }),
+
+    delete: privateProcedure
+    .input(DeleteSchema)
+    .mutation(async ({ ctx, input }) => {
+      const event = await ctx.prisma.emotionEvent.delete({
+        where: {
+          id: input.id,
         },
       });
       return event;
