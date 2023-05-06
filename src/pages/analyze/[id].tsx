@@ -3,7 +3,6 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { api } from "~/utils/api";
 import LoadingSpinner from "~/components/LoadingSpinner";
-import Link from "next/link";
 import { DoughnutChart } from "~/components/Analysis/DoughnutChart";
 import { Sidebar } from "~/components/Sidebar";
 
@@ -35,7 +34,7 @@ const Analysis: NextPage = () => {
 
       <main className="flex h-screen flex-col items-center">
         <div className="flex h-screen w-full flex-row">
-          <Sidebar user={user} isSignedIn={isSignedIn!} isHome={false} />
+          <Sidebar user={user} isHome={false} />
           <div className="flex flex-1 items-center justify-center">
             <div className="flex h-5/6 w-5/6 flex-wrap items-center justify-center">
               {commonEmotions && (

@@ -44,7 +44,7 @@ const CalendarWeekCell = (props: CellProps) => {
         <span className="number">{formattedDate}</span>
         <div className="mt-1 rounded-md bg-blue-200">
           {dayEvents.map((event) => (
-            <CalendarEvent key={event.id} event={event} />
+            <CalendarEvent onEventClick={(event) => {console.log("hi")}}key={event.id} event={event} />
           ))}
         </div>
       </div>

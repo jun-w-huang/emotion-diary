@@ -1,17 +1,16 @@
-import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays } from "date-fns";
+import { startOfMonth, startOfWeek, addDays } from "date-fns";
 import CalendarMonthCell from "./CalendarMonthCell";
 import { EmotionEvent } from "@prisma/client";
 
 interface CalendarMonthlyViewProps {
     currentDate: Date,
-    events: EmotionEvent[]
+    events: EmotionEvent[],
+    onEventClick: (event: EmotionEvent) => void;
 }
 
 const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
     const monthStart = startOfMonth(props.currentDate);
-    const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(monthStart);
-    const endDate = endOfWeek(monthEnd);
 
     const rows = [];
     let days = [];
@@ -26,6 +25,7 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
             day={day}
             currentDate={new Date()}
             monthEvents={props.events}
+            onEventClick={props.onEventClick}
           />
         );
         day = addDays(day, 1);

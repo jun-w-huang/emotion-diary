@@ -2,7 +2,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dialog } from "@headlessui/react";
 import { useForm } from "react-hook-form";
-import { Emotion, PhysicalSymptom } from "@prisma/client";
+import { Emotion, EmotionEvent, PhysicalSymptom } from "@prisma/client";
 import { z } from "zod";
 import ComboBoxRHF from "./ComboBoxRHF";
 import ControlledTimePickerRHF from "./ControlledTimePickerRHF";
@@ -15,6 +15,7 @@ import SwitchRHF from "./SwitchRHF";
 
 interface CreateEmotionRHFProps {
   closeModal: () => void;
+  existingEvent? : EmotionEvent;
 }
 
 export type CreateEmotionFormInputs = {
@@ -70,14 +71,14 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   } = useForm<CreateEmotionFormInputs>({
     mode: "onSubmit",
     defaultValues: {
-      title: "",
-      emotion: Emotion.Despair,
-      psymptom: PhysicalSymptom.None,
-      pobject: "",
-      cause: "",
-      isReflective: true,
-      start: undefined,
-      end: undefined,
+      title: props.existingEvent?.title ?? "",
+      emotion: props.existingEvent?.emotion ?? Emotion.Despair,
+      psymptom: props.existingEvent?.psymptom ?? PhysicalSymptom.None,
+      pobject: props.existingEvent?.pobject ?? "",
+      cause: props.existingEvent?.cause ?? "",
+      isReflective: props.existingEvent?.reflective ?? true,
+      start: props.existingEvent?.start ?? undefined,
+      end: props.existingEvent?.end ?? undefined,
     },
     resolver: zodResolver(CreateEmotionSchema),
   });
@@ -206,7 +207,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
               type="submit"
               className="flex h-12 w-24 items-center justify-center self-end rounded-md bg-slate-300 p-2"
             >
-              Create
+              Done
             </button>
           </form>
         </Dialog.Panel>

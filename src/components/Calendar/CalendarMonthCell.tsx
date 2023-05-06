@@ -1,7 +1,5 @@
-import React from "react";
-import {
-  format,
-} from "date-fns";
+import React, { useState } from "react";
+import { format } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
 import CalendarEvent from "./CalendarEvent";
 
@@ -9,6 +7,7 @@ interface CellProps {
   day: Date;
   currentDate: Date;
   monthEvents: EmotionEvent[];
+  onEventClick: (event: EmotionEvent) => void;
 }
 
 const CalendarMonthCell = (props: CellProps) => {
@@ -30,7 +29,6 @@ const CalendarMonthCell = (props: CellProps) => {
       format(new Date(event.start), "MM/dd/yyyy") ===
       format(props.day, "MM/dd/yyyy")
   );
-
   return (
     <div
       key={props.day.toString()}
@@ -40,12 +38,18 @@ const CalendarMonthCell = (props: CellProps) => {
         isSameDay(props.day, props.currentDate) ? "bg-gray-400 text-white" : ""
       } h-36 w-32 flex-1 border`}
     >
-      <div className={`cursor-pointer p-1 overflow-y-scroll`}>
-        <span className="number">{formattedDate}</span>
-        <div className="mt-1 rounded-md bg-blue-200 ">
-          {dayEvents.map((event) => (
-            <CalendarEvent key={event.id} event={event} />
-          ))}
+      <div className={`h-full cursor-pointer overflow-y-scroll p-1`}>
+        <div>
+          <span className="number">{formattedDate}</span>
+          <div className="mt-1 rounded-md bg-blue-200 ">
+            {dayEvents.map((event) => (
+              <CalendarEvent
+                key={event.id}
+                event={event}
+                onEventClick={props.onEventClick}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
