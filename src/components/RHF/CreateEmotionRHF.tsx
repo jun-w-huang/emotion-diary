@@ -223,7 +223,9 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
               </div>
               <div>
                 <EntryLabel error={errors.end} label={"Ended?"} />
-                <ControlledTimePickerRHF value={getValues().end} control={control} name="end" />
+                <ControlledTimePickerRHF 
+                // value={getValues().end} 
+                control={control} name="end" />
               </div>
             </div>
             <button
