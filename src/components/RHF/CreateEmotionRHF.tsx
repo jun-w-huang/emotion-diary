@@ -19,6 +19,7 @@ interface CreateEmotionRHFProps {
 }
 
 export type CreateEmotionFormInputs = {
+  id: string;
   title: string;
   emotion: Emotion;
   psymptom: PhysicalSymptom;
@@ -30,6 +31,7 @@ export type CreateEmotionFormInputs = {
 };
 
 export const CreateEmotionSchema = z.object({
+  id: z.string().optional(),
   title: z.string().min(1, "Cannot be empty"),
   emotion: z.nativeEnum(Emotion),
   psymptom: z.nativeEnum(PhysicalSymptom),
@@ -40,8 +42,6 @@ export const CreateEmotionSchema = z.object({
   end: z.date().optional(),
 });
 
-
-
 const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   const { user } = useUser()
 
@@ -49,7 +49,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
 
   const ctx = api.useContext();
 
-  const { mutate, isLoading : isCreating } = api.emotionEvent.create.useMutation({
+  const { mutate : create, isLoading : isCreating } = api.emotionEvent.create.useMutation({
     onSuccess: () => {
       closeModal();
       void ctx.emotionEvent.getAll.invalidate();
@@ -57,7 +57,16 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
     onError: (error) => {
       toast.error(`Something went wrong: ${error.message}`);
     },
+  });
 
+  const { mutate : update, isLoading : isUpdating } = api.emotionEvent.update.useMutation({
+    onSuccess: () => {
+      closeModal();
+      void ctx.emotionEvent.getAll.invalidate();
+    },
+    onError: (error) => {
+      toast.error(`Something went wrong: ${error.message}`);
+    },
   });
 
   const {
@@ -71,6 +80,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   } = useForm<CreateEmotionFormInputs>({
     mode: "onSubmit",
     defaultValues: {
+      id: props.existingEvent?.id ?? undefined,
       title: props.existingEvent?.title ?? "",
       emotion: props.existingEvent?.emotion ?? Emotion.Despair,
       psymptom: props.existingEvent?.psymptom ?? PhysicalSymptom.None,
@@ -84,16 +94,30 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   });
 
   const onSubmit = (values: CreateEmotionFormInputs) => {
-    mutate({
-      title: values.title,
-      emotion: values.emotion,
-      psymptom: values.psymptom,
-      pobject: values.pobject,
-      cause: values.cause,
-      isReflective: values.isReflective,
-      start: values.start,
-      end: values.end,
-    });
+    if (props.existingEvent) {
+      update({
+        id: values.id,
+        title: values.title,
+        emotion: values.emotion,
+        psymptom: values.psymptom,
+        pobject: values.pobject,
+        cause: values.cause,
+        isReflective: values.isReflective,
+        start: values.start,
+        end: values.end,
+      })
+    } else {
+      create({
+        title: values.title,
+        emotion: values.emotion,
+        psymptom: values.psymptom,
+        pobject: values.pobject,
+        cause: values.cause,
+        isReflective: values.isReflective,
+        start: values.start,
+        end: values.end,
+      });
+    }
   };
 
   const onError = (errors: any, e: any) => {
@@ -195,11 +219,11 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                   label={"Start time"}
                   required
                 />
-                <ControlledTimePickerRHF control={control} name="start" />
+                <ControlledTimePickerRHF value={getValues().start} control={control} name="start" />
               </div>
               <div>
                 <EntryLabel error={errors.end} label={"Ended?"} />
-                <ControlledTimePickerRHF control={control} name="end" />
+                <ControlledTimePickerRHF value={getValues().end} control={control} name="end" />
               </div>
             </div>
             <button

@@ -1,15 +1,15 @@
 import type { Emotion, PhysicalSymptom } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { CreateEmotionSchema } from "~/components/RHF/CreateEmotionRHF";
+import {
+  CreateEmotionSchema,
+} from "~/components/RHF/CreateEmotionRHF";
 
 import {
   createTRPCRouter,
   privateProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-
-
 
 export const emotionEventRouter = createTRPCRouter({
   getById: publicProcedure
@@ -23,9 +23,7 @@ export const emotionEventRouter = createTRPCRouter({
     }),
 
   create: privateProcedure
-    .input(
-      CreateEmotionSchema
-    )
+    .input(CreateEmotionSchema)
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.userId;
 
@@ -45,63 +43,88 @@ export const emotionEventRouter = createTRPCRouter({
       return event;
     }),
 
+  update: privateProcedure
+    .input(CreateEmotionSchema)
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.userId;
+      const event = await ctx.prisma.emotionEvent.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          title: input.title,
+          userId,
+          emotion: input.emotion,
+          psymptom: input.psymptom,
+          pobject: input.pobject,
+          cause: input.cause,
+          reflective: input.isReflective,
+          start: input.start,
+          end: input.end,
+        },
+      });
+      return event;
+    }),
+
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.emotionEvent.findMany();
   }),
-  
-  getMostCommonEmotions: privateProcedure
-  .query(async ({ ctx }) => {
+
+  getMostCommonEmotions: privateProcedure.query(async ({ ctx }) => {
     const userId = ctx.userId;
-    
+
     // Find all the user's EmotionEvents
     const events = await ctx.prisma.emotionEvent.findMany({
       where: { userId },
     });
-  
+
     // Count the occurrences of each emotion
     const counts = events.reduce((acc, event) => {
       const emotion = event.emotion;
       acc[emotion] = acc[emotion] ? acc[emotion] + 1 : 1;
       return acc;
     }, {} as Record<Emotion, number>);
-  
+
     // Sort the emotions by their occurrence counts
     const sortedEmotions = Object.entries(counts).sort(([, a], [, b]) => b - a);
-  
+
     // Take the top 10 emotions with their frequencies
-    const topEmotions = sortedEmotions.slice(0, 10).map(([emotion, count]) => ({ emotion, count }));
+    const topEmotions = sortedEmotions
+      .slice(0, 10)
+      .map(([emotion, count]) => ({ emotion, count }));
 
     return topEmotions;
-
   }),
 
-  getMostCommonPSymptoms: privateProcedure
-  .query(async ({ ctx }) => {
+  getMostCommonPSymptoms: privateProcedure.query(async ({ ctx }) => {
     const userId = ctx.userId;
-    
+
     // Find all the user's EmotionEvents
     const events = await ctx.prisma.emotionEvent.findMany({
       where: { userId },
     });
-  
+
     // Count the occurrences of each emotion
     const counts = events.reduce((acc, event) => {
       const psymptom = event.psymptom;
       acc[psymptom] = acc[psymptom] ? acc[psymptom] + 1 : 1;
       return acc;
     }, {} as Record<PhysicalSymptom, number>);
-  
+
     // Sort the emotions by their occurrence counts
-    const sortedPsymptoms = Object.entries(counts).sort(([, a], [, b]) => b - a);
-  
+    const sortedPsymptoms = Object.entries(counts).sort(
+      ([, a], [, b]) => b - a
+    );
+
     // Take the top 10 emotions with their frequencies
-    const topPsymptoms = sortedPsymptoms.slice(0, 10).map(([psymptom, count]) => ({ psymptom, count }));
+    const topPsymptoms = sortedPsymptoms
+      .slice(0, 10)
+      .map(([psymptom, count]) => ({ psymptom, count }));
 
     return topPsymptoms;
   }),
 
-  getAreReflective: privateProcedure
-  .query(async ({ ctx }) => {
+  getAreReflective: privateProcedure.query(async ({ ctx }) => {
     const userId = ctx.userId;
 
     const events = await ctx.prisma.emotionEvent.findMany({
@@ -111,15 +134,15 @@ export const emotionEventRouter = createTRPCRouter({
     let reflectiveFalseCount = 0;
     events.map((event) => {
       if (event.reflective) {
-        reflectiveTrueCount++
+        reflectiveTrueCount++;
       } else {
-        reflectiveFalseCount++
+        reflectiveFalseCount++;
       }
-    })
+    });
 
     return {
       areReflective: reflectiveTrueCount,
-      areNotReflective: reflectiveFalseCount
+      areNotReflective: reflectiveFalseCount,
     };
   }),
 });

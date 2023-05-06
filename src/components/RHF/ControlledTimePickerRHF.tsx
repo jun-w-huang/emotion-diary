@@ -14,6 +14,7 @@ interface ControlledTimePickerRHFProps {
 const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
 
   const [displayedTime, setDisplayedTime] = useState<dayjs.Dayjs | null>(null);
+  
 
   useEffect(() => {
     if (props.value) {
@@ -21,6 +22,7 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
     }
   }, [props.value]);
 
+  console.log(props.value ? props.value : 5);
   const customSuffixIcon = (): ReactNode => {
     return (
       <div className="w-1/12 h-1/12 text-xs flex justify-center text-northeastern-red text-center">
