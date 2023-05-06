@@ -1,4 +1,4 @@
-import { Emotion, PhysicalSymptom } from "@prisma/client";
+import type { Emotion, PhysicalSymptom } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { CreateEmotionSchema } from "~/components/RHF/CreateEmotionRHF";

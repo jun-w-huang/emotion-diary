@@ -8,7 +8,7 @@ interface SidebarProps {
   children?: ReactNode;
   user: UserResource | null | undefined;
 
-  // Will remove these in future.
+  // Will refactor these in future.
   isSignedIn: boolean;
   isHome?: boolean;
   isShowingModal?: (b: boolean) => void;
