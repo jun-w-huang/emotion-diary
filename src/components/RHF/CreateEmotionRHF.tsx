@@ -15,7 +15,7 @@ import SwitchRHF from "./SwitchRHF";
 
 interface CreateEmotionRHFProps {
   closeModal: () => void;
-  existingEvent? : EmotionEvent;
+  existingEvent?: EmotionEvent;
 }
 
 export type CreateEmotionFormInputs = {
@@ -43,31 +43,33 @@ export const CreateEmotionSchema = z.object({
 });
 
 const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
-  const { user } = useUser()
+  const { user } = useUser();
 
-  if (!user) throw Error("user not found!!!")
+  if (!user) throw Error("user not found!!!");
 
   const ctx = api.useContext();
 
-  const { mutate : create, isLoading : isCreating } = api.emotionEvent.create.useMutation({
-    onSuccess: () => {
-      closeModal();
-      void ctx.emotionEvent.getAll.invalidate();
-    },
-    onError: (error) => {
-      toast.error(`Something went wrong: ${error.message}`);
-    },
-  });
+  const { mutate: create, isLoading: isCreating } =
+    api.emotionEvent.create.useMutation({
+      onSuccess: () => {
+        closeModal();
+        void ctx.emotionEvent.getAll.invalidate();
+      },
+      onError: (error) => {
+        toast.error(`Something went wrong: ${error.message}`);
+      },
+    });
 
-  const { mutate : update, isLoading : isUpdating } = api.emotionEvent.update.useMutation({
-    onSuccess: () => {
-      closeModal();
-      void ctx.emotionEvent.getAll.invalidate();
-    },
-    onError: (error) => {
-      toast.error(`Something went wrong: ${error.message}`);
-    },
-  });
+  const { mutate: update, isLoading: isUpdating } =
+    api.emotionEvent.update.useMutation({
+      onSuccess: () => {
+        closeModal();
+        void ctx.emotionEvent.getAll.invalidate();
+      },
+      onError: (error) => {
+        toast.error(`Something went wrong: ${error.message}`);
+      },
+    });
 
   const {
     register,
@@ -105,7 +107,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
         isReflective: values.isReflective,
         start: values.start,
         end: values.end,
-      })
+      });
     } else {
       create({
         title: values.title,
@@ -129,16 +131,12 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(true);
 
   const closeModal = () => {
-    setIsOpen(false)
+    setIsOpen(false);
     props.closeModal();
-  }
+  };
 
   return (
-    <Dialog
-      open={isOpen}
-      onClose={closeModal}
-      className="relative z-50"
-    >
+    <Dialog open={isOpen} onClose={closeModal} className="relative z-50">
       {/* The backdrop, rendered as a fixed sibling to the panel container */}
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
@@ -219,13 +217,19 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                   label={"Start time"}
                   required
                 />
-                <ControlledTimePickerRHF value={getValues().start} control={control} name="start" />
+                <ControlledTimePickerRHF
+                  value={getValues().start}
+                  control={control}
+                  name="start"
+                />
               </div>
               <div>
                 <EntryLabel error={errors.end} label={"Ended?"} />
-                <ControlledTimePickerRHF 
-                // value={getValues().end} 
-                control={control} name="end" />
+                <ControlledTimePickerRHF
+                  value={getValues().end}
+                  control={control}
+                  name="end"
+                />
               </div>
             </div>
             <button
