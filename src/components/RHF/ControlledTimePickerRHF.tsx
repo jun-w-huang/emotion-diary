@@ -1,5 +1,7 @@
 import { TimePicker } from "antd";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
 import { ReactNode, useEffect, useState } from "react";
 import { Control, Controller } from "react-hook-form";
 import { CreateEmotionFormInputs } from "./CreateEmotionRHF";
@@ -12,12 +14,7 @@ interface ControlledTimePickerRHFProps {
 }
 
 const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
-
   const [displayedTime, setDisplayedTime] = useState<Dayjs | null>(null);
-  const dayjs = require("dayjs");
-  const utc = require("dayjs/plugin/utc");
-  dayjs.extend(utc);
-  
 
   useEffect(() => {
     if (props.value) {
@@ -27,7 +24,7 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
 
   const customSuffixIcon = (): ReactNode => {
     return (
-      <div className="w-1/12 h-1/12 text-xs flex justify-center text-northeastern-red text-center">
+      <div className="h-1/12 text-northeastern-red flex w-1/12 justify-center text-center text-xs">
         ▼
       </div>
     );
@@ -46,9 +43,9 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
     } else {
       utcHours = inputHours + utcOffset;
     }
-    const result = new Date()
-    result.setHours(utcHours)
-    result.setMinutes(inputDate.getMinutes())
+    const result = new Date();
+    result.setHours(utcHours);
+    result.setMinutes(inputDate.getMinutes());
     return result;
   };
 

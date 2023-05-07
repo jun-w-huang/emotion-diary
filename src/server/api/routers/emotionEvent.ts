@@ -1,6 +1,5 @@
 import type { Emotion, PhysicalSymptom } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
 import {
   CreateEmotionSchema,
   DeleteSchema,
@@ -13,7 +12,7 @@ import {
 } from "~/server/api/trpc";
 
 export const emotionEventRouter = createTRPCRouter({
-  getMyEvents: publicProcedure.query(async ({ ctx, input }) => {
+  getMyEvents: publicProcedure.query(async ({ ctx }) => {
     if (!ctx.userId) throw new TRPCError({ code: "NOT_FOUND" });
     const events = await ctx.prisma.emotionEvent.findMany({
       where: { userId: ctx.userId },
