@@ -41,7 +41,6 @@ const Home: NextPage = () => {
 
       <main className="flex h-screen flex-col items-center">
         <div className="flex h-screen w-full flex-row">
-          {/* Remove the isSignedIn in the future, once login is set up properly */}
           <Sidebar user={user} isHome />
           <div className="relative my-24 flex flex-1 flex-col items-center justify-center">
             {events && <Calendar events={events} />}

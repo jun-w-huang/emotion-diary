@@ -25,7 +25,6 @@ const Analysis: NextPage = () => {
       </div>
     );
   }
-  console.log(router.query.id);
 
   if (!user || user.id !== router.query.id) {
     return (
