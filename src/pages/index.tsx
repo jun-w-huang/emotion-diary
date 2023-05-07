@@ -8,11 +8,7 @@ import { Sidebar } from "~/components/Sidebar";
 
 const Home: NextPage = () => {
   const { isSignedIn, user } = useUser();
-  // Move to getById after finishing functionality
-  // const { data, isLoading } = api.emotionEvent.getById.useQuery({id: user});
-  const { data, isLoading } = api.emotionEvent.getAll.useQuery();
-
-  
+  const { data: events, isLoading } = api.emotionEvent.getMyEvents.useQuery();
 
   if (!isSignedIn || !user) {
     return (
@@ -46,12 +42,9 @@ const Home: NextPage = () => {
       <main className="flex h-screen flex-col items-center">
         <div className="flex h-screen w-full flex-row">
           {/* Remove the isSignedIn in the future, once login is set up properly */}
-          <Sidebar
-            user={user}
-            isHome
-          />
+          <Sidebar user={user} isHome />
           <div className="relative my-24 flex flex-1 flex-col items-center justify-center">
-            {data && <Calendar events={data} />}
+            {events && <Calendar events={events} />}
           </div>
         </div>
       </main>

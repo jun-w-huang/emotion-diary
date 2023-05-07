@@ -55,7 +55,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
     api.emotionEvent.create.useMutation({
       onSuccess: () => {
         closeModal();
-        void ctx.emotionEvent.getAll.invalidate();
+        void ctx.emotionEvent.getMyEvents.invalidate();
       },
       onError: (error) => {
         toast.error(`Something went wrong: ${error.message}`);
@@ -66,7 +66,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
     api.emotionEvent.update.useMutation({
       onSuccess: () => {
         closeModal();
-        void ctx.emotionEvent.getAll.invalidate();
+        void ctx.emotionEvent.getMyEvents.invalidate();
       },
       onError: (error) => {
         toast.error(`Something went wrong: ${error.message}`);
@@ -77,7 +77,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
     api.emotionEvent.delete.useMutation({
       onSuccess: () => {
         closeModal();
-        void ctx.emotionEvent.getAll.invalidate();
+        void ctx.emotionEvent.getMyEvents.invalidate();
       },
       onError: (error) => {
         toast.error(`Something went wrong: ${error.message}`);

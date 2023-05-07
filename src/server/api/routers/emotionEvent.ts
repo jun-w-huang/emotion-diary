@@ -2,7 +2,8 @@ import type { Emotion, PhysicalSymptom } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import {
-  CreateEmotionSchema, DeleteSchema,
+  CreateEmotionSchema,
+  DeleteSchema,
 } from "~/components/RHF/CreateEmotionRHF";
 
 import {
@@ -12,15 +13,14 @@ import {
 } from "~/server/api/trpc";
 
 export const emotionEventRouter = createTRPCRouter({
-  getById: publicProcedure
-    .input(z.object({ id: z.string() }))
-    .query(async ({ ctx, input }) => {
-      const events = await ctx.prisma.emotionEvent.findMany({
-        where: { id: input.id },
-      });
-      if (!events) throw new TRPCError({ code: "NOT_FOUND" });
-      return events;
-    }),
+  getMyEvents: publicProcedure.query(async ({ ctx, input }) => {
+    if (!ctx.userId) throw new TRPCError({ code: "NOT_FOUND" });
+    const events = await ctx.prisma.emotionEvent.findMany({
+      where: { userId: ctx.userId },
+    });
+    if (!events) throw new TRPCError({ code: "NOT_FOUND" });
+    return events;
+  }),
 
   create: privateProcedure
     .input(CreateEmotionSchema)
@@ -66,7 +66,7 @@ export const emotionEventRouter = createTRPCRouter({
       return event;
     }),
 
-    delete: privateProcedure
+  delete: privateProcedure
     .input(DeleteSchema)
     .mutation(async ({ ctx, input }) => {
       const event = await ctx.prisma.emotionEvent.delete({
