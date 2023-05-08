@@ -1,7 +1,5 @@
 import React from "react";
-import {
-  format,
-} from "date-fns";
+import { format } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
 import CalendarEvent from "./CalendarEvent";
 
@@ -9,6 +7,7 @@ interface CellProps {
   day: Date;
   currentDate: Date;
   monthEvents: EmotionEvent[];
+  onEventClick: (event: EmotionEvent) => void;
 }
 
 const CalendarWeekCell = (props: CellProps) => {
@@ -34,18 +33,26 @@ const CalendarWeekCell = (props: CellProps) => {
   return (
     <div
       key={props.day.toString()}
-      className={`${
+      className={`flex-1 ${
         !isSameMonth(props.day, props.currentDate) ? "text-gray-400" : ""
       } ${
         isSameDay(props.day, props.currentDate) ? "bg-gray-400 text-white" : ""
-      } h-32 w-32 flex-1 border`}
+      } w-32 border`}
     >
-      <div className={`cursor-pointer rounded-full p-1 `}>
+      <div className={`h-full rounded-full p-1 `}>
         <span className="number">{formattedDate}</span>
-        <div className="mt-1 rounded-md bg-blue-200">
-          {dayEvents.map((event) => (
-            <CalendarEvent onEventClick={(event) => {console.log("hi")}}key={event.id} event={event} />
-          ))}
+        <div className="flex flex-col">
+          {dayEvents.map((event) => {
+            
+            return (
+              <CalendarEvent
+                onEventClick={props.onEventClick}
+                key={event.id}
+                event={event}
+                calendarType="week"
+              />
+            );
+          })}
         </div>
       </div>
     </div>

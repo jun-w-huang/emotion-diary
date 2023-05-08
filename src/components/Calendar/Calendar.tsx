@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import { format } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
 import CalendarMonthlyView from "./CalendarMonthlyView";
@@ -6,31 +6,27 @@ import CalendarWeeklyView from "./CalendarWeeklyView";
 import CreateEmotionRHF from "../RHF/CreateEmotionRHF";
 import { EmotionButton } from "../EmotionButton";
 
-
 interface CalendarProps {
   events: EmotionEvent[];
 }
 
 interface ModalContextDetailsType {
-  isShowingModal : boolean,
-  currentEvent: EmotionEvent | undefined,
-
+  isShowingModal: boolean;
+  currentEvent: EmotionEvent | undefined;
 }
 
 const Calendar = (props: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState("month");
-  const [modalContextDetails, setModalContextDetails] = useState<ModalContextDetailsType>(
-    {
-      isShowingModal : false,
+  const [modalContextDetails, setModalContextDetails] =
+    useState<ModalContextDetailsType>({
+      isShowingModal: false,
       currentEvent: undefined,
-    }
-  )
+    });
 
   const onEventClick = (event: EmotionEvent) => {
-    console.log(event)
-    setModalContextDetails({isShowingModal: true, currentEvent: event})
-  }
+    setModalContextDetails({ isShowingModal: true, currentEvent: event });
+  };
 
   const header = () => {
     const dateFormat = "MMMM yyyy";
@@ -42,27 +38,57 @@ const Calendar = (props: CalendarProps) => {
         <div className="flex space-x-2">
           <button
             className="mr-2 rounded-md border px-2 py-1"
-            onClick={() =>
-              setCurrentDate(
-                new Date(currentDate.getFullYear(), currentDate.getMonth() - 1)
-              )
-            }
+            onClick={() => {
+              if (viewMode === "month") {
+                setCurrentDate(
+                  new Date(
+                    currentDate.getFullYear(),
+                    currentDate.getMonth() - 1,
+                    currentDate.getDate()
+                  )
+                );
+              } else {
+                setCurrentDate(
+                  new Date(
+                    currentDate.getFullYear(),
+                    currentDate.getMonth(),
+                    currentDate.getDate() - 7
+                  )
+                );
+              }
+            }}
           >
             Previous
           </button>
           <button
             className="rounded-md border px-2 py-1"
-            onClick={() =>
-              setCurrentDate(
-                new Date(currentDate.getFullYear(), currentDate.getMonth() + 1)
-              )
-            }
+            onClick={() => {
+              if (viewMode === "month") {
+                setCurrentDate(
+                  new Date(
+                    currentDate.getFullYear(),
+                    currentDate.getMonth() + 1,
+                    currentDate.getDate()
+                  )
+                );
+              } else {
+                setCurrentDate(
+                  new Date(
+                    currentDate.getFullYear(),
+                    currentDate.getMonth(),
+                    currentDate.getDate() + 7
+                  )
+                );
+              }
+            }}
           >
             Next
           </button>
           <button
             className="rounded-md border px-2 py-1"
-            onClick={() => setViewMode(viewMode === "month" ? "week" : "month")}
+            onClick={() => {
+              setViewMode(viewMode === "month" ? "week" : "month");
+            }}
           >
             {viewMode === "month" ? "Weekly View" : "Monthly View"}
           </button>
@@ -98,24 +124,43 @@ const Calendar = (props: CalendarProps) => {
       <div className="">
         {header()}
         {weekDaysHeader()}
-        <EmotionButton onClick={() => setModalContextDetails({isShowingModal: true, currentEvent: undefined})}>
+        <EmotionButton
+          onClick={() =>
+            setModalContextDetails({
+              isShowingModal: true,
+              currentEvent: undefined,
+            })
+          }
+        >
           Add event
         </EmotionButton>
       </div>
 
       <div className="flex-auto overflow-y-scroll">
         {modalContextDetails.isShowingModal && (
-          <CreateEmotionRHF existingEvent={modalContextDetails.currentEvent} closeModal={() => setModalContextDetails({isShowingModal: false, currentEvent: undefined})} />
-          )}
+          <CreateEmotionRHF
+            existingEvent={modalContextDetails.currentEvent}
+            closeModal={() =>
+              setModalContextDetails({
+                isShowingModal: false,
+                currentEvent: undefined,
+              })
+            }
+          />
+        )}
         {viewMode === "month" ? (
           <CalendarMonthlyView
-          currentDate={currentDate}
-          events={props.events}
-          onEventClick={onEventClick}
+            currentDate={currentDate}
+            events={props.events}
+            onEventClick={onEventClick}
           />
-          ) : (
-            <CalendarWeeklyView currentDate={currentDate} events={props.events} />
-            )}
+        ) : (
+          <CalendarWeeklyView
+            currentDate={currentDate}
+            events={props.events}
+            onEventClick={onEventClick}
+          />
+        )}
       </div>
     </div>
   );

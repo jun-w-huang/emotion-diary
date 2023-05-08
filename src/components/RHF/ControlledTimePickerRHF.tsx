@@ -14,7 +14,7 @@ interface ControlledTimePickerRHFProps {
 }
 
 const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
-  const [displayedTime, setDisplayedTime] = useState<Dayjs | null>(null);
+  const [displayedTime, setDisplayedTime] = useState<Dayjs | undefined>(undefined);
 
   useEffect(() => {
     if (props.value) {
