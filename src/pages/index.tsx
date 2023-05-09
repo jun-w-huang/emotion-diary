@@ -2,9 +2,9 @@ import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
 import Head from "next/head";
 import { api } from "~/utils/api";
-import Calendar from "~/components/Calendar/Calendar";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import { Sidebar } from "~/components/Sidebar";
+import { MemoizedCalendar } from "~/components/Calendar/Calendar";
 
 const Home: NextPage = () => {
   const { isSignedIn, user } = useUser();
@@ -43,7 +43,7 @@ const Home: NextPage = () => {
         <div className="flex h-screen w-full flex-row">
           <Sidebar user={user} isHome />
           <div className="relative my-24 flex flex-1 flex-col items-center justify-center">
-            {events && <Calendar events={events} />}
+            {events && <MemoizedCalendar events={events} />}
           </div>
         </div>
       </main>

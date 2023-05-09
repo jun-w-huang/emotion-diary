@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
-import CalendarMonthlyView from "./CalendarMonthlyView";
+import { MemoizedCalendarMonthlyView } from "./CalendarMonthlyView";
 import CalendarWeeklyView from "./CalendarWeeklyView";
 import CreateEmotionRHF from "../RHF/CreateEmotionRHF";
 import { EmotionButton } from "../EmotionButton";
+import React from "react";
 
 interface CalendarProps {
   events: EmotionEvent[];
@@ -16,7 +17,10 @@ interface ModalContextDetailsType {
 }
 
 const Calendar = (props: CalendarProps) => {
+  // currentDate is used to render which month / week should be displayed in the calendar
+  // and also the currentDate's cell will be a different color.
   const [currentDate, setCurrentDate] = useState(new Date());
+  // Current view mode options are : month | week
   const [viewMode, setViewMode] = useState("month");
   const [modalContextDetails, setModalContextDetails] =
     useState<ModalContextDetailsType>({
@@ -97,34 +101,11 @@ const Calendar = (props: CalendarProps) => {
     );
   };
 
-  const weekdays = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-
-  const weekDaysHeader = () => {
-    return (
-      <div className="flex text-sm text-gray-600">
-        {weekdays.map((day) => (
-          <div key={day} className="flex flex-1 justify-center py-2">
-            {day}
-          </div>
-        ))}
-      </div>
-    );
-  };
-
   return (
     <div className="absolute flex max-h-full flex-col overflow-auto rounded-lg border bg-white shadow">
       <div className="">
         {header()}
-        {weekDaysHeader()}
-        <EmotionButton
+        {/* <EmotionButton
           onClick={() =>
             setModalContextDetails({
               isShowingModal: true,
@@ -133,7 +114,7 @@ const Calendar = (props: CalendarProps) => {
           }
         >
           Add event
-        </EmotionButton>
+        </EmotionButton> */}
       </div>
 
       <div className="flex-auto overflow-y-scroll">
@@ -149,7 +130,7 @@ const Calendar = (props: CalendarProps) => {
           />
         )}
         {viewMode === "month" ? (
-          <CalendarMonthlyView
+          <MemoizedCalendarMonthlyView
             currentDate={currentDate}
             events={props.events}
             onEventClick={onEventClick}
@@ -166,4 +147,4 @@ const Calendar = (props: CalendarProps) => {
   );
 };
 
-export default Calendar;
+export const MemoizedCalendar = React.memo(Calendar);

@@ -1,5 +1,5 @@
 import React from "react";
-import { format } from "date-fns";
+import { format, isSameDay, isSameMonth } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
 import CalendarEvent from "./CalendarEvent";
 
@@ -13,16 +13,6 @@ interface CellProps {
 const CalendarWeekCell = (props: CellProps) => {
   const formatDay = "d";
   const formattedDate = format(props.day, formatDay);
-
-  const isSameMonth = (day: Date, monthStart: Date) => {
-    return day.getMonth() === monthStart.getMonth();
-  };
-
-  const isSameDay = (day: Date, currentDate: Date) => {
-    return (
-      isSameMonth(day, currentDate) && day.getDate() === currentDate.getDate()
-    );
-  };
 
   const dayEvents = props.monthEvents.filter(
     (event) =>
@@ -41,19 +31,16 @@ const CalendarWeekCell = (props: CellProps) => {
     >
       <div className={`h-full rounded-full p-1 `}>
         <span className="number">{formattedDate}</span>
-        <div className="flex flex-col">
-          {dayEvents.map((event) => {
-            
-            return (
-              <CalendarEvent
-                onEventClick={props.onEventClick}
-                key={event.id}
-                event={event}
-                calendarType="week"
-              />
-            );
-          })}
-        </div>
+        {dayEvents.map((event) => {
+          return (
+            <CalendarEvent
+              onEventClick={props.onEventClick}
+              key={event.id}
+              event={event}
+              calendarType="week"
+            />
+          );
+        })}
       </div>
     </div>
   );
