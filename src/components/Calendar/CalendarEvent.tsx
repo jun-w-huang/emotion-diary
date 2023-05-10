@@ -52,4 +52,4 @@ const CalendarEvent = (props: CalendarEventProps) => {
   );
 };
 
-export const MemoizedCalendarEvent = React.memo(CalendarEvent);
+export default React.memo(CalendarEvent);

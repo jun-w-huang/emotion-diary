@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
-import { MemoizedCalendarMonthlyView } from "./CalendarMonthlyView";
 import CalendarWeeklyView from "./CalendarWeeklyView";
 import CreateEmotionRHF from "../RHF/CreateEmotionRHF";
 import { EmotionButton } from "../EmotionButton";
 import React from "react";
+import CalendarMonthlyView from "./CalendarMonthlyView";
 
 interface CalendarProps {
   events: EmotionEvent[];
@@ -105,7 +105,7 @@ const Calendar = (props: CalendarProps) => {
     <div className="absolute flex max-h-full flex-col overflow-auto rounded-lg border bg-white shadow">
       <div className="">
         {header()}
-        {/* <EmotionButton
+        <EmotionButton
           onClick={() =>
             setModalContextDetails({
               isShowingModal: true,
@@ -114,7 +114,7 @@ const Calendar = (props: CalendarProps) => {
           }
         >
           Add event
-        </EmotionButton> */}
+        </EmotionButton>
       </div>
 
       <div className="flex-auto overflow-y-scroll">
@@ -130,7 +130,7 @@ const Calendar = (props: CalendarProps) => {
           />
         )}
         {viewMode === "month" ? (
-          <MemoizedCalendarMonthlyView
+          <CalendarMonthlyView
             currentDate={currentDate}
             events={props.events}
             onEventClick={onEventClick}

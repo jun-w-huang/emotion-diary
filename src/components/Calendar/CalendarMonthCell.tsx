@@ -1,7 +1,7 @@
 import React from "react";
 import { format, isSameDay, isSameMonth } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
-import { MemoizedCalendarEvent } from "./CalendarEvent";
+import CalendarEvent from "./CalendarEvent";
 
 interface CellProps {
   day: Date;
@@ -38,7 +38,7 @@ const CalendarMonthCell = (props: CellProps) => {
           <div className="flex flex-col items-center justify-center">
             <div onClick={() => props.onDateClick(props.day)} className={`flex justify-center items-center cursor-pointer h-7 w-7 m-1 rounded-full ${props.isSelected ? 'bg-blue-500 text-white' : 'text-black'}`}>{formattedDate}</div>
             {dayEvents.map((event) => (
-              <MemoizedCalendarEvent
+              <CalendarEvent
                 key={event.id}
                 event={event}
                 onEventClick={props.onEventClick}
@@ -61,4 +61,4 @@ function arePropsEqual(prevProps: CellProps, nextProps: CellProps) {
   );
 }
 
-export const MemoizedCalendarMonthCell = React.memo(CalendarMonthCell, arePropsEqual);
+export default React.memo(CalendarMonthCell, arePropsEqual);

@@ -2,7 +2,7 @@ import { startOfMonth, startOfWeek, addDays, isSameDay } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
 import { useMemo, useState } from "react";
 import React from "react";
-import { MemoizedCalendarMonthCell } from "./CalendarMonthCell";
+import CalendarMonthCell from "./CalendarMonthCell";
 
 const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
@@ -38,7 +38,7 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
       for (let i = 0; i < 7; i++) {
         const isSelected = isSameDay(selectedDay, day);
         days.push(
-          <MemoizedCalendarMonthCell
+          <CalendarMonthCell
             key={day.valueOf()}
             day={day}
             currentDate={props.currentDate}
@@ -73,4 +73,4 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
   );
 };
 
-export const MemoizedCalendarMonthlyView = React.memo(CalendarMonthlyView);
+export default React.memo(CalendarMonthlyView);

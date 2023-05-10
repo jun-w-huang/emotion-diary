@@ -68,7 +68,7 @@ model EmotionEvent {
     reflective Boolean  @default(true)
 
     start     DateTime  @default(now())
-    end       DateTime? @default(now())
+    end       DateTime?
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
