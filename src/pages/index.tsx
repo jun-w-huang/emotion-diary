@@ -8,7 +8,12 @@ import { MemoizedCalendar } from "~/components/Calendar/Calendar";
 
 const Home: NextPage = () => {
   const { isSignedIn, user } = useUser();
-  const { data: events, isLoading } = api.emotionEvent.getMyEvents.useQuery();
+  const { data: events, isLoading } = api.emotionEvent.getMyEvents.useQuery(undefined, {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
+  });
 
   if (!isSignedIn || !user) {
     return (
