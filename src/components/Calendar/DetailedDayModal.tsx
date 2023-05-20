@@ -1,6 +1,6 @@
 import { Dialog } from "@headlessui/react";
 import { DetailedDayModalDetails } from "./CalendarMonthlyView";
-import CalendarEvent from "./CalendarEvent";
+import CalendarEvent from "./CalendarMonthEvent";
 import { EmotionEvent } from "@prisma/client";
 import { EmotionButton } from "../EmotionButton";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { format, isSameMonth, isToday } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
-import CalendarEvent from "./CalendarEvent";
+import CalendarEvent from "./CalendarMonthEvent";
 
 interface CellProps {
   day: Date;

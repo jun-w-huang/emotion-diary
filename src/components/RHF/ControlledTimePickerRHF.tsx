@@ -46,6 +46,7 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
     const result = new Date();
     result.setHours(utcHours);
     result.setMinutes(inputDate.getMinutes());
+    result.setSeconds(0,0)
     return result;
   };
 
