@@ -1,6 +1,6 @@
 import { Dialog } from "@headlessui/react";
 import { DetailedDayModalDetails } from "./CalendarMonthlyView";
-import CalendarEvent from "./CalendarMonthEvent";
+import CalendarMonthEvent from "./CalendarMonthEvent";
 import { EmotionEvent } from "@prisma/client";
 import { EmotionButton } from "../EmotionButton";
 
@@ -29,7 +29,7 @@ const DetailedDayModal = (props: DetailedDayModalProps) => {
           Add event
         </EmotionButton>
           {props.details.dateEvents.map((e) => 
-            <CalendarEvent key={e.id} event={e} onEventClick={props.onEventClick} calendarType="month"/>
+            <CalendarMonthEvent key={e.id} event={e} onEventClick={props.onEventClick}/>
           )}
         </Dialog.Panel>
       </div>

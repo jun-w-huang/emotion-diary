@@ -2,7 +2,7 @@ import { EmotionEvent } from "@prisma/client";
 import React from "react";
 import styled from "styled-components";
 
-interface CalendarEventProps {
+interface CalendarMonthEventProps {
   event: EmotionEvent;
   onEventClick: (event: EmotionEvent) => void;
 }
@@ -25,7 +25,7 @@ const MonthEvent = styled.div`
   }
 `;
 
-const CalendarEvent = (props: CalendarEventProps) => {
+const CalendarMonthEvent = (props: CalendarMonthEventProps) => {
   return (
     <MonthEvent
       onClick={() => props.onEventClick(props.event)}
@@ -37,4 +37,4 @@ const CalendarEvent = (props: CalendarEventProps) => {
   );
 };
 
-export default React.memo(CalendarEvent);
+export default React.memo(CalendarMonthEvent);

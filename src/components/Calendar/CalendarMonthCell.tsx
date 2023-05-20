@@ -1,7 +1,7 @@
 import React from "react";
 import { format, isSameMonth, isToday } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
-import CalendarEvent from "./CalendarMonthEvent";
+import CalendarMonthEvent from "./CalendarMonthEvent";
 
 interface CellProps {
   day: Date;
@@ -32,11 +32,10 @@ const CalendarMonthCell = (props: CellProps) => {
           <div className="flex flex-col items-center justify-center">
             <div onClick={() => props.onDateClick(props.day, props.dayEvents)} className={`flex justify-center items-center cursor-pointer h-7 w-7 m-1 rounded-full ${props.isSelected ? 'bg-blue-500 text-white' : 'text-black'}`}>{formattedDate}</div>
             {props.dayEvents.map((event) => (
-              <CalendarEvent
+              <CalendarMonthEvent
                 key={event.id}
                 event={event}
                 onEventClick={props.onEventClick}
-                calendarType="month"
               />
             ))}
           </div>
