@@ -110,17 +110,17 @@ const Calendar = (props: CalendarProps) => {
     <div className="absolute flex max-h-full flex-col overflow-auto rounded-lg border bg-white shadow">
       <div className="">
         {header()}
-        {/* <EmotionButton
+        <EmotionButton
           onClick={() =>
             setFormModalDetails({
               isShowingModal: true,
-              date: new Date();
+              date: new Date(),
               currentEvent: undefined,
             })
           }
         >
           Add event
-        </EmotionButton> */}
+        </EmotionButton>
       </div>
 
       <div className="flex-auto overflow-y-scroll">
