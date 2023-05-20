@@ -6,7 +6,6 @@ import { Emotion, EmotionEvent, PhysicalSymptom } from "@prisma/client";
 import { z } from "zod";
 import ComboBoxRHF from "./ComboBoxRHF";
 import ControlledTimePickerRHF from "./ControlledTimePickerRHF";
-import { useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { EntryLabel } from "./EntryLabel";
@@ -16,6 +15,7 @@ import SwitchRHF from "./SwitchRHF";
 interface CreateEmotionRHFProps {
   closeModal: () => void;
   existingEvent?: EmotionEvent;
+  date? : Date;
 }
 
 export type CreateEmotionFormInputs = {
@@ -45,10 +45,6 @@ export const CreateEmotionSchema = z.object({
 export const DeleteSchema = z.object({id: z.string()})
 
 const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
-  const { user } = useUser();
-
-  if (!user) throw Error("user not found!!!");
-
   const ctx = api.useContext();
 
   const { mutate: create, isLoading: isCreating } =

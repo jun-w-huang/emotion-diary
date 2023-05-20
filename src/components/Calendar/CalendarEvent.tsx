@@ -12,6 +12,7 @@ const Event = styled.div<{
   height?: string;
 }>`
   height: ${(props) => (props.height ? props.height : "#000000")};
+  min-height: fit-content;
   width: 100%;
   cursor: pointer;
   color: black;

@@ -11,8 +11,9 @@ interface CalendarProps {
   events: EmotionEvent[];
 }
 
-interface ModalContextDetailsType {
+export interface FormModalDetails {
   isShowingModal: boolean;
+  date: Date | undefined;
   currentEvent: EmotionEvent | undefined;
 }
 
@@ -22,14 +23,18 @@ const Calendar = (props: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   // Current view mode options are : month | week
   const [viewMode, setViewMode] = useState("month");
-  const [modalContextDetails, setModalContextDetails] =
-    useState<ModalContextDetailsType>({
-      isShowingModal: false,
-      currentEvent: undefined,
-    });
+  const [formModalDetails, setFormModalDetails] = useState<FormModalDetails>({
+    isShowingModal: false,
+    date: new Date(),
+    currentEvent: undefined,
+  });
 
   const onEventClick = (event: EmotionEvent) => {
-    setModalContextDetails({ isShowingModal: true, currentEvent: event });
+    setFormModalDetails({
+      isShowingModal: true,
+      date: event.start,
+      currentEvent: event,
+    });
   };
 
   const header = () => {
@@ -105,25 +110,27 @@ const Calendar = (props: CalendarProps) => {
     <div className="absolute flex max-h-full flex-col overflow-auto rounded-lg border bg-white shadow">
       <div className="">
         {header()}
-        <EmotionButton
+        {/* <EmotionButton
           onClick={() =>
-            setModalContextDetails({
+            setFormModalDetails({
               isShowingModal: true,
+              date: new Date();
               currentEvent: undefined,
             })
           }
         >
           Add event
-        </EmotionButton>
+        </EmotionButton> */}
       </div>
 
       <div className="flex-auto overflow-y-scroll">
-        {modalContextDetails.isShowingModal && (
+        {formModalDetails.isShowingModal && (
           <CreateEmotionRHF
-            existingEvent={modalContextDetails.currentEvent}
+            existingEvent={formModalDetails.currentEvent}
             closeModal={() =>
-              setModalContextDetails({
+              setFormModalDetails({
                 isShowingModal: false,
+                date: undefined,
                 currentEvent: undefined,
               })
             }
@@ -134,6 +141,13 @@ const Calendar = (props: CalendarProps) => {
             currentDate={currentDate}
             events={props.events}
             onEventClick={onEventClick}
+            onAddEventClick={(date: Date) => {
+              setFormModalDetails({
+                isShowingModal: true,
+                date: date,
+                currentEvent: undefined,
+              });
+            }}
           />
         ) : (
           <CalendarWeeklyView
