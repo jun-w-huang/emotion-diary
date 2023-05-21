@@ -1,5 +1,5 @@
 import React from "react";
-import { differenceInMinutes, format, isSameDay, isSameMonth } from "date-fns";
+import { format, isSameDay, isSameMonth } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
 import CalendarWeekEvent from "./CalendarWeekEvent";
 import { isBefore, isAfter, isSameMinute, addMinutes } from "date-fns";
@@ -12,9 +12,6 @@ interface CellProps {
 }
 
 const CalendarWeekCell = (props: CellProps) => {
-  const formatDay = "d";
-  const formattedDate = format(props.day, formatDay);
-
   const dayEvents = props.monthEvents
     .filter(
       (event) =>
@@ -78,7 +75,6 @@ const CalendarWeekCell = (props: CellProps) => {
       } w-32 border`}
     >
       <div className={`relative h-full rounded-full p-1 `}>
-        <span className="number">{formattedDate}</span>
         {dayEvents.map((event, index) => {
           const eventsSubset = dayEvents.slice(0, index); // Subset of events before the current event
           return (

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
-import CalendarWeeklyView from "./CalendarWeeklyView";
 import CreateEmotionRHF from "../RHF/CreateEmotionRHF";
 import { EmotionButton } from "../EmotionButton";
 import React from "react";
-import CalendarMonthlyView from "./CalendarMonthlyView";
+import CalendarMonthlyView from "./Monthly/CalendarMonthlyView";
+import CalendarWeeklyView from "./Weekly/CalendarWeeklyView";
 
 interface CalendarProps {
   events: EmotionEvent[];
@@ -110,7 +110,7 @@ const Calendar = (props: CalendarProps) => {
     <div className="absolute flex max-h-full flex-col overflow-auto rounded-lg border bg-white shadow">
       <div className="">
         {header()}
-        <EmotionButton
+        {/* <EmotionButton
           onClick={() =>
             setFormModalDetails({
               isShowingModal: true,
@@ -120,7 +120,7 @@ const Calendar = (props: CalendarProps) => {
           }
         >
           Add event
-        </EmotionButton>
+        </EmotionButton> */}
       </div>
 
       <div className="flex-auto overflow-y-scroll">

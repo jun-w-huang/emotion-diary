@@ -2,7 +2,7 @@ import { Dialog } from "@headlessui/react";
 import { DetailedDayModalDetails } from "./CalendarMonthlyView";
 import CalendarMonthEvent from "./CalendarMonthEvent";
 import { EmotionEvent } from "@prisma/client";
-import { EmotionButton } from "../EmotionButton";
+import { EmotionButton } from "../../EmotionButton";
 
 interface DetailedDayModalProps {
   details: DetailedDayModalDetails;

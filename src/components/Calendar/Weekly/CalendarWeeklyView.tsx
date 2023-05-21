@@ -1,5 +1,6 @@
 import { startOfWeek, endOfWeek, addDays } from "date-fns";
 import CalendarWeekCell from "./CalendarWeekCell";
+import CalendarWeekHeader from "./CalendarWeekHeader";
 import { EmotionEvent } from "@prisma/client";
 
 interface CalendarWeeklyViewProps {
@@ -8,37 +9,31 @@ interface CalendarWeeklyViewProps {
   onEventClick: (event: EmotionEvent) => void;
 }
 
-const hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
-
 const TimeSidebar = () => {
-  const hourDisplays: JSX.Element[] = hours.map((hour) => {
-    if (hour < 12) {
-      if (hour === 0) {
-        return <div key={hour} className="p-5">12AM</div>;
-      } else {
-        return <div key={hour} className="p-5">{hour}AM</div>;
-      }
-    } else {
-      if (hour === 12) {
-        return <div key={hour} className="p-5">12PM</div>;
-      } else {
-        return <div key={hour} className="p-5">{hour-12}PM</div>;
-      }
-    }
+  const hours = Array.from({ length: 24 }, (_, i) => {
+    const hour = i % 12 || 12;
+    const period = i < 12 ? "AM" : "PM";
+    return (
+      <div key={`${hour}${period}`} className="p-5">
+        {hour}
+        {period}
+      </div>
+    );
   });
-  
-  return <div className="">{hourDisplays}</div>;
+
+  return <div className="relative top-24">{hours}</div>;
 };
 
 const CalendarWeeklyView = (props: CalendarWeeklyViewProps) => {
   const startOfWeekDate = startOfWeek(props.currentDate, { weekStartsOn: 0 });
   const endOfWeekDate = endOfWeek(props.currentDate, { weekStartsOn: 0 });
 
-  const days = [];
+  // The CalendarWeekCells where events are displayed
+  const weekCells = [];
   let day = startOfWeekDate;
 
   while (day <= endOfWeekDate) {
-    days.push(
+    weekCells.push(
       <CalendarWeekCell
         key={day.toString()}
         day={day}
@@ -51,11 +46,14 @@ const CalendarWeeklyView = (props: CalendarWeeklyViewProps) => {
   }
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-full"> 
       <TimeSidebar />
-      {days}
+      <div className="flex flex-1 flex-col">
+        <CalendarWeekHeader currentDate={props.currentDate}/>
+        <div className="flex flex-grow ">{weekCells}</div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default CalendarWeeklyView;
