@@ -21,7 +21,13 @@ const TimeSidebar = () => {
     );
   });
 
-  return <div className="relative top-24">{hours}</div>;
+  return (
+    <div className="">
+      {/* this div is to account for header height, so that the hours are displayed alongside WeekCells */}
+      <div className="py-12"></div>
+      {hours}
+    </div>
+  );
 };
 
 const CalendarWeeklyView = (props: CalendarWeeklyViewProps) => {
@@ -46,11 +52,11 @@ const CalendarWeeklyView = (props: CalendarWeeklyViewProps) => {
   }
 
   return (
-    <div className="flex h-full"> 
+    <div className="flex h-full">
       <TimeSidebar />
       <div className="flex flex-1 flex-col">
-        <CalendarWeekHeader currentDate={props.currentDate}/>
-        <div className="flex flex-grow ">{weekCells}</div>
+        <CalendarWeekHeader currentDate={props.currentDate} />
+        <div className="flex flex-grow">{weekCells}</div>
       </div>
     </div>
   );

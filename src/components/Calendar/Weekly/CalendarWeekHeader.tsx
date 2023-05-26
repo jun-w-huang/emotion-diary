@@ -1,10 +1,4 @@
-import {
-  startOfWeek,
-  endOfWeek,
-  addDays,
-  format,
-  isToday,
-} from "date-fns";
+import { startOfWeek, endOfWeek, addDays, format, isToday } from "date-fns";
 
 interface CalendarWeekHeaderProps {
   currentDate: Date;
@@ -19,8 +13,13 @@ const CalendarWeekHeader = (props: CalendarWeekHeaderProps) => {
   while (day <= endOfWeekDate) {
     if (isToday(day)) {
       dayHeaders.push(
-        <div className="flex w-32 flex-col items-center justify-center text-white">
-          <span className="font-bold text-slate-600">{format(day, "EEEE")}</span>
+        <div
+          key={day.toString()}
+          className="flex w-1/7 flex-col items-center justify-center text-white"
+        >
+          <span className="font-bold text-slate-600">
+            {format(day, "EEEE")}
+          </span>
           <div className="flex h-8 w-8 items-center justify-center rounded-full border-8 border-slate-600 bg-slate-600 font-medium">
             {day.getDate()}
           </div>
@@ -28,9 +27,14 @@ const CalendarWeekHeader = (props: CalendarWeekHeaderProps) => {
       );
     } else {
       dayHeaders.push(
-        <div className="flex w-32 flex-col items-center justify-center text-white">
+        <div
+          key={day.toString()}
+          className="flex w-1/7 flex-col items-center justify-center text-white"
+        >
           <span className="font-bold">{format(day, "EEEE")}</span>
-          <div className="flex h-8 w-8 items-center justify-center font-medium">{day.getDate()}</div>
+          <div className="flex h-8 w-8 items-center justify-center font-medium">
+            {day.getDate()}
+          </div>
         </div>
       );
     }

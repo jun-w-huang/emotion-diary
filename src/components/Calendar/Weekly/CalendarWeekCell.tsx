@@ -72,7 +72,7 @@ const CalendarWeekCell = (props: CellProps) => {
         !isSameMonth(props.day, props.currentDate) ? "text-gray-400" : ""
       } ${
         isSameDay(props.day, props.currentDate) ? "bg-gray-400 text-white" : ""
-      } w-32 border`}
+      } w-1/7 border`}
     >
       <div className={`relative h-full rounded-full p-1 `}>
         {dayEvents.map((event, index) => {

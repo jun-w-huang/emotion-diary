@@ -108,7 +108,7 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
         day = addDays(day, 1);
       }
       rows.push(
-        <div key={day.valueOf()} className="flex ">
+        <div key={day.valueOf()} className="flex justify-evenly h-full w-full items-stretch">
           {days}
         </div>
       );
@@ -118,7 +118,7 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col w-full h-full">
       {weekDaysHeader()}
       {detailedDayModalDetails.isShowingModal &&
         detailedDayModalDetails.dateEvents && (
@@ -137,7 +137,7 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
         )}
       <div
         key={`${props.currentDate.getMonth()}-${props.currentDate.getFullYear()}`}
-        className=""
+        className="flex flex-col justify-evenly h-full w-full"
       >
         {days()}
       </div>

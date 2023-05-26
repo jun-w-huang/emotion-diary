@@ -107,23 +107,10 @@ const Calendar = (props: CalendarProps) => {
   };
 
   return (
-    <div className="absolute flex max-h-full flex-col overflow-auto rounded-lg border bg-white shadow">
-      <div className="">
-        {header()}
-        {/* <EmotionButton
-          onClick={() =>
-            setFormModalDetails({
-              isShowingModal: true,
-              date: new Date(),
-              currentEvent: undefined,
-            })
-          }
-        >
-          Add event
-        </EmotionButton> */}
-      </div>
+    <div className="flex max-h-full w-full flex-1 flex-col rounded-lg border bg-white p-4 shadow">
+      <div className="">{header()}</div>
 
-      <div className="flex-auto overflow-y-scroll">
+      <div className="flex-1 overflow-y-scroll">
         {formModalDetails.isShowingModal && (
           <CreateEmotionRHF
             existingEvent={formModalDetails.currentEvent}
@@ -157,6 +144,17 @@ const Calendar = (props: CalendarProps) => {
           />
         )}
       </div>
+      <EmotionButton
+        onClick={() =>
+          setFormModalDetails({
+            isShowingModal: true,
+            date: new Date(),
+            currentEvent: undefined,
+          })
+        }
+      >
+        Add event
+      </EmotionButton>
     </div>
   );
 };

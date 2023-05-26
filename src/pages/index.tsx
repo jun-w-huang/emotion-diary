@@ -47,7 +47,7 @@ const Home: NextPage = () => {
       <main className="flex h-screen flex-col items-center">
         <div className="flex h-screen w-full flex-row">
           <Sidebar user={user} isHome />
-          <div className="relative my-24 flex flex-1 flex-col items-center justify-center">
+          <div className="py-12 px-4 flex h-full w-full flex-col items-center justify-center">
             {events && <MemoizedCalendar events={events} />}
           </div>
         </div>

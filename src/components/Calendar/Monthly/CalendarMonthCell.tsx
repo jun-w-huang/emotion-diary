@@ -8,7 +8,7 @@ interface CellProps {
   currentDate: Date;
   dayEvents: EmotionEvent[];
   onEventClick: (event: EmotionEvent) => void;
-  onDateClick: (date: Date, dateEvents: EmotionEvent[]) => void
+  onDateClick: (date: Date, dateEvents: EmotionEvent[]) => void;
   isSelected: boolean;
 }
 
@@ -16,28 +16,54 @@ const CalendarMonthCell = (props: CellProps) => {
   const formatDay = "d";
   const formattedDate = format(props.day, formatDay);
 
+  const renderCalendarEvents = () => {
+    const result = [];
+
+    const shownEvents = props.dayEvents.slice(0, 2);
+    shownEvents.map((event) => {
+      result.push(
+        <CalendarMonthEvent
+          key={event.id}
+          event={event}
+          onEventClick={props.onEventClick}
+        />
+      );
+    });
+    if (props.dayEvents.length > 2) {
+      result.push(
+        <div className="flex w-full items-center gap-1 ">
+          <div className="h-1 w-1 rounded-full bg-black p-1"></div>
+          <p className="truncate text-sm font-medium">
+            + {props.dayEvents.length - 2} more
+          </p>
+        </div>
+      );
+    }
+    
+    return result;
+  };
+
   if (!isSameMonth(props.day, props.currentDate)) {
-    return <div key={props.day.toString()} className="h-36 w-32"></div>;
+    return <div key={props.day.toString()} className="h-full w-full"></div>;
   } else {
     return (
       <div
         key={props.day.toString()}
         className={`overflow-y-scroll ${
-          isToday(props.day)
-            ? "bg-gray-400 text-white"
-            : ""
-        } h-36 w-32 flex-1 border`}
+          isToday(props.day) ? "bg-gray-400 text-white" : ""
+        } h-full w-full`}
       >
-        <div className={`h-full  overflow-y-scroll p-1`}>
+        <div className={`h-full w-full overflow-y-scroll`}>
           <div className="flex flex-col items-center justify-center">
-            <div onClick={() => props.onDateClick(props.day, props.dayEvents)} className={`flex justify-center items-center cursor-pointer h-7 w-7 m-1 rounded-full ${props.isSelected ? 'bg-blue-500 text-white' : 'text-black'}`}>{formattedDate}</div>
-            {props.dayEvents.map((event) => (
-              <CalendarMonthEvent
-                key={event.id}
-                event={event}
-                onEventClick={props.onEventClick}
-              />
-            ))}
+            <div
+              onClick={() => props.onDateClick(props.day, props.dayEvents)}
+              className={`m-1 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full ${
+                props.isSelected ? "bg-blue-500 text-white" : "text-black"
+              }`}
+            >
+              {formattedDate}
+            </div>
+            {renderCalendarEvents()}
           </div>
         </div>
       </div>
@@ -45,8 +71,6 @@ const CalendarMonthCell = (props: CellProps) => {
   }
 };
 
-  
-  
 function arePropsEqual(prevProps: CellProps, nextProps: CellProps) {
   return (
     prevProps.day.valueOf() === nextProps.day.valueOf() &&
