@@ -42,7 +42,7 @@ const CalendarWeekHeader = (props: CalendarWeekHeaderProps) => {
   }
 
   return (
-    <div className="flex h-24 rounded-4xl border bg-slate-400">
+    <div className="flex relative z-10 h-24 rounded-4xl border bg-slate-400">
       {dayHeaders}
     </div>
   );

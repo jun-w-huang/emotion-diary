@@ -30,6 +30,25 @@ const TimeSidebar = () => {
   );
 };
 
+const renderTimelines = () => {
+  const lines = Array.from({ length: 24 }, (_, i) => {
+    return (
+      <div key={i} className="h-16 border-b w-full z-0">
+        
+      </div>
+    );
+  });
+
+  return (
+    <div className="absolute mx-auto inset-0 z-0">
+      <div className="relative top-16 ">
+        {lines}
+      </div>
+    </div>
+  )
+
+}
+
 const CalendarWeeklyView = (props: CalendarWeeklyViewProps) => {
   const startOfWeekDate = startOfWeek(props.currentDate, { weekStartsOn: 0 });
   const endOfWeekDate = endOfWeek(props.currentDate, { weekStartsOn: 0 });
@@ -52,9 +71,10 @@ const CalendarWeeklyView = (props: CalendarWeeklyViewProps) => {
   }
 
   return (
-    <div className="flex h-full">
+    <div className="flex">
       <TimeSidebar />
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col relative">
+      {renderTimelines()}
         <CalendarWeekHeader currentDate={props.currentDate} />
         <div className="flex flex-grow">{weekCells}</div>
       </div>
