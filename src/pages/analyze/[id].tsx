@@ -6,6 +6,8 @@ import LoadingSpinner from "~/components/LoadingSpinner";
 import { DoughnutChart } from "~/components/Analysis/DoughnutChart";
 import { Sidebar } from "~/components/Sidebar";
 import { useRouter } from "next/router";
+import { WordCloud } from "~/components/Analysis/WordCloud";
+import { ChartWrapper } from "~/components/Analysis/ChartWrapper";
 
 const Analysis: NextPage = () => {
   const { isSignedIn, user } = useUser();
@@ -46,28 +48,52 @@ const Analysis: NextPage = () => {
           <div className="flex flex-1 items-center justify-center">
             <div className="flex h-5/6 w-5/6 flex-wrap items-center justify-center">
               {commonEmotions && (
-                <DoughnutChart
-                  labels={commonEmotions.map((entry) => entry.emotion)}
-                  values={commonEmotions.map((entry) => entry.count)}
+                <ChartWrapper
                   title="Your most common emotions"
+                  child={
+                    <DoughnutChart
+                      labels={commonEmotions.map((entry) => entry.emotion)}
+                      values={commonEmotions.map((entry) => entry.count)}
+                    />
+                  }
+                />
+              )}
+
+              {commonEmotions && (
+                <ChartWrapper
+                  title="Emotion Word Cloud"
+                  child={
+                    <WordCloud
+                      words={commonEmotions.map(({ emotion, count }) => ({
+                        text: emotion,
+                        value: count*10,
+                      }))}
+                    />
+                  }
                 />
               )}
               {commonPsymptoms && (
-                <DoughnutChart
-                  labels={commonPsymptoms.map((entry) => entry.psymptom)}
-                  values={commonPsymptoms.map((entry) => entry.count)}
+                <ChartWrapper
                   title="Your most common physical symptoms"
+                  child={
+                    <DoughnutChart
+                      labels={commonPsymptoms.map((entry) => entry.psymptom)}
+                      values={commonPsymptoms.map((entry) => entry.count)}
+                    />
+                  }
                 />
               )}
               {areReflective && (
-                <DoughnutChart
-                  labels={["Are reflective", "Are not reflective"]}
-                  values={[
-                    areReflective.areReflective,
-                    areReflective.areNotReflective,
-                  ]}
-                  title={
-                    "Are your emotions reflective of your self conception?"
+                <ChartWrapper
+                  title="Are your emotions reflective of your self conception?"
+                  child={
+                    <DoughnutChart
+                      labels={["Are reflective", "Are not reflective"]}
+                      values={[
+                        areReflective.areReflective,
+                        areReflective.areNotReflective,
+                      ]}
+                    />
                   }
                 />
               )}
