@@ -18,7 +18,7 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
 
   useEffect(() => {
     if (props.value) {
-      setDisplayedTime(dayjs.utc(props.value));
+      setDisplayedTime(dayjs(props.value));
     }
   }, [props.value]);
 
@@ -28,26 +28,6 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
         ▼
       </div>
     );
-  };
-
-  const convertInputDateToUTC = (inputDate: Date): Date => {
-    const inputHours = inputDate.getHours();
-    /**
-     * this will be the hours difference between GMT-0 and the inputDate's timezone
-     * eg: utcOffset for inputDate's that are EST will either -5 or -4 depending on Daylight savings
-     *  */
-    const utcOffset: number = parseInt(dayjs(inputDate).format("Z"));
-    let utcHours: number;
-    if (inputHours + utcOffset < 0) {
-      utcHours = inputHours + utcOffset + 24;
-    } else {
-      utcHours = inputHours + utcOffset;
-    }
-    const result = new Date();
-    result.setHours(utcHours);
-    result.setMinutes(inputDate.getMinutes());
-    result.setSeconds(0,0)
-    return result;
   };
 
   return (
@@ -69,9 +49,8 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
             value={displayedTime}
             onBlur={fieldProps.onBlur}
             onSelect={(date) => {
-              setDisplayedTime(dayjs(date.valueOf()));
-              const convertedDate = convertInputDateToUTC(date.toDate());
-              fieldProps.onChange(convertedDate);
+              setDisplayedTime(dayjs(date));
+              fieldProps.onChange(date.toDate());
             }}
           />
         </div>
