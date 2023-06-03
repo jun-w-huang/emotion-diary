@@ -69,8 +69,8 @@ const CalendarWeekCell = (props: CellProps) => {
     <div
       key={props.day.toString()}
       className={`flex-1 
-      ${isToday!(props.day) ? "bg-gray-100 text-white" : "bg-white"}
-      ${isSaturday!(props.day) ? "" : "border-r"}
+      ${isToday(props.day) ? "bg-gray-100 text-white" : "bg-white"}
+      ${isSaturday(props.day) ? "" : "border-r"}
         w-1/7`}
     >
       <div className={`relative h-full p-1 `}>
