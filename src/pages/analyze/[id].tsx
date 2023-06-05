@@ -6,8 +6,8 @@ import LoadingSpinner from "~/components/LoadingSpinner";
 import { DoughnutChart } from "~/components/Analysis/DoughnutChart";
 import { Sidebar } from "~/components/Sidebar";
 import { useRouter } from "next/router";
-import { WordCloud } from "~/components/Analysis/WordCloud";
 import { ChartWrapper } from "~/components/Analysis/ChartWrapper";
+import WordCloudChart from "~/components/Analysis/WordCloudChart";
 
 const Analysis: NextPage = () => {
   const { isSignedIn, user } = useUser();
@@ -45,7 +45,7 @@ const Analysis: NextPage = () => {
       <main className="flex h-screen flex-col items-center">
         <div className="flex h-screen w-full flex-row">
           <Sidebar user={user} isHome={false} />
-          <div className="flex flex-1 items-center justify-center">
+          <div className="flex flex-1 items-center justify-center overflow-y-scroll">
             <div className="flex h-5/6 w-5/6 flex-wrap items-center justify-center">
               {commonEmotions && (
                 <ChartWrapper
@@ -63,7 +63,7 @@ const Analysis: NextPage = () => {
                 <ChartWrapper
                   title="Emotion Word Cloud"
                   child={
-                    <WordCloud
+                    <WordCloudChart
                       words={commonEmotions.map(({ emotion, count }) => ({
                         text: emotion,
                         value: count*10,
