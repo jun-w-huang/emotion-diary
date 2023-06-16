@@ -101,15 +101,11 @@ const Analysis: NextPage = () => {
                 />
               )}
               {allEvents && (
-                // <ChartWrapper
-                //   title="Are your emotions reflective of your self conception?"
-                //   child={
-                //     <MatrixChart
-                //       events={allEvents}
-                //     />
-                //   }
-                // />
-                <MatrixChart emotionEvents={allEvents} width={1000} height={500} />
+                <MatrixChart
+                  emotionEvents={allEvents}
+                  width={1000}
+                  height={500}
+                />
               )}
             </div>
           </div>

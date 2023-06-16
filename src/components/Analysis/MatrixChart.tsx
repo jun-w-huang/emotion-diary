@@ -84,7 +84,7 @@ function MatrixChart({
     width > margin.left + margin.right
       ? width - margin.left - margin.right - separation
       : width;
-  const xMax = size / 2;
+  const xMax = size;
   const yMax = height - margin.bottom - margin.top;
 
   const binData = generateHeatMapData(emotionEvents);
@@ -112,14 +112,16 @@ function MatrixChart({
     domain: [0, colorMax],
   });
 
-  const binWidth = xMax / binData.length;
-  const binHeight = yMax / bucketSizeMax;
-
   xScale.range([0, xMax]);
   yScale.range([yMax, 0]);
 
+  const binWidth = xMax / binData.length;
+  const binHeight = binWidth;
+
+  const xAxisTickValues = Array.from(Array(24).keys());
+
   return width < 10 ? null : (
-    <svg width={width} height={height}>
+    <svg width={width} height={height} className="mb-10">
       <rect
         x={0}
         y={0}
@@ -128,14 +130,25 @@ function MatrixChart({
         rx={14}
         fill={background}
       />
-      <Group top={margin.top} left={margin.left}>
+      <Group top={margin.top + 10} left={margin.left + 10}>
         <AxisBottom
           scale={xScale}
           top={yMax + margin.top}
-          tickFormat={(value, index) => `${index}`}
+          label="Hour"
+          tickValues={xAxisTickValues}
           stroke="white"
-          tickStroke="white"
-          numTicks={binData.length}
+          tickLabelProps={(value) => ({
+            fill: "white",
+            fontSize: 10,
+            textAnchor: "middle",
+            dx: "1.5em",
+          })}
+          tickFormat={(value) => {
+            const hour = value as number % 12 || 12;
+            const period = value as number < 12 ? "AM" : "PM";
+            return `${hour}${period}`;
+          }}
+          hideTicks
         />
         <AxisLeft
           scale={yScale}
@@ -145,41 +158,50 @@ function MatrixChart({
             const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
             return dayLabels[index];
           }}
+          tickLabelProps={(value) => ({
+            fill: "white",
+            fontSize: 10,
+            textAnchor: "middle",
+            dy: "-2em",
+            dx: "-0.5em",
+          })}
+          stroke="white"
           numTicks={bucketSizeMax}
-          stroke="white" // Set the stroke color to white
-          tickStroke="white" // Set the tick stroke color to white
+          hideTicks
         />
-        <HeatmapRect
-          data={binData}
-          xScale={(d) => xScale(d) ?? 0}
-          yScale={(d) => yScale(d) ?? 0}
-          colorScale={rectColorScale}
-          opacityScale={opacityScale}
-          binWidth={binWidth}
-          binHeight={binHeight}
-          gap={7}
-        >
-          {(heatmap) =>
-            heatmap.map((heatmapBins) =>
-              heatmapBins.map((bin) => (
-                <rect
-                  key={`heatmap-rect-${bin.row}-${bin.column}`}
-                  className="visx-heatmap-rect"
-                  width={bin.width}
-                  height={bin.height}
-                  x={bin.x}
-                  y={bin.y}
-                  fill={bin.color}
-                  fillOpacity={bin.opacity}
-                  onClick={() => {
-                    const { row, column } = bin;
-                    alert(JSON.stringify({ row, column, bin: bin.bin }));
-                  }}
-                />
-              ))
-            )
-          }
-        </HeatmapRect>
+        <Group top={5} left={5}>
+          <HeatmapRect
+            data={binData}
+            xScale={(d) => xScale(d) ?? 0}
+            yScale={(d) => yScale(d) ?? 0}
+            colorScale={rectColorScale}
+            opacityScale={opacityScale}
+            binWidth={binWidth}
+            binHeight={binHeight}
+            gap={7}
+          >
+            {(heatmap) =>
+              heatmap.map((heatmapBins) =>
+                heatmapBins.map((bin) => (
+                  <rect
+                    key={`heatmap-rect-${bin.row}-${bin.column}`}
+                    className="visx-heatmap-rect"
+                    width={bin.width}
+                    height={bin.height}
+                    x={bin.x}
+                    y={bin.y}
+                    fill={bin.color}
+                    fillOpacity={bin.opacity}
+                    onClick={() => {
+                      const { row, column } = bin;
+                      alert(JSON.stringify({ row, column, bin: bin.bin }));
+                    }}
+                  />
+                ))
+              )
+            }
+          </HeatmapRect>
+        </Group>
       </Group>
     </svg>
   );
