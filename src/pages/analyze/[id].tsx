@@ -7,11 +7,14 @@ import { DoughnutChart } from "~/components/Analysis/DoughnutChart";
 import { Sidebar } from "~/components/Sidebar";
 import { useRouter } from "next/router";
 import { ChartWrapper } from "~/components/Analysis/ChartWrapper";
-import WordCloudChart from "~/components/Analysis/WordCloudChart";
+import MatrixChart from "~/components/Analysis/MatrixChart";
+import { WordCloudChart } from "~/components/Analysis/WordCloudChart";
 
 const Analysis: NextPage = () => {
   const { isSignedIn, user } = useUser();
   const router = useRouter();
+
+  const { data: allEvents } = api.emotionEvent.getMyEvents.useQuery();
 
   const { data: commonEmotions, isLoading } =
     api.emotionEvent.getMostCommonEmotions.useQuery();
@@ -66,7 +69,7 @@ const Analysis: NextPage = () => {
                     <WordCloudChart
                       words={commonEmotions.map(({ emotion, count }) => ({
                         text: emotion,
-                        value: count*10,
+                        value: count * 10,
                       }))}
                     />
                   }
@@ -96,6 +99,17 @@ const Analysis: NextPage = () => {
                     />
                   }
                 />
+              )}
+              {allEvents && (
+                // <ChartWrapper
+                //   title="Are your emotions reflective of your self conception?"
+                //   child={
+                //     <MatrixChart
+                //       events={allEvents}
+                //     />
+                //   }
+                // />
+                <MatrixChart emotionEvents={allEvents} width={1000} height={500} />
               )}
             </div>
           </div>

@@ -7,6 +7,7 @@
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
+  transpilePackages: ['d3-scale', '@visx/scale'],
 
   /**
    * If you have the "experimental: { appDir: true }" setting enabled, then you
