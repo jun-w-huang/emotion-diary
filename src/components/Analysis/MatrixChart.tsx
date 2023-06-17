@@ -134,14 +134,13 @@ function MatrixChart({
         <AxisBottom
           scale={xScale}
           top={yMax + margin.top}
-          label="Hour"
           tickValues={xAxisTickValues}
           stroke="white"
           tickLabelProps={(value) => ({
             fill: "white",
             fontSize: 10,
             textAnchor: "middle",
-            dx: "1.5em",
+            dx: "2em",
           })}
           tickFormat={(value) => {
             const hour = value as number % 12 || 12;
