@@ -27,8 +27,8 @@ html,
 body {
     height: 100%;
     margin: 0;
-    background-color: #DFDFDF;
     font-family: 'Inter', sans-serif;
+    font-size: 16px;
 }
 
 #logo {
@@ -40,14 +40,25 @@ body {
 h1 {
     font-family: 'PP Neau Montreal', sans-serif;
     font-weight: 400; /* Regular */
+    font-size: 24px;
 }
   
 h2 {
     font-family: 'PP Neau Montreal', sans-serif;
     font-weight: 700; /* Bold */
+    font-size: 20px;
 }
 
 h3 {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
+    font-size: 16px;
+}
+
+svg {
+	fill: currentColor;
+}
+
+path {
+	fill: currentColor;
 }

@@ -1,7 +1,7 @@
-const FontExample = () => {
+const Logo = () => {
   return (
       <p id="logo">emotion diary</p>
   );
 };
 
-export default FontExample;
+export default Logo;

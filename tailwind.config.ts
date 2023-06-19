@@ -15,6 +15,11 @@ export default {
         "5/7": "71.4285714%",
         "6/7": "85.7142857%",
       },
+      colors: {
+        emotionDarkBlue: '#364B85',
+        emotionLightBlue: '#8693B6',
+        emotionGray: '#5B5D62'
+      },
     },
   },
   plugins: [],

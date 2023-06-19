@@ -8,6 +8,15 @@
 const config = {
   reactStrictMode: true,
   transpilePackages: ['d3-scale', '@visx/scale'],
+  
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
+    });
+
+    return config;
+  },
 
   /**
    * If you have the "experimental: { appDir: true }" setting enabled, then you
