@@ -2,9 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+@font-face {
+    font-family: 'PP Pangram Sans';
+    src: url('./fonts/pppangramsans-bold-webfont.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'PP Neau Montreal';
+    src: url('./fonts/neuemontreal-medium-webfont.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+  
+@font-face {
+    font-family: 'PP Neau Montreal';
+    src: url('./fonts/neuemontreal-bold-webfont.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
 html,
 body {
     height: 100%;
     margin: 0;
     background-color: #DFDFDF;
+    font-family: 'Inter', sans-serif;
+}
+
+#logo {
+    font-family: 'PP Pangram Sans', sans-serif;
+    font-size: 30px;
+}
+
+
+h1 {
+    font-family: 'PP Neau Montreal', sans-serif;
+    font-weight: 400; /* Regular */
+}
+  
+h2 {
+    font-family: 'PP Neau Montreal', sans-serif;
+    font-weight: 700; /* Bold */
+}
+
+h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
 }
