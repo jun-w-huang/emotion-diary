@@ -4,32 +4,20 @@ export interface EmotionButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
   label?: string;
   isActive?: boolean;
-  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
 export const EmotionButton = forwardRef<HTMLButtonElement, EmotionButtonProps>(
-  ({ ...props }, ref) =>
-    props.isActive ? (
-      <button
-        className="flex h-12 w-32 pl-2 items-center gap-2 rounded-lg bg-white text-emotionDarkBlue"
-        {...props}
-        ref={ref}
-      >
-        {props.icon && <props.icon className={"text-emotionDarkBlue"} />}
-        <h2>{props.children}</h2>
-      </button>
-    ) : (
-      <button
-        className="flex h-12 w-32 pl-2 items-center gap-2 rounded-lg text-emotionGray"
-        {...props}
-        ref={ref}
-      >
-        {props.icon && (
-            <props.icon className={"text-emotionGray"}/>
-        )}
-        <h2>{props.children}</h2>
-      </button>
-    )
+  ({ isActive, ...props }, ref) => (
+    <button
+      className={`flex h-12 w-32 items-center rounded-lg pl-2 ${
+        isActive ? "text-emotionDarkBlue bg-white" : "text-emotionGray"
+      }`}
+      {...props}
+      ref={ref}
+    >
+      <h2 className="flex flex-row items-center gap-2">{props.children}</h2>
+    </button>
+  )
 );
 
 EmotionButton.displayName = "EmotionButton";

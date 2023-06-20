@@ -4,8 +4,8 @@ import { EmotionButton } from "./EmotionButton";
 import { UserResource } from "@clerk/types";
 import Logo from "./Logo";
 import { useRouter } from "next/router";
-import Calendar from "../../public/calendar.svg";
-import Settings from "../../public/settings.svg";
+import CalendarIcon from "../../public/calendar.svg";
+import SettingsIcon from "../../public/settings.svg";
 
 interface SidebarProps {
   user: UserResource;
@@ -19,8 +19,11 @@ const SignOutButton = () => {
 export const Sidebar = (props: SidebarProps) => {
   const router = useRouter();
 
-  const isActive = (pathname: string) => {
-    return router.pathname === pathname;
+  const isActive = (pathname: string): boolean => {
+    if (router.pathname === pathname) {
+      return true;
+    }
+    return false;
   };
 
   return (
@@ -28,10 +31,14 @@ export const Sidebar = (props: SidebarProps) => {
       <div className="my-10">
         <Logo />
       </div>
-      <EmotionButton isActive={isActive("/")} icon={Calendar}>
+
+      <EmotionButton isActive={isActive("/")}>
+        <CalendarIcon />
         <Link href={`/`}>Calendar</Link>
       </EmotionButton>
-      <EmotionButton isActive={isActive(`/analyze/[id]`)} icon={Settings}>
+      <EmotionButton isActive={isActive(`/analyze/[id]`)}>
+        {/* change this to a different icon in the future */}
+        <SettingsIcon />
         <Link href={`/analyze/${props.user.id}`}>Analyze</Link>
       </EmotionButton>
 
