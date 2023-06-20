@@ -13,14 +13,7 @@ interface SidebarProps {
 
 const SignOutButton = () => {
   const { signOut } = useClerk();
-  return (
-    <EmotionButton
-      className="flex h-12 w-48 items-center justify-center rounded-lg bg-slate-100 text-emotionGray"
-      onClick={() => signOut()}
-    >
-      Sign out
-    </EmotionButton>
-  );
+  return <EmotionButton onClick={() => signOut()}>Sign out</EmotionButton>;
 };
 
 export const Sidebar = (props: SidebarProps) => {
