@@ -47,7 +47,7 @@ const Analysis: NextPage = () => {
 
       <main className="flex h-screen flex-col items-center">
         <div className="flex h-screen w-full flex-row">
-          <Sidebar user={user} isHome={false} />
+          <Sidebar user={user} />
           <div className="flex flex-1 items-center justify-center overflow-y-scroll">
             <div className="flex h-5/6 w-5/6 flex-wrap items-center justify-center">
               {commonEmotions && (

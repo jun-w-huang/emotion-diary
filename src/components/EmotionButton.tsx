@@ -4,7 +4,7 @@ export interface EmotionButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
   label?: string;
   isActive?: boolean;
-  icon?: any;
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
 export const EmotionButton = forwardRef<HTMLButtonElement, EmotionButtonProps>(

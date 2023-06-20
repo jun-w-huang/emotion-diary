@@ -1,6 +1,5 @@
 import { useClerk } from "@clerk/clerk-react";
 import Link from "next/link";
-import { ReactNode } from "react";
 import { EmotionButton } from "./EmotionButton";
 import { UserResource } from "@clerk/types";
 import Logo from "./Logo";
@@ -8,10 +7,7 @@ import { useRouter } from "next/router";
 import Calendar from "../../public/calendar.svg";
 import Settings from "../../public/settings.svg";
 
-
-
 interface SidebarProps {
-  children?: ReactNode;
   user: UserResource;
 }
 
