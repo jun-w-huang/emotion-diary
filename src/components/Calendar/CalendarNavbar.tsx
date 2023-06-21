@@ -4,14 +4,14 @@ import { ViewModeToggle } from "./ViewModeToggle";
 import RightArrowSVG from "../../../public/right_arrow.svg";
 import LeftArrowSVG from "../../../public/left_arrow.svg";
 
-interface CalendarHeaderProps {
+interface CalendarNavbarProps {
   currentDate: Date;
   setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
   viewMode: "month" | "week";
   setViewMode: React.Dispatch<React.SetStateAction<"month" | "week">>;
 }
 
-export const CalendarHeader = (props: CalendarHeaderProps) => {
+export const CalendarNavbar = (props: CalendarNavbarProps) => {
   return (
     <div className="flex items-center justify-between p-3">
       <div className="relative flex h-full items-center space-x-2">

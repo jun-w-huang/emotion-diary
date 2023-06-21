@@ -5,7 +5,7 @@ import { EmotionButton } from "../EmotionButton";
 import React from "react";
 import CalendarMonthlyView from "./Monthly/CalendarMonthlyView";
 import CalendarWeeklyView from "./Weekly/CalendarWeeklyView";
-import { CalendarHeader } from "./CalendarHeader";
+import { CalendarNavbar } from "./CalendarNavbar";
 import AddSVG from "../../../public/plus.svg";
 
 interface CalendarProps {
@@ -40,7 +40,7 @@ const Calendar = (props: CalendarProps) => {
 
   return (
     <div className="flex max-h-full w-full flex-1 flex-col bg-white p-4">
-      <CalendarHeader
+      <CalendarNavbar
         currentDate={currentDate}
         setCurrentDate={setCurrentDate}
         viewMode={viewMode}
