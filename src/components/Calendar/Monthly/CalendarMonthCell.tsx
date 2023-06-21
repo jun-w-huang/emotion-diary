@@ -31,7 +31,7 @@ const CalendarMonthCell = (props: CellProps) => {
     });
     if (props.dayEvents.length > 2) {
       result.push(
-        <div key={'rest'} className="flex w-full items-center gap-1 ">
+        <div key={'rest'} className="flex w-full items-center gap-1 pl-3">
           <div className="h-1 w-1 rounded-full bg-black p-1"></div>
           <p className="truncate text-sm font-medium">
             + {props.dayEvents.length - 2} more

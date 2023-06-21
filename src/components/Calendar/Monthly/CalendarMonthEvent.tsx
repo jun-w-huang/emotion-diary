@@ -9,7 +9,10 @@ interface CalendarMonthEventProps {
 }
 
 const MonthEvent = styled.div`
+  display: flex;
+  align-items: center;
   width: 100%;
+  height: 20px;
   cursor: pointer;
   color: black;
   transition-property: background-color, border-color, color, fill, stroke,
@@ -23,11 +26,11 @@ const MonthEvent = styled.div`
 `;
 
 const CalendarMonthEvent = (props: CalendarMonthEventProps) => {
-  console.log(props.event.emotion);
-  const EmotionSVG = lazy(() =>
-    import(`../../../../public/emotionSVGs/${props.event.emotion}.svg`).catch(
-      () => import(`../../../../public/emotionSVGs/Joy.svg`)
-    )
+  const EmotionSVG = lazy<React.ComponentType<any>>(
+    () =>
+      import(`../../../../public/emotionSVGs/${props.event.emotion}.svg`).catch(
+        () => import(`../../../../public/emotionSVGs/Joy.svg`)
+      ) as Promise<{ default: React.ComponentType<any> }>
   );
 
   const DefaultSVG = () => {
@@ -44,17 +47,15 @@ const CalendarMonthEvent = (props: CalendarMonthEventProps) => {
       onClick={() => props.onEventClick(props.event)}
       key={props.event.title}
     >
-      <div className="flex w-full items-center">
         <Suspense fallback={<DefaultSVG />}>
-          <div className="h-full w-7 scale-[0.4]">
+          <div className="w-7 scale-[0.4]">
             <EmotionSVG className="box-border" />
           </div>
         </Suspense>
 
-        <p className="relative w-full truncate text-sm font-medium">
+        <p className="w-full truncate text-sm font-medium">
           {props.event.title}
         </p>
-      </div>
     </MonthEvent>
   );
 };
