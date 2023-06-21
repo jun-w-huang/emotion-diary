@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { format } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
 import CreateEmotionRHF from "../RHF/CreateEmotionRHF";
 import { EmotionButton } from "../EmotionButton";
@@ -7,6 +6,7 @@ import React from "react";
 import CalendarMonthlyView from "./Monthly/CalendarMonthlyView";
 import CalendarWeeklyView from "./Weekly/CalendarWeeklyView";
 import { CalendarHeader } from "./CalendarHeader";
+import AddSVG from "../../../public/plus.svg";
 
 interface CalendarProps {
   events: EmotionEvent[];
@@ -39,8 +39,13 @@ const Calendar = (props: CalendarProps) => {
   };
 
   return (
-    <div className="flex max-h-full w-full flex-1 flex-col rounded-lg border bg-white p-4 shadow">
-        <CalendarHeader currentDate={currentDate} setCurrentDate={setCurrentDate} viewMode={viewMode} setViewMode={setViewMode}/>
+    <div className="flex max-h-full w-full flex-1 flex-col bg-white p-4">
+      <CalendarHeader
+        currentDate={currentDate}
+        setCurrentDate={setCurrentDate}
+        viewMode={viewMode}
+        setViewMode={setViewMode}
+      />
       <div className="flex-1 overflow-y-scroll">
         {formModalDetails.isShowingModal && (
           <CreateEmotionRHF
@@ -76,6 +81,7 @@ const Calendar = (props: CalendarProps) => {
         )}
       </div>
       <EmotionButton
+        className="self-end text-emotionDarkBlue"
         onClick={() =>
           setFormModalDetails({
             isShowingModal: true,
@@ -84,7 +90,8 @@ const Calendar = (props: CalendarProps) => {
           })
         }
       >
-        Add event
+        <AddSVG />
+        <h2>Add new event</h2>
       </EmotionButton>
     </div>
   );
