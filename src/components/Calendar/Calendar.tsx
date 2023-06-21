@@ -6,6 +6,7 @@ import { EmotionButton } from "../EmotionButton";
 import React from "react";
 import CalendarMonthlyView from "./Monthly/CalendarMonthlyView";
 import CalendarWeeklyView from "./Weekly/CalendarWeeklyView";
+import { CalendarHeader } from "./CalendarHeader";
 
 interface CalendarProps {
   events: EmotionEvent[];
@@ -22,7 +23,7 @@ const Calendar = (props: CalendarProps) => {
   // and also the currentDate's cell will be a different color.
   const [currentDate, setCurrentDate] = useState(new Date());
   // Current view mode options are : month | week
-  const [viewMode, setViewMode] = useState("month");
+  const [viewMode, setViewMode] = useState<"month" | "week">("month");
   const [formModalDetails, setFormModalDetails] = useState<FormModalDetails>({
     isShowingModal: false,
     date: new Date(),
@@ -37,79 +38,9 @@ const Calendar = (props: CalendarProps) => {
     });
   };
 
-  const header = () => {
-    const dateFormat = "MMMM yyyy";
-    return (
-      <div className="flex justify-between p-3">
-        <div className="text-2xl font-semibold text-gray-800">
-          {format(currentDate, dateFormat)}
-        </div>
-        <div className="flex space-x-2">
-          <button
-            className="mr-2 rounded-md border px-2 py-1"
-            onClick={() => {
-              if (viewMode === "month") {
-                setCurrentDate(
-                  new Date(
-                    currentDate.getFullYear(),
-                    currentDate.getMonth() - 1,
-                    currentDate.getDate()
-                  )
-                );
-              } else {
-                setCurrentDate(
-                  new Date(
-                    currentDate.getFullYear(),
-                    currentDate.getMonth(),
-                    currentDate.getDate() - 7
-                  )
-                );
-              }
-            }}
-          >
-            Previous
-          </button>
-          <button
-            className="rounded-md border px-2 py-1"
-            onClick={() => {
-              if (viewMode === "month") {
-                setCurrentDate(
-                  new Date(
-                    currentDate.getFullYear(),
-                    currentDate.getMonth() + 1,
-                    currentDate.getDate()
-                  )
-                );
-              } else {
-                setCurrentDate(
-                  new Date(
-                    currentDate.getFullYear(),
-                    currentDate.getMonth(),
-                    currentDate.getDate() + 7
-                  )
-                );
-              }
-            }}
-          >
-            Next
-          </button>
-          <button
-            className="rounded-md border px-2 py-1"
-            onClick={() => {
-              setViewMode(viewMode === "month" ? "week" : "month");
-            }}
-          >
-            {viewMode === "month" ? "Weekly View" : "Monthly View"}
-          </button>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className="flex max-h-full w-full flex-1 flex-col rounded-lg border bg-white p-4 shadow">
-      <div className="">{header()}</div>
-
+        <CalendarHeader currentDate={currentDate} setCurrentDate={setCurrentDate} viewMode={viewMode} setViewMode={setViewMode}/>
       <div className="flex-1 overflow-y-scroll">
         {formModalDetails.isShowingModal && (
           <CreateEmotionRHF

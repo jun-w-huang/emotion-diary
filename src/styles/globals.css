@@ -11,7 +11,7 @@
 
 @font-face {
     font-family: 'PP Neau Montreal';
-    src: url('./fonts/neuemontreal-medium-webfont.woff2') format('woff2');
+    src: url('./fonts/neuemontreal-regular-webfont.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
 }
@@ -52,6 +52,12 @@ h2 {
 h3 {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
+    font-size: 16px;
+}
+
+label {
+    font-family: 'PP Neau Montreal', sans-serif;
+    font-weight: 400;
     font-size: 16px;
 }
 
