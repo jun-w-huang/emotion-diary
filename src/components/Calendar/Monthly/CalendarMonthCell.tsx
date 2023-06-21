@@ -31,15 +31,16 @@ const CalendarMonthCell = (props: CellProps) => {
     });
     if (props.dayEvents.length > 2) {
       result.push(
-        <div key={'rest'} className="flex w-full items-center gap-1 pl-3">
-          <div className="h-1 w-1 rounded-full bg-black p-1"></div>
+        <div key={"rest"} className="flex w-full items-center gap-1 pl-[9px]">
+          {/* This div is essentially just an SVG icon, but should probably be changed in future  */}
+          <div className="h-1 w-1 rounded-full border border-black p-[7.6px]"></div>
           <p className="truncate text-sm font-medium">
-            + {props.dayEvents.length - 2} more
+            +{props.dayEvents.length - 2} more
           </p>
         </div>
       );
     }
-    
+
     return result;
   };
 
@@ -50,18 +51,20 @@ const CalendarMonthCell = (props: CellProps) => {
       <div
         key={props.day.toString()}
         className={`overflow-y-scroll ${
-          isToday(props.day) ? "bg-gray-400 text-white" : ""
+          isToday(props.day) ? "bg-gray-200 " : ""
         } h-full w-full`}
       >
         <div className={`h-full w-full overflow-y-scroll`}>
           <div className="flex flex-col items-center justify-center">
             <div
               onClick={() => props.onDateClick(props.day, props.dayEvents)}
-              className={`m-1 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full ${
-                props.isSelected ? "bg-blue-500 text-white" : "text-black"
+              className={`m-1 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full  ${
+                props.isSelected
+                  ? "bg-emotionDarkBlue text-white"
+                  : "text-emotionDarkBlue"
               }`}
             >
-              {formattedDate}
+              <label>{formattedDate}</label>
             </div>
             {renderCalendarEvents()}
           </div>
