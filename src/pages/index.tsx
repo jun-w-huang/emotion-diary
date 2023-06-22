@@ -75,7 +75,7 @@ export const CreateEmotionRHFModalContext = createContext<
 
 // https://reacttraining.com/blog/react-context-with-typescript
 export function useCreateEmotionRHFModalContext() {
-  let context = useContext(CreateEmotionRHFModalContext);
+  const context = useContext(CreateEmotionRHFModalContext);
   if (context === undefined)
     throw Error(
       "CreateEmotionRHFModalContext must be used inside of a component that is a child of the provider, otherwise it will not function correctly."

@@ -32,7 +32,6 @@ export const ViewModeToggle = (props: ViewModeToggleProps) => {
           id="week"
           name="viewMode"
           value="week"
-          checked={props.viewMode === "week"}
           onClick={() => props.setViewMode("week")}
           className="hidden"
         />
@@ -46,7 +45,6 @@ export const ViewModeToggle = (props: ViewModeToggleProps) => {
           id="month"
           name="viewMode"
           value="month"
-          checked={props.viewMode === "month"}
           onClick={() => props.setViewMode("month")}
           className="hidden"
         />
