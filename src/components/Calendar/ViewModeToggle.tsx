@@ -25,7 +25,7 @@ const ToggleLabel = styled.label<{
 
 export const ViewModeToggle = (props: ViewModeToggleProps) => {
   return (
-    <div className="relative flex h-12 w-48 items-center rounded-3xl bg-emotionLightBlue py-2">
+    <div className="relative flex h-12 w-48 items-center rounded-2.5xl bg-emotionLightBlue py-2">
       <div className="w-1/2 py-1">
         <input
           type="radio"

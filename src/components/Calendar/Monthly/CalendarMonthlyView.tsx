@@ -14,7 +14,7 @@ const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
 const weekDaysHeader = () => {
   return (
-    <div className="flex rounded-3xl bg-emotionLightBlue p-2 mb-10 text-sm font-bold text-white">
+    <div className="flex rounded-2.5xl bg-emotionLightBlue p-2 mb-10 text-sm font-bold text-white">
       {weekdays.map((day) => (
         <div key={day} className="flex flex-1 justify-center py-2">
           {day}
