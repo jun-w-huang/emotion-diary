@@ -1,13 +1,7 @@
-import { EmotionEvent } from "@prisma/client";
-import { EmotionRHFModalStateType } from "~/types/EmotionRHFModal";
-
-type EmotionRHFActionType =
-  | { type: "open selected"; currentEvent: EmotionEvent }
-  | {
-      type: "open new";
-      date: Date;
-    }
-  | { type: "close" };
+import type {
+  EmotionRHFActionType,
+  EmotionRHFModalStateType,
+} from "~/types/EmotionRHFModal";
 
 export function emotionRHFReducer(
   emotionRHFState: EmotionRHFModalStateType,

@@ -1,9 +1,4 @@
-import { EmotionEvent } from "@prisma/client";
-import { DetailedDayModalStateType } from "~/types/DetailedDayModal";
-
-type DetailedDayActionType =
-  | { type: "open selected"; date: Date, dateEvents: EmotionEvent[] }
-  | { type: "close" };
+import type { DetailedDayActionType, DetailedDayModalStateType } from "~/types/DetailedDayModal";
 
 export function detailedDayModalReducer(
   DetailedDayState: DetailedDayModalStateType,

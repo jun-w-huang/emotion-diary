@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { EmotionEvent } from "@prisma/client";
+import type { EmotionEvent } from "@prisma/client";
 import { EmotionButton } from "../EmotionButton";
 import React from "react";
 import CalendarMonthlyView from "./Monthly/CalendarMonthlyView";
