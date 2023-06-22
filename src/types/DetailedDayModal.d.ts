@@ -1,3 +1,5 @@
+import type { EmotionEvent } from "@prisma/client";
+
 export interface DetailedDayModalStateType {
   isShowingModal: boolean;
   date: Date;

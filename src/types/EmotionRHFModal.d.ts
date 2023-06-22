@@ -1,3 +1,5 @@
+import type { EmotionEvent } from "@prisma/client";
+
 export interface EmotionRHFModalStateType {
   isShowingModal: boolean;
   date: Date | undefined;
