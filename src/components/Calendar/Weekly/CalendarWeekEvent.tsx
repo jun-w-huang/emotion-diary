@@ -1,11 +1,10 @@
 import { EmotionEvent } from "@prisma/client";
-import { isBefore } from "date-fns";
 import React from "react";
 import styled from "styled-components";
+import { useCreateEmotionRHFModalContext } from "~/pages";
 
 interface CalendarWeekEventProps {
   event: EmotionEvent;
-  onEventClick: (event: EmotionEvent) => void;
   overlappingEventsBefore: EmotionEvent[];
 }
 
@@ -60,18 +59,23 @@ function positionYOffset(event: EmotionEvent): string {
 }
 
 function positionLeftOffset(overlappingEvents: EmotionEvent[]): string {
-    let result = 0
-    result = overlappingEvents.length * 30
-    return `${result}px`;
-  }
+  let result = 0;
+  result = overlappingEvents.length * 30;
+  return `${result}px`;
+}
 
 const CalendarWeekEvent = (props: CalendarWeekEventProps) => {
+  const { dispatch } = useCreateEmotionRHFModalContext();
+  const onEventClick = (event: EmotionEvent) => {
+    dispatch({ type: "open selected", currentEvent: event });
+  };
+
   return (
     <WeekEvent
       height={height(props.event)}
       positionYOffset={positionYOffset(props.event)}
       positionLeftOffset={positionLeftOffset(props.overlappingEventsBefore)}
-      onClick={() => props.onEventClick(props.event)}
+      onClick={() => onEventClick(props.event)}
       key={props.event.title}
     >
       <div className="text-sm font-medium">{props.event.title}</div>

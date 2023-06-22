@@ -33,8 +33,6 @@ export interface DetailedDayModalDetails {
 interface CalendarMonthlyViewProps {
   currentDate: Date;
   events: EmotionEvent[];
-  onAddEventClick: (date: Date) => void
-  onEventClick: (event: EmotionEvent) => void;
 }
 
 const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
@@ -99,7 +97,6 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
             day={day}
             currentDate={props.currentDate}
             dayEvents={dateEvents[index] ?? []}
-            onEventClick={props.onEventClick}
             onDateClick={onDateClick}
             isSelected={isSelected}
           />
@@ -125,8 +122,6 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
           <DetailedDayModal
             details={detailedDayModalDetails}
             date={selectedDate}
-            onEventClick={props.onEventClick}
-            onAddEventClick={props.onAddEventClick}
             closeModal={() =>
               setDetailedDayModalDetails({
                 isShowingModal: false,

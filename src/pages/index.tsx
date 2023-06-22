@@ -1,11 +1,88 @@
-import { SignInButton, SignOutButton, useClerk, useUser } from "@clerk/nextjs";
+import { SignInButton, useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
 import Head from "next/head";
 import { api } from "~/utils/api";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import { Sidebar } from "~/components/Sidebar";
-import { MemoizedCalendar } from "~/components/Calendar/Calendar";
 import { EmotionButton } from "~/components/EmotionButton";
+import {
+  Context,
+  Dispatch,
+  createContext,
+  useContext,
+  useReducer,
+} from "react";
+import { EmotionEvent } from "@prisma/client";
+import CreateEmotionRHF from "~/components/RHF/CreateEmotionRHF";
+import { MemoizedCalendar } from "~/components/Calendar/Calendar";
+
+export interface FormModalDetails {
+  isShowingModal: boolean;
+  date: Date | undefined;
+  currentEvent: EmotionEvent | undefined;
+}
+
+const initialState: FormModalDetails = {
+  isShowingModal: false,
+  date: new Date(),
+  currentEvent: undefined,
+};
+
+type ActionType =
+  | { type: "open selected"; currentEvent: EmotionEvent }
+  | {
+      type: "open new";
+      date: Date;
+    }
+  | { type: "close" };
+
+function reducer(
+  state: FormModalDetails,
+  action: ActionType
+): FormModalDetails {
+  switch (action.type) {
+    case "open selected":
+      return {
+        isShowingModal: true,
+        date: action.currentEvent.start,
+        currentEvent: action.currentEvent,
+      };
+    case "open new":
+      return {
+        isShowingModal: true,
+        date: action.date,
+        currentEvent: undefined,
+      };
+    case "close":
+      return {
+        isShowingModal: false,
+        date: undefined,
+        currentEvent: undefined,
+      };
+    default:
+      return state;
+  }
+}
+
+interface CreateEmotionRHFModalContext {
+  state: FormModalDetails;
+  dispatch: Dispatch<ActionType>;
+}
+
+export const CreateEmotionRHFModalContext = createContext<
+  CreateEmotionRHFModalContext | undefined
+>(undefined);
+
+// https://reacttraining.com/blog/react-context-with-typescript
+export function useCreateEmotionRHFModalContext() {
+  let context = useContext(CreateEmotionRHFModalContext);
+  if (context === undefined)
+    throw Error(
+      "CreateEmotionRHFModalContext must be used inside of a component that is a child of the provider, otherwise it will not function correctly."
+    );
+
+  return context;
+}
 
 const Home: NextPage = () => {
   const { isSignedIn, user } = useUser();
@@ -18,6 +95,8 @@ const Home: NextPage = () => {
       staleTime: Infinity,
     }
   );
+
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   if (!isSignedIn || !user) {
     return (
@@ -54,10 +133,20 @@ const Home: NextPage = () => {
 
       <main className="flex h-screen flex-col items-center">
         <div className="flex h-screen w-full flex-row">
-          <Sidebar user={user} />
-          <div className="flex h-full w-full flex-col items-center justify-center px-4 py-12">
-            {events && <MemoizedCalendar events={events} />}
-          </div>
+          <CreateEmotionRHFModalContext.Provider value={{ state, dispatch }}>
+            <Sidebar user={user}>
+              {state.isShowingModal && (
+                <CreateEmotionRHF
+                  existingEvent={state.currentEvent}
+                  date={state.date}
+                  closeModal={() => dispatch({ type: "close" })}
+                />
+              )}
+            </Sidebar>
+            <div className="flex h-full w-full flex-col items-center justify-center px-4 py-12">
+              {events && <MemoizedCalendar events={events} />}
+            </div>
+          </CreateEmotionRHFModalContext.Provider>
         </div>
       </main>
     </>

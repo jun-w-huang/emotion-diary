@@ -2,10 +2,10 @@ import { EmotionEvent } from "@prisma/client";
 import React, { Suspense, lazy } from "react";
 import styled from "styled-components";
 import JoySVG from "../../../../public/emotionSVGs/Joy.svg";
+import { useCreateEmotionRHFModalContext } from "~/pages";
 
 interface CalendarMonthEventProps {
   event: EmotionEvent;
-  onEventClick: (event: EmotionEvent) => void;
 }
 
 const MonthEvent = styled.div`
@@ -26,6 +26,12 @@ const MonthEvent = styled.div`
 `;
 
 const CalendarMonthEvent = (props: CalendarMonthEventProps) => {
+
+  const {dispatch} = useCreateEmotionRHFModalContext();
+  const onEventClick = (event: EmotionEvent) => {
+    dispatch({ type: "open selected", currentEvent: event });
+  };
+
   const EmotionSVG = lazy<React.ComponentType<any>>(
     () =>
       import(`../../../../public/emotionSVGs/${props.event.emotion}.svg`).catch(
@@ -44,7 +50,7 @@ const CalendarMonthEvent = (props: CalendarMonthEventProps) => {
 
   return (
     <MonthEvent
-      onClick={() => props.onEventClick(props.event)}
+      onClick={() => onEventClick(props.event)}
       key={props.event.title}
     >
         <Suspense fallback={<DefaultSVG />}>

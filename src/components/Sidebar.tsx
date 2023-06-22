@@ -14,11 +14,7 @@ interface SidebarProps {
 
 const SignOutButton = () => {
   const { signOut } = useClerk();
-  return (
-    <EmotionButton onClick={() => signOut()}>
-      <h2>Sign out</h2>
-    </EmotionButton>
-  );
+  return <EmotionButton onClick={() => signOut()}>Sign out</EmotionButton>;
 };
 
 export const Sidebar = (props: SidebarProps) => {
@@ -37,20 +33,16 @@ export const Sidebar = (props: SidebarProps) => {
         <Logo />
       </div>
       <div>
-        <EmotionButton isActive={isActive("/")}>
-          <CalendarIcon />
-          <Link href={`/`}>
-            <h2>Calendar</h2>
-          </Link>
+        <EmotionButton isActive={isActive("/")} icon={<CalendarIcon />}>
+          <Link href={`/`}>Calendar</Link>
         </EmotionButton>
-        <EmotionButton isActive={isActive(`/analyze/[id]`)}>
-          {/* change this to a different icon in the future */}
-          <SettingsIcon />
-          <Link href={`/analyze/${props.user.id}`}>
-            <h2>Analyze</h2>
-          </Link>
+        {/* change this to a different icon in the future */}
+        <EmotionButton
+          isActive={isActive(`/analyze/[id]`)}
+          icon={<SettingsIcon />}
+        >
+          <Link href={`/analyze/${props.user.id}`}>Analyze</Link>
         </EmotionButton>
-
         <SignOutButton />
       </div>
       <div>{props.children}</div>

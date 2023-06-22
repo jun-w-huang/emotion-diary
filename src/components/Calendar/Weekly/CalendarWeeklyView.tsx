@@ -6,7 +6,6 @@ import { EmotionEvent } from "@prisma/client";
 interface CalendarWeeklyViewProps {
   currentDate: Date;
   events: EmotionEvent[];
-  onEventClick: (event: EmotionEvent) => void;
 }
 
 const TimeSidebar = () => {
@@ -64,7 +63,6 @@ const CalendarWeeklyView = (props: CalendarWeeklyViewProps) => {
         day={day}
         currentDate={new Date()}
         monthEvents={props.events}
-        onEventClick={props.onEventClick}
       />
     );
     day = addDays(day, 1);

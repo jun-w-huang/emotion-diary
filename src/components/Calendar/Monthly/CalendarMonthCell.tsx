@@ -7,7 +7,6 @@ interface CellProps {
   day: Date;
   currentDate: Date;
   dayEvents: EmotionEvent[];
-  onEventClick: (event: EmotionEvent) => void;
   onDateClick: (date: Date, dateEvents: EmotionEvent[]) => void;
   isSelected: boolean;
 }
@@ -25,7 +24,6 @@ const CalendarMonthCell = (props: CellProps) => {
         <CalendarMonthEvent
           key={event.id}
           event={event}
-          onEventClick={props.onEventClick}
         />
       );
     });

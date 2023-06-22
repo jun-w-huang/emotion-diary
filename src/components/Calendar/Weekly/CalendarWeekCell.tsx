@@ -8,7 +8,6 @@ interface CellProps {
   day: Date;
   currentDate: Date;
   monthEvents: EmotionEvent[];
-  onEventClick: (event: EmotionEvent) => void;
 }
 
 // this function takes in an event and returns a list of events that overlap in time
@@ -79,7 +78,6 @@ const CalendarWeekCell = (props: CellProps) => {
           return (
             <CalendarWeekEvent
               key={event.id}
-              onEventClick={props.onEventClick}
               event={event}
               overlappingEventsBefore={calcOverlappingEventsBefore(
                 event,
