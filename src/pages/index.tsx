@@ -5,84 +5,18 @@ import { api } from "~/utils/api";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import { Sidebar } from "~/components/Sidebar";
 import { EmotionButton } from "~/components/EmotionButton";
-import {
-  Context,
-  Dispatch,
-  createContext,
-  useContext,
-  useReducer,
-} from "react";
-import { EmotionEvent } from "@prisma/client";
+import { useReducer } from "react";
 import CreateEmotionRHF from "~/components/RHF/CreateEmotionRHF";
 import { MemoizedCalendar } from "~/components/Calendar/Calendar";
+import {
+  EmotionRHFModalContext,
+  initialEmotionRHFState,
+} from "./context/EmotionRHFModalContext";
 
-export interface FormModalDetails {
-  isShowingModal: boolean;
-  date: Date | undefined;
-  currentEvent: EmotionEvent | undefined;
-}
-
-const initialState: FormModalDetails = {
-  isShowingModal: false,
-  date: new Date(),
-  currentEvent: undefined,
-};
-
-type ActionType =
-  | { type: "open selected"; currentEvent: EmotionEvent }
-  | {
-      type: "open new";
-      date: Date;
-    }
-  | { type: "close" };
-
-function reducer(
-  state: FormModalDetails,
-  action: ActionType
-): FormModalDetails {
-  switch (action.type) {
-    case "open selected":
-      return {
-        isShowingModal: true,
-        date: action.currentEvent.start,
-        currentEvent: action.currentEvent,
-      };
-    case "open new":
-      return {
-        isShowingModal: true,
-        date: action.date,
-        currentEvent: undefined,
-      };
-    case "close":
-      return {
-        isShowingModal: false,
-        date: undefined,
-        currentEvent: undefined,
-      };
-    default:
-      return state;
-  }
-}
-
-interface CreateEmotionRHFModalContext {
-  state: FormModalDetails;
-  dispatch: Dispatch<ActionType>;
-}
-
-export const CreateEmotionRHFModalContext = createContext<
-  CreateEmotionRHFModalContext | undefined
->(undefined);
-
-// https://reacttraining.com/blog/react-context-with-typescript
-export function useCreateEmotionRHFModalContext() {
-  const context = useContext(CreateEmotionRHFModalContext);
-  if (context === undefined)
-    throw Error(
-      "CreateEmotionRHFModalContext must be used inside of a component that is a child of the provider, otherwise it will not function correctly."
-    );
-
-  return context;
-}
+import { emotionRHFReducer } from "./context/EmotionRHFModalReducer";
+import { DetailedDayModalContext, initialDetailedDayModalState } from "./context/DetailedDayModalContext";
+import { detailedDayModalReducer } from "./context/DetailedDayModalReducer";
+import DetailedDayModal from "~/components/Calendar/DetailedDayModal";
 
 const Home: NextPage = () => {
   const { isSignedIn, user } = useUser();
@@ -96,7 +30,14 @@ const Home: NextPage = () => {
     }
   );
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [emotionRHFState, emotionRHFDispatch] = useReducer(
+    emotionRHFReducer,
+    initialEmotionRHFState
+  );
+  const [detailedDayModalState, detailedDayModalDispatch] = useReducer(
+    detailedDayModalReducer,
+    initialDetailedDayModalState
+  );
 
   if (!isSignedIn || !user) {
     return (
@@ -133,19 +74,34 @@ const Home: NextPage = () => {
 
       <main className="flex h-screen flex-col items-center">
         <div className="flex h-screen w-full flex-row">
-          <CreateEmotionRHFModalContext.Provider value={{ state, dispatch }}>
-            {state.isShowingModal && (
+          <EmotionRHFModalContext.Provider
+            value={{ state: emotionRHFState, dispatch: emotionRHFDispatch }}
+          >
+            {emotionRHFState.isShowingModal && (
               <CreateEmotionRHF
-                existingEvent={state.currentEvent}
-                date={state.date}
-                closeModal={() => dispatch({ type: "close" })}
+                existingEvent={emotionRHFState.currentEvent}
+                date={emotionRHFState.date}
+                closeModal={() => emotionRHFDispatch({ type: "close" })}
               />
             )}
-            <Sidebar user={user}/>
+            <DetailedDayModalContext.Provider value={{state: detailedDayModalState, dispatch: detailedDayModalDispatch}}>
+            <Sidebar user={user}>
+              {detailedDayModalState.isShowingModal && (
+                <DetailedDayModal
+                  dateEvents={detailedDayModalState.dateEvents}
+                  closeModal={() =>
+                    detailedDayModalDispatch({
+                      type: "close",
+                    })
+                  }
+                />
+              )}
+            </Sidebar>
             <div className="flex h-full w-full flex-col items-center justify-center px-4 py-12">
               {events && <MemoizedCalendar events={events} />}
             </div>
-          </CreateEmotionRHFModalContext.Provider>
+            </DetailedDayModalContext.Provider>
+          </EmotionRHFModalContext.Provider>
         </div>
       </main>
     </>

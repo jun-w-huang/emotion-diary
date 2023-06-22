@@ -6,7 +6,7 @@ import CalendarMonthlyView from "./Monthly/CalendarMonthlyView";
 import CalendarWeeklyView from "./Weekly/CalendarWeeklyView";
 import { CalendarNavbar } from "./CalendarNavbar";
 import AddSVG from "../../../public/plus.svg";
-import { useCreateEmotionRHFModalContext } from "~/pages";
+import { useEmotionRHFModalContext } from "~/pages/context/EmotionRHFModalContext";
 
 interface CalendarProps {
   events: EmotionEvent[];
@@ -19,7 +19,7 @@ const Calendar = (props: CalendarProps) => {
   // Current view mode options are : month | week
   const [viewMode, setViewMode] = useState<"month" | "week">("month");
 
-  const { dispatch } = useCreateEmotionRHFModalContext();
+  const { dispatch } = useEmotionRHFModalContext();
 
   return (
     <div className="flex max-h-full w-full flex-1 flex-col bg-white p-4">

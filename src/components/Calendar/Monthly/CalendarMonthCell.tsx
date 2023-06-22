@@ -2,16 +2,24 @@ import React from "react";
 import { format, isSameMonth, isToday } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
 import CalendarMonthEvent from "./CalendarMonthEvent";
+import { useDetailedDayModalContext } from "~/pages/context/DetailedDayModalContext";
 
 interface CellProps {
   day: Date;
   currentDate: Date;
   dayEvents: EmotionEvent[];
-  onDateClick: (date: Date, dateEvents: EmotionEvent[]) => void;
   isSelected: boolean;
 }
 
 const CalendarMonthCell = (props: CellProps) => {
+  const { dispatch } = useDetailedDayModalContext();
+
+  const onDateClick = () => dispatch({
+    type: "open selected",
+    date: props.day,
+    dateEvents: props.dayEvents,
+  });
+
   const formatDay = "d";
   const formattedDate = format(props.day, formatDay);
 
@@ -20,12 +28,7 @@ const CalendarMonthCell = (props: CellProps) => {
 
     const shownEvents = props.dayEvents.slice(0, 2);
     shownEvents.map((event) => {
-      result.push(
-        <CalendarMonthEvent
-          key={event.id}
-          event={event}
-        />
-      );
+      result.push(<CalendarMonthEvent key={event.id} event={event} />);
     });
     if (props.dayEvents.length > 2) {
       result.push(
@@ -55,14 +58,14 @@ const CalendarMonthCell = (props: CellProps) => {
         <div className={`h-full w-full overflow-y-scroll`}>
           <div className="flex flex-col items-center justify-center">
             <div
-              onClick={() => props.onDateClick(props.day, props.dayEvents)}
+              onClick={onDateClick}
               className={`m-1 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full  ${
                 props.isSelected
                   ? "bg-emotionDarkBlue text-white"
                   : "text-emotionDarkBlue"
               }`}
             >
-              <label>{formattedDate}</label>
+              <label className="cursor-pointer">{formattedDate}</label>
             </div>
             {renderCalendarEvents()}
           </div>

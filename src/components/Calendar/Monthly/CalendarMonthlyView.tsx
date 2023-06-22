@@ -9,7 +9,6 @@ import { EmotionEvent } from "@prisma/client";
 import { useEffect, useState } from "react";
 import React from "react";
 import CalendarMonthCell from "./CalendarMonthCell";
-import DetailedDayModal from "./DetailedDayModal";
 
 const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
@@ -25,10 +24,7 @@ const weekDaysHeader = () => {
   );
 };
 
-export interface DetailedDayModalDetails {
-  isShowingModal: boolean;
-  dateEvents: EmotionEvent[];
-}
+
 
 interface CalendarMonthlyViewProps {
   currentDate: Date;
@@ -38,12 +34,6 @@ interface CalendarMonthlyViewProps {
 const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
   const monthStart = startOfMonth(props.currentDate);
   const startDate = startOfWeek(monthStart);
-  // This state hook holds the details necessary for the DetailedDayModal and is passed as a prop to it.
-  const [detailedDayModalDetails, setDetailedDayModalDetails] =
-    useState<DetailedDayModalDetails>({
-      isShowingModal: false,
-      dateEvents: [],
-    });
   const [selectedDate, setSelectedDate] = useState<Date>(props.currentDate);
   // This state hook will return an array of array of EmotionEvent. Each index represents a date in the month,
   // and each element is an array of that date's events. The length of the list will always be 42, because
@@ -72,14 +62,6 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
     setDateEvents(dateEvents());
   }, [props.events, props.currentDate]);
 
-  const onDateClick = (date: Date, dateEvents: EmotionEvent[]) => {
-    setDetailedDayModalDetails({
-      isShowingModal: true,
-      dateEvents: dateEvents,
-    });
-    setSelectedDate(date);
-  };
-
   const days = () => {
     const rows = [];
     let days = [];
@@ -97,7 +79,6 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
             day={day}
             currentDate={props.currentDate}
             dayEvents={dateEvents[index] ?? []}
-            onDateClick={onDateClick}
             isSelected={isSelected}
           />
         );
@@ -117,19 +98,6 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
   return (
     <div className="flex flex-col w-full h-full">
       {weekDaysHeader()}
-      {detailedDayModalDetails.isShowingModal &&
-        detailedDayModalDetails.dateEvents && (
-          <DetailedDayModal
-            details={detailedDayModalDetails}
-            date={selectedDate}
-            closeModal={() =>
-              setDetailedDayModalDetails({
-                isShowingModal: false,
-                dateEvents: [],
-              })
-            }
-          />
-        )}
       <div
         key={`${props.currentDate.getMonth()}-${props.currentDate.getFullYear()}`}
         className="flex flex-col justify-evenly h-full w-full"

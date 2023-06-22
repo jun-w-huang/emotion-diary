@@ -1,7 +1,7 @@
 import { EmotionEvent } from "@prisma/client";
 import React from "react";
 import styled from "styled-components";
-import { useCreateEmotionRHFModalContext } from "~/pages";
+import { useEmotionRHFModalContext } from "~/pages/context/EmotionRHFModalContext";
 
 interface CalendarWeekEventProps {
   event: EmotionEvent;
@@ -65,7 +65,7 @@ function positionLeftOffset(overlappingEvents: EmotionEvent[]): string {
 }
 
 const CalendarWeekEvent = (props: CalendarWeekEventProps) => {
-  const { dispatch } = useCreateEmotionRHFModalContext();
+  const { dispatch } = useEmotionRHFModalContext();
   const onEventClick = (event: EmotionEvent) => {
     dispatch({ type: "open selected", currentEvent: event });
   };
