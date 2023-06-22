@@ -21,7 +21,7 @@ export const CalendarNavbar = (props: CalendarNavbarProps) => {
         </h1>
         <div className="absolute top-0 bottom-0 left-44 flex h-full space-x-1">
           <button
-            className="rounded-2xl border bg-emotionLightBlue px-3 py-1"
+            className="rounded-2.5xl border bg-emotionLightBlue px-3 py-1"
             onClick={() => {
               if (props.viewMode === "month") {
                 props.setCurrentDate(
@@ -45,7 +45,7 @@ export const CalendarNavbar = (props: CalendarNavbarProps) => {
             <LeftArrowSVG height={15} width={15} color="white" />
           </button>
           <button
-            className="rounded-2xl border bg-emotionLightBlue px-3 py-1"
+            className="rounded-2.5xl border bg-emotionLightBlue px-3 py-1"
             onClick={() => {
               if (props.viewMode === "month") {
                 props.setCurrentDate(

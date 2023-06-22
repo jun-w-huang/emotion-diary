@@ -5,6 +5,7 @@ export default {
   theme: {
     extend: {
       borderRadius: {
+        "2.5xl": "20px",
         "4xl": "32px",
       },
       width: {
