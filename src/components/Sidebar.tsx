@@ -9,11 +9,16 @@ import SettingsIcon from "../../public/settings.svg";
 
 interface SidebarProps {
   user: UserResource;
+  children?: React.ReactNode;
 }
 
 const SignOutButton = () => {
   const { signOut } = useClerk();
-  return <EmotionButton onClick={() => signOut()}>Sign out</EmotionButton>;
+  return (
+    <EmotionButton onClick={() => signOut()}>
+      <h2>Sign out</h2>
+    </EmotionButton>
+  );
 };
 
 export const Sidebar = (props: SidebarProps) => {
@@ -31,18 +36,24 @@ export const Sidebar = (props: SidebarProps) => {
       <div className="my-10">
         <Logo />
       </div>
+      <div>
+        <EmotionButton isActive={isActive("/")}>
+          <CalendarIcon />
+          <Link href={`/`}>
+            <h2>Calendar</h2>
+          </Link>
+        </EmotionButton>
+        <EmotionButton isActive={isActive(`/analyze/[id]`)}>
+          {/* change this to a different icon in the future */}
+          <SettingsIcon />
+          <Link href={`/analyze/${props.user.id}`}>
+            <h2>Analyze</h2>
+          </Link>
+        </EmotionButton>
 
-      <EmotionButton isActive={isActive("/")}>
-        <CalendarIcon />
-        <Link href={`/`}>Calendar</Link>
-      </EmotionButton>
-      <EmotionButton isActive={isActive(`/analyze/[id]`)}>
-        {/* change this to a different icon in the future */}
-        <SettingsIcon />
-        <Link href={`/analyze/${props.user.id}`}>Analyze</Link>
-      </EmotionButton>
-
-      <SignOutButton />
+        <SignOutButton />
+      </div>
+      <div>{props.children}</div>
     </div>
   );
 };
