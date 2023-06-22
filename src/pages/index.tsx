@@ -134,15 +134,14 @@ const Home: NextPage = () => {
       <main className="flex h-screen flex-col items-center">
         <div className="flex h-screen w-full flex-row">
           <CreateEmotionRHFModalContext.Provider value={{ state, dispatch }}>
-            <Sidebar user={user}>
-              {state.isShowingModal && (
-                <CreateEmotionRHF
-                  existingEvent={state.currentEvent}
-                  date={state.date}
-                  closeModal={() => dispatch({ type: "close" })}
-                />
-              )}
-            </Sidebar>
+            {state.isShowingModal && (
+              <CreateEmotionRHF
+                existingEvent={state.currentEvent}
+                date={state.date}
+                closeModal={() => dispatch({ type: "close" })}
+              />
+            )}
+            <Sidebar user={user}/>
             <div className="flex h-full w-full flex-col items-center justify-center px-4 py-12">
               {events && <MemoizedCalendar events={events} />}
             </div>
