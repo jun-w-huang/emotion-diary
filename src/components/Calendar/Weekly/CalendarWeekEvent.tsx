@@ -1,7 +1,7 @@
 import { EmotionEvent } from "@prisma/client";
 import React from "react";
 import styled from "styled-components";
-import { useEmotionRHFModalContext } from "~/pages/context/EmotionRHFModalContext";
+import { useEmotionRHFModalContext } from "~/context/EmotionRHFModalContext";
 
 interface CalendarWeekEventProps {
   event: EmotionEvent;

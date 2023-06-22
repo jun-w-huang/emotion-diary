@@ -2,7 +2,7 @@ import React from "react";
 import { format, isSameMonth, isToday } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
 import CalendarMonthEvent from "./CalendarMonthEvent";
-import { useDetailedDayModalContext } from "~/pages/context/DetailedDayModalContext";
+import { useDetailedDayModalContext } from "~/context/DetailedDayModalContext";
 
 interface CellProps {
   day: Date;
@@ -14,11 +14,12 @@ interface CellProps {
 const CalendarMonthCell = (props: CellProps) => {
   const { dispatch } = useDetailedDayModalContext();
 
-  const onDateClick = () => dispatch({
-    type: "open selected",
-    date: props.day,
-    dateEvents: props.dayEvents,
-  });
+  const onDateClick = () =>
+    dispatch({
+      type: "open selected",
+      date: props.day,
+      dateEvents: props.dayEvents,
+    });
 
   const formatDay = "d";
   const formattedDate = format(props.day, formatDay);

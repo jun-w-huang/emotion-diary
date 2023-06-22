@@ -6,7 +6,7 @@ import CalendarMonthlyView from "./Monthly/CalendarMonthlyView";
 import CalendarWeeklyView from "./Weekly/CalendarWeeklyView";
 import { CalendarNavbar } from "./CalendarNavbar";
 import AddSVG from "../../../public/plus.svg";
-import { useEmotionRHFModalContext } from "~/pages/context/EmotionRHFModalContext";
+import { useEmotionRHFModalContext } from "~/context/EmotionRHFModalContext";
 
 interface CalendarProps {
   events: EmotionEvent[];

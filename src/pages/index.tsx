@@ -11,11 +11,11 @@ import { MemoizedCalendar } from "~/components/Calendar/Calendar";
 import {
   EmotionRHFModalContext,
   initialEmotionRHFState,
-} from "./context/EmotionRHFModalContext";
+} from "../context/EmotionRHFModalContext";
 
-import { emotionRHFReducer } from "./context/EmotionRHFModalReducer";
-import { DetailedDayModalContext, initialDetailedDayModalState } from "./context/DetailedDayModalContext";
-import { detailedDayModalReducer } from "./context/DetailedDayModalReducer";
+import { emotionRHFReducer } from "../context/EmotionRHFModalReducer";
+import { DetailedDayModalContext, initialDetailedDayModalState } from "../context/DetailedDayModalContext";
+import { detailedDayModalReducer } from "../context/DetailedDayModalReducer";
 import DetailedDayModal from "~/components/Calendar/DetailedDayModal";
 
 const Home: NextPage = () => {
