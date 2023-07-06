@@ -40,9 +40,7 @@ const WeekEvent = styled.div<{
 function height(event: EmotionEvent): string {
   // calculate start time in minutes since midnight
   const start = event.start.getUTCHours() * 60 + event.start.getUTCMinutes();
-  const end = event.end
-    ? event.end.getUTCHours() * 60 + event.end.getUTCMinutes()
-    : start + 60; // calculate end time in minutes since midnight
+  const end = event.end.getUTCHours() * 60 + event.end.getUTCMinutes() // calculate end time in minutes since midnight
   // minimum height is currently 70, this allows for 3 lines of text.
   // end - start finds time in minutes, divide by 60 to get time in hours,
   // 64 is the height of each hour in the sidebar)

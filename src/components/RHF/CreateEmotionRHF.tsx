@@ -27,7 +27,7 @@ export type CreateEmotionFormInputs = {
   cause: string;
   isReflective: boolean;
   start: Date;
-  end: Date | null;
+  end: Date;
 };
 
 export const CreateEmotionSchema = z.object({
@@ -39,7 +39,7 @@ export const CreateEmotionSchema = z.object({
   cause: z.string().optional(),
   isReflective: z.boolean(),
   start: z.date(),
-  end: z.date().optional().nullable(),
+  end: z.date(),
 });
 
 export const DeleteSchema = z.object({id: z.string()})
@@ -99,7 +99,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
       cause: props.existingEvent?.cause ?? "",
       isReflective: props.existingEvent?.reflective ?? true,
       start: props.existingEvent?.start ?? undefined,
-      end: props.existingEvent?.end ?? null,
+      end: props.existingEvent?.end ?? undefined,
     },
     resolver: zodResolver(CreateEmotionSchema),
   });
@@ -228,7 +228,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
               <div>
                 <EntryLabel error={errors.end} label={"Ended?"} />
                 <ControlledTimePickerRHF
-                  value={getValues().end ?? undefined}
+                  value={getValues().end}
                   control={control}
                   name="end"
                 />
