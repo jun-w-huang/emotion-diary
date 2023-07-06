@@ -49,6 +49,13 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
             value={displayedTime}
             onBlur={fieldProps.onBlur}
             onSelect={(date) => {
+              if (props.value) {
+                const curVal = props.value
+                curVal.setHours(date.hour())
+                curVal.setMinutes(date.minute())
+                fieldProps.onChange(curVal);
+                console.log(curVal)
+              }
               setDisplayedTime(dayjs(date));
               fieldProps.onChange(date.toDate());
             }}
