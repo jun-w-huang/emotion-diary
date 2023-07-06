@@ -14,7 +14,9 @@ interface ControlledTimePickerRHFProps {
 }
 
 const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
-  const [displayedTime, setDisplayedTime] = useState<Dayjs | undefined>(undefined);
+  const [displayedTime, setDisplayedTime] = useState<Dayjs | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     if (props.value) {
@@ -38,7 +40,6 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
         <div className={""}>
           <TimePicker
             className="form-input w-full rounded-lg bg-emotionLightGray p-3"
-            
             format="h:mm A"
             suffixIcon={customSuffixIcon()}
             ref={ref}
@@ -51,16 +52,15 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
             onBlur={fieldProps.onBlur}
             onSelect={(date) => {
               if (props.value) {
-                const curVal = props.value
-                curVal.setHours(date.hour())
-                curVal.setMinutes(date.minute())
+                const curVal = props.value;
+                curVal.setHours(date.hour());
+                curVal.setMinutes(date.minute());
                 fieldProps.onChange(curVal);
-                console.log(curVal)
+                console.log(curVal);
               }
               setDisplayedTime(dayjs(date));
               fieldProps.onChange(date.toDate());
             }}
-            
           />
         </div>
       )}
