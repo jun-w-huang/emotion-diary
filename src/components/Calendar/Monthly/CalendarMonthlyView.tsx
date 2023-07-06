@@ -80,6 +80,7 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
             currentDate={props.currentDate}
             dayEvents={dateEvents[index] ?? []}
             isSelected={isSelected}
+            setSelectedDate={setSelectedDate}
           />
         );
         index += 1;
