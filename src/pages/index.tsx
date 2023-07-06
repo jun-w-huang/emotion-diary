@@ -14,7 +14,10 @@ import {
 } from "../context/EmotionRHFModalContext";
 
 import { emotionRHFReducer } from "../context/EmotionRHFModalReducer";
-import { DetailedDayModalContext, initialDetailedDayModalState } from "../context/DetailedDayModalContext";
+import {
+  DetailedDayModalContext,
+  initialDetailedDayModalState,
+} from "../context/DetailedDayModalContext";
 import { detailedDayModalReducer } from "../context/DetailedDayModalReducer";
 import DetailedDayModal from "~/components/Calendar/DetailedDayModal";
 
@@ -84,22 +87,22 @@ const Home: NextPage = () => {
                 closeModal={() => emotionRHFDispatch({ type: "close" })}
               />
             )}
-            <DetailedDayModalContext.Provider value={{state: detailedDayModalState, dispatch: detailedDayModalDispatch}}>
-            <Sidebar user={user}>
-              {detailedDayModalState.isShowingModal && (
-                <DetailedDayModal
-                  dateEvents={detailedDayModalState.dateEvents}
-                  closeModal={() =>
-                    detailedDayModalDispatch({
-                      type: "close",
-                    })
-                  }
-                />
-              )}
-            </Sidebar>
-            <div className="flex h-full w-full flex-col items-center justify-center px-4 py-12">
-              {events && <MemoizedCalendar events={events} />}
-            </div>
+            <DetailedDayModalContext.Provider
+              value={{
+                state: detailedDayModalState,
+                dispatch: detailedDayModalDispatch,
+              }}
+            >
+              <Sidebar user={user}>
+                {detailedDayModalState.isShowingModal && (
+                  <DetailedDayModal
+                    dateEvents={detailedDayModalState.dateEvents}
+                  />
+                )}
+              </Sidebar>
+              <div className="flex h-full w-full flex-col items-center justify-center px-4 py-12">
+                {events && <MemoizedCalendar events={events} />}
+              </div>
             </DetailedDayModalContext.Provider>
           </EmotionRHFModalContext.Provider>
         </div>

@@ -45,7 +45,7 @@ export const Sidebar = (props: SidebarProps) => {
         </EmotionButton>
         <SignOutButton />
       </div>
-      <div>{props.children}</div>
+      <div className="w-full">{props.children}</div>
     </div>
   );
 };
