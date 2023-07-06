@@ -53,12 +53,12 @@ const CalendarMonthEvent = (props: CalendarMonthEventProps) => {
       key={props.event.title}
     >
       <Suspense fallback={<DefaultSVG />}>
-        <div className="w-7 scale-[0.4]">
-          <EmotionSVG className="box-border" />
+        <div className="relative right-1 w-7 scale-[0.4]">
+          <EmotionSVG className="" />
         </div>
       </Suspense>
 
-      <p className="w-full truncate text-sm font-medium">{props.event.title}</p>
+      <p className="w-full truncate">{props.event.title}</p>
     </MonthEvent>
   );
 };
