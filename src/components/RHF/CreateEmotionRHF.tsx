@@ -145,9 +145,9 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
       <div className="fixed inset-0 flex items-center justify-center p-4">
         {/* The actual dialog panel  */}
         <Dialog.Panel className="mx-auto flex min-h-fit w-9/12 flex-col gap-4 rounded-2.5xl bg-white p-6">
-          <Dialog.Title className={"text-xl font-bold"}>
-            Create a new Event
-          </Dialog.Title>
+          <h1 className={""}>
+            Create a new event
+          </h1>
           <form
             onSubmit={handleSubmit(onSubmit, onError)}
             className="flex flex-col gap-4"
