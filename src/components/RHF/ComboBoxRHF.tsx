@@ -25,13 +25,13 @@ const ComboBoxRHF = (props: ComboBoxRHFProps) => {
       name={props.name}
       control={props.control}
       render={({ field: { ref, ...fieldProps }, fieldState }) => (
-        <Combobox as={"div"} value={fieldProps.value} onChange={fieldProps.onChange}>
+        <Combobox as={"div"} className={'relative'} value={fieldProps.value} onChange={fieldProps.onChange}>
           <Combobox.Input
             className={`w-full rounded-md bg-emotionLightGray p-3`}
             onChange={(event) => setQuery(event.target.value)}
           />
           <Combobox.Options
-            className={`max-h-48 w-full cursor-default overflow-scroll rounded-md shadow-sm`}
+            className={`absolute max-h-48 w-full cursor-default overflow-scroll rounded-md shadow-sm`}
           >
             {filteredResult.map((emotion) => (
               <Combobox.Option key={emotion} value={emotion} as={Fragment}>
@@ -39,7 +39,7 @@ const ComboBoxRHF = (props: ComboBoxRHFProps) => {
                   <li
                     className={`relative w-full cursor-default p-3 ${
                       active
-                        ? "bg-blue-500 text-white"
+                        ? "bg-emotionLightBlue text-white"
                         : "bg-emotionLightGray text-black"
                     }`}
                   >
