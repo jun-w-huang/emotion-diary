@@ -152,8 +152,9 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
             onSubmit={handleSubmit(onSubmit, onError)}
             className="flex flex-col gap-4"
           >
-            <div className="flex flex-row gap-6">
-              <div className="flex flex-col">
+            <div className="flex flex-row gap-10">
+              {/* first column */}
+              <div className="flex flex-col gap-4">
                 <div>
                   <EntryLabel error={errors.title} label={"Event Title"} />
                   <InputFieldRHF {...register("title")} />
@@ -191,7 +192,8 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                   />
                 </div>
               </div>
-              <div className="flex flex-col">
+              {/* second column */}
+              <div className="flex flex-col gap-4">
                 <div>
                   <EntryLabel
                     error={errors.cause}
