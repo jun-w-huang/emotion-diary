@@ -35,9 +35,10 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
       name={props.name}
       control={props.control}
       render={({ field: { ref, ...fieldProps }, fieldState }) => (
-        <div className={"flex flex-col"}>
+        <div className={""}>
           <TimePicker
-            className="form-input w-full rounded-lg"
+            className="form-input w-full rounded-lg bg-emotionLightGray p-3"
+            
             format="h:mm A"
             suffixIcon={customSuffixIcon()}
             ref={ref}
@@ -59,6 +60,7 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
               setDisplayedTime(dayjs(date));
               fieldProps.onChange(date.toDate());
             }}
+            
           />
         </div>
       )}
