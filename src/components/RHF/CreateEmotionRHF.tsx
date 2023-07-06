@@ -15,7 +15,7 @@ import SwitchRHF from "./SwitchRHF";
 interface CreateEmotionRHFProps {
   closeModal: () => void;
   existingEvent?: EmotionEvent;
-  date? : Date;
+  date?: Date;
 }
 
 export type CreateEmotionFormInputs = {
@@ -42,7 +42,7 @@ export const CreateEmotionSchema = z.object({
   end: z.date(),
 });
 
-export const DeleteSchema = z.object({id: z.string()})
+export const DeleteSchema = z.object({ id: z.string() });
 
 const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   const ctx = api.useContext();
@@ -107,7 +107,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   const onSubmit = (values: CreateEmotionFormInputs) => {
     if (props.existingEvent) {
       update({
-        ... values
+        ...values,
       });
     } else {
       create({
@@ -144,7 +144,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
 
       <div className="fixed inset-0 flex items-center justify-center p-4">
         {/* The actual dialog panel  */}
-        <Dialog.Panel className="mx-auto flex min-h-fit w-6/12 flex-col gap-4 rounded border-8 bg-white p-6">
+        <Dialog.Panel className="mx-auto flex min-h-fit w-9/12 flex-col gap-4 rounded-2.5xl bg-white p-6">
           <Dialog.Title className={"text-xl font-bold"}>
             Create a new Event
           </Dialog.Title>
@@ -152,93 +152,93 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
             onSubmit={handleSubmit(onSubmit, onError)}
             className="flex flex-col gap-4"
           >
-            <div>
-              <EntryLabel error={errors.title} label={"Event Title"} required />
-              <InputFieldRHF
-                placeholder="Coursework!!!"
-                {...register("title")}
-              />
-            </div>
-            <div>
-              <EntryLabel
-                error={errors.emotion}
-                label={"What emotion are you feeling?"}
-                required
-              />
-              <ComboBoxRHF
-                control={control}
-                name="emotion"
-                autocompleteOptions={Object.values(Emotion)}
-              />
-            </div>
-            <div>
-              <EntryLabel
-                error={errors.pobject}
-                label={"What is your emotion towards or about?"}
-                required
-              />
-              <InputFieldRHF
-                placeholder="PHIL3305 Final Project Deadline ):"
-                {...register("pobject")}
-              />
-            </div>
-            <div>
-              <EntryLabel
-                error={errors.psymptom}
-                label={"Do you have any physical symptoms?"}
-                required
-              />
-              <ComboBoxRHF
-                control={control}
-                name="psymptom"
-                autocompleteOptions={Object.values(PhysicalSymptom)}
-              />
-            </div>
-            <div>
-              <EntryLabel
-                error={errors.cause}
-                label={"What caused the emotion?"}
-              />
-              <InputFieldRHF
-                placeholder="Bad sleep ):"
-                {...register("cause")}
-              />
-            </div>
-            <div>
-              <EntryLabel
-                error={errors.isReflective}
-                label={"Is this emotion reflective of your self conception?"}
-                required
-              />
-              <SwitchRHF control={control} name="isReflective" />
-            </div>
-            <div className="flex gap-6">
-              <div>
-                <EntryLabel
-                  error={errors.start}
-                  label={"Start time"}
-                  required
-                />
-                <ControlledTimePickerRHF
-                  value={getValues().start}
-                  control={control}
-                  name="start"
-                />
+            <div className="flex flex-row gap-6">
+              <div className="flex flex-col">
+                <div>
+                  <EntryLabel error={errors.title} label={"Event Title"} />
+                  <InputFieldRHF {...register("title")} />
+                </div>
+                <div>
+                  <EntryLabel
+                    error={errors.emotion}
+                    label={"What emotion are you feeling?"}
+                    required
+                  />
+                  <ComboBoxRHF
+                    control={control}
+                    name="emotion"
+                    autocompleteOptions={Object.values(Emotion)}
+                  />
+                </div>
+                <div>
+                  <EntryLabel
+                    error={errors.pobject}
+                    label={"What is your emotion towards or about?"}
+                    required
+                  />
+                  <InputFieldRHF {...register("pobject")} />
+                </div>
+                <div>
+                  <EntryLabel
+                    error={errors.psymptom}
+                    label={"Do you have any physical symptoms?"}
+                    required
+                  />
+                  <ComboBoxRHF
+                    control={control}
+                    name="psymptom"
+                    autocompleteOptions={Object.values(PhysicalSymptom)}
+                  />
+                </div>
               </div>
-              <div>
-                <EntryLabel error={errors.end} label={"Ended?"} />
-                <ControlledTimePickerRHF
-                  value={getValues().end}
-                  control={control}
-                  name="end"
-                />
+              <div className="flex flex-col">
+                <div>
+                  <EntryLabel
+                    error={errors.cause}
+                    label={"What caused the emotion?"}
+                  />
+                  <InputFieldRHF {...register("cause")} />
+                </div>
+                <div>
+                  <EntryLabel
+                    error={errors.isReflective}
+                    label={
+                      "Is this emotion reflective of your self conception?"
+                    }
+                    required
+                  />
+                  <SwitchRHF control={control} name="isReflective" />
+                </div>
+                <div className="flex gap-6">
+                  <div>
+                    <EntryLabel
+                      error={errors.start}
+                      label={"Start time"}
+                      required
+                    />
+                    <ControlledTimePickerRHF
+                      value={getValues().start}
+                      control={control}
+                      name="start"
+                    />
+                  </div>
+                  <div>
+                    <EntryLabel error={errors.end} label={"Ended?"} />
+                    <ControlledTimePickerRHF
+                      value={getValues().end}
+                      control={control}
+                      name="end"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
+
             <div className="flex w-full justify-between self-end">
               <div>
                 {props.existingEvent && (
                   <button
-                    onClick={() => remove({id: props.existingEvent!.id})}
+                    onClick={() => remove({ id: props.existingEvent!.id })}
                     className="flex h-12 w-24 items-center justify-center rounded-md bg-slate-300 p-2 text-red-600"
                   >
                     Delete
