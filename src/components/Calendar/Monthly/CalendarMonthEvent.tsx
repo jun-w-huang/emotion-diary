@@ -1,8 +1,8 @@
 import { EmotionEvent } from "@prisma/client";
 import React, { Suspense, lazy } from "react";
 import styled from "styled-components";
-import JoySVG from "../../../../public/emotionSVGs/Joy.svg";
 import { useEmotionRHFModalContext } from "~/context/EmotionRHFModalContext";
+import EmotionSVG, { DefaultSVG } from "../EmotionSVG";
 
 interface CalendarMonthEventProps {
   event: EmotionEvent;
@@ -31,32 +31,17 @@ const CalendarMonthEvent = (props: CalendarMonthEventProps) => {
     dispatch({ type: "open selected", currentEvent: event });
   };
 
-  const EmotionSVG = lazy<React.ComponentType<any>>(
-    () =>
-      import(`../../../../public/emotionSVGs/${props.event.emotion}.svg`).catch(
-        () => import(`../../../../public/emotionSVGs/Joy.svg`)
-      ) as Promise<{ default: React.ComponentType<any> }>
-  );
-
-  const DefaultSVG = () => {
-    return (
-      <div className="h-full w-7 scale-[0.4]">
-        {/* should probably change this to a different SVG in the future */}
-        <JoySVG className="box-border" />
-      </div>
-    );
-  };
-
   return (
     <MonthEvent
       onClick={() => onEventClick(props.event)}
       key={props.event.title}
     >
-      <Suspense fallback={<DefaultSVG />}>
-        <div className="relative right-1 w-7 scale-[0.4]">
-          <EmotionSVG className="" />
-        </div>
-      </Suspense>
+      <div className="relative w-6">
+        <EmotionSVG
+          emotion={props.event.emotion}
+          className="origin-left scale-40"
+        />
+      </div>
 
       <p className="w-full truncate">{props.event.title}</p>
     </MonthEvent>

@@ -16,6 +16,9 @@ export default {
         "5/7": "71.4285714%",
         "6/7": "85.7142857%",
       },
+      scale: {
+        "40" : "0.4",
+      },
       colors: {
         emotionDarkBlue: '#364B85',
         emotionLightBlue: '#8693B6',
