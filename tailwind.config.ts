@@ -22,7 +22,8 @@ export default {
       colors: {
         emotionDarkBlue: '#364B85',
         emotionLightBlue: '#8693B6',
-        emotionGray: '#5B5D62'
+        emotionGray: '#5B5D62',
+        emotionLightGray: '#E3E9F6'
       },
     },
   },

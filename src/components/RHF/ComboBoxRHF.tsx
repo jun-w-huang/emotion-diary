@@ -27,7 +27,7 @@ const ComboBoxRHF = (props: ComboBoxRHFProps) => {
       render={({ field: { ref, ...fieldProps }, fieldState }) => (
         <Combobox as={"div"} value={fieldProps.value} onChange={fieldProps.onChange}>
           <Combobox.Input
-            className={`w-full rounded-md bg-slate-300 p-3`}
+            className={`w-full rounded-md bg-emotionLightGray p-3`}
             onChange={(event) => setQuery(event.target.value)}
           />
           <Combobox.Options
@@ -40,7 +40,7 @@ const ComboBoxRHF = (props: ComboBoxRHFProps) => {
                     className={`relative w-full cursor-default p-3 ${
                       active
                         ? "bg-blue-500 text-white"
-                        : "bg-slate-400 text-black"
+                        : "bg-emotionLightGray text-black"
                     }`}
                   >
                     {selected}

@@ -5,10 +5,9 @@ const InputFieldRHF = React.forwardRef<
   React.ComponentPropsWithoutRef<"input">
 >((props, ref) => (
   <input
-    placeholder={props.placeholder}
     {...props}
     ref={ref}
-    className="w-full rounded-md bg-slate-300 p-3"
+    className="w-full rounded-md bg-emotionLightGray p-3 text-white"
   />
 ))
 InputFieldRHF.displayName = "TextField";
