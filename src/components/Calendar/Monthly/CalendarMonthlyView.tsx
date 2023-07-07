@@ -25,8 +25,6 @@ const weekDaysHeader = () => {
   );
 };
 
-
-
 interface CalendarMonthlyViewProps {
   currentDate: Date;
   events: EmotionEvent[];
@@ -39,7 +37,7 @@ function filterEventsToDates(events: EmotionEvent[], startDate: Date): EmotionEv
     for (let col = 0; col < 7; col++) {
       const dayEvents = events.filter(
         (event) =>
-          format(new Date(event.start), "MM/dd/yyyy") ===
+          format(event.start, "MM/dd/yyyy") ===
           format(day, "MM/dd/yyyy")
       );
       result.push(dayEvents);
