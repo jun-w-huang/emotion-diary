@@ -27,7 +27,6 @@ const Calendar = (props: CalendarProps) => {
   // this useEffect runs only when the Calendar first is opened and will set the DetailedDayModal
   // to display today's date.
   useEffect(() => {
-    console.log("useeffect")
     //find today's events
     const dayEvents = props.events.filter(
       (event) =>
