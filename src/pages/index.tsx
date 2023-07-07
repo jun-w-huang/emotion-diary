@@ -25,24 +25,6 @@ import EmotionSVG from "~/components/EmotionSVG";
 
 const Home: NextPage = () => {
   const { isSignedIn, user } = useUser();
-  const { data: events, isLoading } = api.emotionEvent.getMyEvents.useQuery(
-    undefined,
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-    }
-  );
-
-  const [emotionRHFState, emotionRHFDispatch] = useReducer(
-    emotionRHFReducer,
-    initialEmotionRHFState
-  );
-  const [detailedDayModalState, detailedDayModalDispatch] = useReducer(
-    detailedDayModalReducer,
-    initialDetailedDayModalState
-  );
 
   if (!isSignedIn || !user) {
     return (
@@ -61,6 +43,16 @@ const Home: NextPage = () => {
     );
   }
 
+  const { data: events, isLoading } = api.emotionEvent.getMyEvents.useQuery(
+    undefined,
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    }
+  );
+
   if (isLoading) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
@@ -68,6 +60,15 @@ const Home: NextPage = () => {
       </div>
     );
   }
+
+  const [emotionRHFState, emotionRHFDispatch] = useReducer(
+    emotionRHFReducer,
+    initialEmotionRHFState
+  );
+  const [detailedDayModalState, detailedDayModalDispatch] = useReducer(
+    detailedDayModalReducer,
+    initialDetailedDayModalState
+  );
 
   return (
     <>
