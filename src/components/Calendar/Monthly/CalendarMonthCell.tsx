@@ -9,21 +9,18 @@ interface CellProps {
   currentDate: Date;
   dayEvents: EmotionEvent[];
   isSelected: boolean;
-  setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
 }
 
 const CalendarMonthCell = (props: CellProps) => {
   const { dispatch } = useDetailedDayModalContext();
 
   const onDateClick = () => {
-    props.setSelectedDate(props.day)
     dispatch({
       type: "open selected",
       date: props.day,
       dateEvents: props.dayEvents,
     });
   }
-  
 
   const formatDay = "d";
   const formattedDate = format(props.day, formatDay);

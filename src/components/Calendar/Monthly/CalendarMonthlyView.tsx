@@ -9,6 +9,7 @@ import { EmotionEvent } from "@prisma/client";
 import { useEffect, useState } from "react";
 import React from "react";
 import CalendarMonthCell from "./CalendarMonthCell";
+import { useDetailedDayModalContext } from "~/context/DetailedDayModalContext";
 
 const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
@@ -51,7 +52,9 @@ function filterEventsToDates(events: EmotionEvent[], startDate: Date): EmotionEv
 const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
   const monthStart = startOfMonth(props.currentDate);
   const startDate = startOfWeek(monthStart);
-  const [selectedDate, setSelectedDate] = useState<Date>(props.currentDate);
+
+  const { state } = useDetailedDayModalContext();
+
   // This state hook will return an array of array of EmotionEvent. Each index represents a date in the month,
   // and each element is an array of that date's events. The length of the list will always be 42, because
   // our calendar view always has 6 weeks, each of 7 days.
@@ -73,7 +76,7 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
     let index = 0;
     while (rows.length < 6) {
       for (let col = 0; col < 7; col++) {
-        const isSelected = isSameDay(selectedDate, day);
+        const isSelected = isSameDay(state.date, day);
         days.push(
           <CalendarMonthCell
             key={day.valueOf()}
@@ -81,7 +84,6 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
             currentDate={props.currentDate}
             dayEvents={dateEvents[index] ?? []}
             isSelected={isSelected}
-            setSelectedDate={setSelectedDate}
           />
         );
         index += 1;
