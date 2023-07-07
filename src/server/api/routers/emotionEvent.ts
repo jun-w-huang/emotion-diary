@@ -37,6 +37,7 @@ export const emotionEventRouter = createTRPCRouter({
           reflective: input.isReflective,
           start: input.start,
           end: input.end,
+          description: input.description,
         },
       });
       return event;
@@ -60,6 +61,7 @@ export const emotionEventRouter = createTRPCRouter({
           reflective: input.isReflective,
           start: input.start,
           end: input.end,
+          description: input.description,
         },
       });
       return event;

@@ -28,6 +28,7 @@ export type CreateEmotionFormInputs = {
   isReflective: boolean;
   start: Date;
   end: Date;
+  description: string;
 };
 
 export const CreateEmotionSchema = z.object({
@@ -40,6 +41,7 @@ export const CreateEmotionSchema = z.object({
   isReflective: z.boolean(),
   start: z.date(),
   end: z.date(),
+  description: z.string().optional(),
 });
 
 export const DeleteSchema = z.object({ id: z.string() });
@@ -100,6 +102,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
       isReflective: props.existingEvent?.reflective ?? true,
       start: props.existingEvent?.start ?? undefined,
       end: props.existingEvent?.end ?? undefined,
+      description: props.existingEvent?.description ?? "",
     },
     resolver: zodResolver(CreateEmotionSchema),
   });
@@ -120,6 +123,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
         isReflective: values.isReflective,
         start: values.start,
         end: values.end,
+        description: values.description,
       });
     }
   };
@@ -145,16 +149,14 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
       <div className="fixed inset-0 flex items-center justify-center p-4">
         {/* The actual dialog panel  */}
         <Dialog.Panel className="mx-auto flex min-h-fit w-9/12 flex-col gap-4 rounded-2.5xl bg-white p-6">
-          <h1 className={""}>
-            Create a new event
-          </h1>
           <form
             onSubmit={handleSubmit(onSubmit, onError)}
-            className="flex flex-col gap-4"
+            className="flex flex-col"
           >
-            <div className="flex flex-row gap-10">
+            <div className="flex flex-row p-4 gap-10">
               {/* first column */}
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 w-full">
+                <h1 className={""}>Create a new event</h1>
                 <div>
                   <EntryLabel error={errors.title} label={"Event Title"} />
                   <InputFieldRHF {...register("title")} />
@@ -193,7 +195,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                 </div>
               </div>
               {/* second column */}
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 w-full">
                 <div>
                   <EntryLabel
                     error={errors.cause}
@@ -233,6 +235,17 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                     />
                   </div>
                 </div>
+                <div>
+                  <EntryLabel
+                    error={errors.description}
+                    label={"Description"}
+                  />
+                  <textarea
+                    className={`form-input h-full w-full rounded-lg bg-emotionLightGray p-3`}
+                    maxLength={1000}
+                    {...register("description")}
+                  />
+                </div>
               </div>
             </div>
 
@@ -241,6 +254,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                 {props.existingEvent && (
                   <button
                     onClick={() => remove({ id: props.existingEvent!.id })}
+                    type="button"
                     className="flex h-12 w-24 items-center justify-center rounded-md bg-slate-300 p-2 text-red-600"
                   >
                     Delete
@@ -251,6 +265,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                 {props.existingEvent && (
                   <button
                     onClick={() => props.closeModal()}
+                    type="button"
                     className="flex h-12 w-24 items-center justify-center rounded-md bg-slate-300 p-2"
                   >
                     Cancel
