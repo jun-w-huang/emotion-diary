@@ -34,6 +34,16 @@ const Home: NextPage = () => {
     initialDetailedDayModalState
   );
 
+  const { data: events, isLoading } = api.emotionEvent.getMyEvents.useQuery(
+    undefined,
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    }
+  );
+
   if (!isSignedIn || !user) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -50,16 +60,6 @@ const Home: NextPage = () => {
       </div>
     );
   }
-
-  const { data: events, isLoading } = api.emotionEvent.getMyEvents.useQuery(
-    undefined,
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-    }
-  );
 
   if (isLoading) {
     return (
