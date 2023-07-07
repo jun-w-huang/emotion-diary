@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import type { EmotionEvent } from "@prisma/client";
-import { EmotionButton } from "../EmotionButton";
 import React from "react";
 import CalendarMonthlyView from "./Monthly/CalendarMonthlyView";
 import CalendarWeeklyView from "./Weekly/CalendarWeeklyView";
@@ -39,8 +38,8 @@ const Calendar = (props: CalendarProps) => {
           <CalendarWeeklyView currentDate={currentDate} events={props.events} />
         )}
       </div>
-      <EmotionButton
-        // This className overrides the Tailwind within the EmotionButton.tsx
+      {/* add new event button */}
+      <button
         className="flex items-center gap-2 self-end text-emotionDarkBlue "
         onClick={() =>
           dispatch({
@@ -48,10 +47,10 @@ const Calendar = (props: CalendarProps) => {
             date: new Date(),
           })
         }
-        icon={<AddSVG />}
       >
-        Add new event
-      </EmotionButton>
+        <AddSVG />
+        <h2>Add new event</h2>
+      </button>
     </div>
   );
 };

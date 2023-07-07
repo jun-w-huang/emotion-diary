@@ -47,13 +47,9 @@ const Home: NextPage = () => {
       <div className="flex h-screen items-center justify-center">
         <div className="flex flex-col items-center justify-center">
           <h1 className="py-5 text-5xl text-black">Emotion Diary</h1>
-          <div className="flex h-12 w-48 items-center justify-center rounded-lg border bg-slate-500 text-white">
             <SignInButton>
-              <EmotionButton className="flex h-12 w-48 items-center justify-center rounded-lg bg-slate-100 text-emotionGray">
-                Sign in
-              </EmotionButton>
+              <EmotionButton label="Sign in"/>
             </SignInButton>
-          </div>
         </div>
       </div>
     );

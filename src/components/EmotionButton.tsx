@@ -2,22 +2,18 @@ import React, { ButtonHTMLAttributes, ReactNode, forwardRef } from "react";
 
 export interface EmotionButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
-  label?: string;
-  isActive?: boolean;
-  icon?: ReactNode;
+  label: string;
+  className?: string;
 }
 
 export const EmotionButton = forwardRef<HTMLButtonElement, EmotionButtonProps>(
-  ({ isActive, ...props }, ref) => (
+  ({ ...props }, ref) => (
     <button
-      className={`flex h-12 w-32 flex-row items-center rounded-lg pl-2 gap-2 ${
-        isActive ? "bg-white text-emotionDarkBlue" : "text-emotionGray"
-      }`}
+      className={`flex h-10 w-24 items-center justify-center rounded-2xl bg-emotionDarkBlue text-white ${props.className}`}
       {...props}
       ref={ref}
     >
-      {props.icon ? props.icon : undefined}
-      <h2>{props.children}</h2>
+      <label>{props.label}</label>
     </button>
   )
 );

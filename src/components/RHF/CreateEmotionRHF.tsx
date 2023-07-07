@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { EntryLabel } from "./EntryLabel";
 import InputFieldRHF from "./InputFieldRHF";
 import SwitchRHF from "./SwitchRHF";
+import { EmotionButton } from "../EmotionButton";
 
 interface CreateEmotionRHFProps {
   closeModal: () => void;
@@ -153,9 +154,9 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
             onSubmit={handleSubmit(onSubmit, onError)}
             className="flex flex-col"
           >
-            <div className="flex flex-row p-4 gap-10">
+            <div className="flex flex-row gap-10 p-4">
               {/* first column */}
-              <div className="flex flex-col gap-4 w-full">
+              <div className="flex w-full flex-col gap-4">
                 <h1 className={""}>Create a new event</h1>
                 <div>
                   <EntryLabel error={errors.title} label={"Event Title"} />
@@ -195,7 +196,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                 </div>
               </div>
               {/* second column */}
-              <div className="flex flex-col gap-4 w-full">
+              <div className="flex w-full flex-col gap-4">
                 <div>
                   <EntryLabel
                     error={errors.cause}
@@ -249,35 +250,29 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
               </div>
             </div>
 
-            <div className="flex w-full justify-between self-end">
+            <div className="flex w-full justify-between self-end px-4">
               <div>
                 {props.existingEvent && (
-                  <button
+                  <EmotionButton
                     onClick={() => remove({ id: props.existingEvent!.id })}
                     type="button"
-                    className="flex h-12 w-24 items-center justify-center rounded-md bg-slate-300 p-2 text-red-600"
-                  >
-                    Delete
-                  </button>
+                    label="Delete"
+                  />
                 )}
               </div>
               <div className="flex gap-3 self-end">
                 {props.existingEvent && (
-                  <button
+                  <EmotionButton
                     onClick={() => props.closeModal()}
                     type="button"
-                    className="flex h-12 w-24 items-center justify-center rounded-md bg-slate-300 p-2"
-                  >
-                    Cancel
-                  </button>
+                    label="Cancel"
+                  />
                 )}
-                <button
+                <EmotionButton
                   onClick={() => console.log("submit")}
                   type="submit"
-                  className="flex h-12 w-24 items-center justify-center rounded-md bg-slate-300 p-2"
-                >
-                  Done
-                </button>
+                  label="Done"
+                />
               </div>
             </div>
           </form>
