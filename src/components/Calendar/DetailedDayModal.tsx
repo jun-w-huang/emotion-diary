@@ -21,7 +21,7 @@ const DetailedDayModal = (props: DetailedDayModalProps) => {
     });
 
   return (
-    <div className="flex h-60 w-full grow flex-col items-center justify-between rounded-lg bg-white p-3 shadow-none">
+    <div className="flex h-60 overflow-y-scroll w-full grow flex-col items-center justify-between rounded-lg bg-white p-3 shadow-none">
       <p>{format(state.date, "eeee, MMMM d")}</p>
       <div className="flex w-full flex-col">
         {props.dateEvents.map((event) => (
