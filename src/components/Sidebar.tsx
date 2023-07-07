@@ -33,6 +33,9 @@ const SidebarNavItem = forwardRef<HTMLButtonElement, SidebarNavItemProps>(
   )
 );
 
+SidebarNavItem.displayName = "SidebarNavItem";
+
+
 export const Sidebar = (props: SidebarProps) => {
   const router = useRouter();
   const { signOut } = useClerk();
