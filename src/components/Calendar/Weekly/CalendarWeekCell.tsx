@@ -7,7 +7,7 @@ import { isBefore, isAfter, isSameMinute, addMinutes } from "date-fns";
 interface CellProps {
   day: Date;
   currentDate: Date;
-  monthEvents: EmotionEvent[];
+  events: EmotionEvent[];
 }
 
 // this function takes in an event and returns a list of events that overlap in time
@@ -45,7 +45,7 @@ function calcOverlappingEventsBefore(
 }
 
 const CalendarWeekCell = (props: CellProps) => {
-  const dayEvents = props.monthEvents
+  const dayEvents = props.events
     .filter(
       (event) =>
         format(new Date(event.start), "MM/dd/yyyy") ===

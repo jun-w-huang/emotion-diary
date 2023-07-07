@@ -31,6 +31,23 @@ interface CalendarMonthlyViewProps {
   events: EmotionEvent[];
 }
 
+function filterEventsToDates(events: EmotionEvent[], startDate: Date): EmotionEvent[][] {
+  const result = [];
+  let day = startDate;
+  for (let row = 0; row < 6; row++) {
+    for (let col = 0; col < 7; col++) {
+      const dayEvents = events.filter(
+        (event) =>
+          format(new Date(event.start), "MM/dd/yyyy") ===
+          format(day, "MM/dd/yyyy")
+      );
+      result.push(dayEvents);
+      day = addDays(day, 1);
+    }
+  }
+  return result;
+}
+
 const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
   const monthStart = startOfMonth(props.currentDate);
   const startDate = startOfWeek(monthStart);
@@ -43,23 +60,7 @@ const CalendarMonthlyView = (props: CalendarMonthlyViewProps) => {
   // Recreate list of list of EmotionEvent if props.events or props.currentDate has changed
   // ie: Recreate if new events have been added/deleted/edited, or if the month being viewed has changed.
   useEffect(() => {
-    function dateEvents(): EmotionEvent[][] {
-      const result = [];
-      let day = startDate;
-      for (let row = 0; row < 6; row++) {
-        for (let col = 0; col < 7; col++) {
-          const dayEvents = props.events.filter(
-            (event) =>
-              format(new Date(event.start), "MM/dd/yyyy") ===
-              format(day, "MM/dd/yyyy")
-          );
-          result.push(dayEvents);
-          day = addDays(day, 1);
-        }
-      }
-      return result;
-    }
-    setDateEvents(dateEvents());
+    setDateEvents(filterEventsToDates(props.events, startDate));
   }, [props.events, props.currentDate]);
 
   const days = () => {

@@ -25,6 +25,14 @@ import EmotionSVG from "~/components/EmotionSVG";
 
 const Home: NextPage = () => {
   const { isSignedIn, user } = useUser();
+  const [emotionRHFState, emotionRHFDispatch] = useReducer(
+    emotionRHFReducer,
+    initialEmotionRHFState
+  );
+  const [detailedDayModalState, detailedDayModalDispatch] = useReducer(
+    detailedDayModalReducer,
+    initialDetailedDayModalState
+  );
 
   if (!isSignedIn || !user) {
     return (
@@ -60,15 +68,6 @@ const Home: NextPage = () => {
       </div>
     );
   }
-
-  const [emotionRHFState, emotionRHFDispatch] = useReducer(
-    emotionRHFReducer,
-    initialEmotionRHFState
-  );
-  const [detailedDayModalState, detailedDayModalDispatch] = useReducer(
-    detailedDayModalReducer,
-    initialDetailedDayModalState
-  );
 
   return (
     <>

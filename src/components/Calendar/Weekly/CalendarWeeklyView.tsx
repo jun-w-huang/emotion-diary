@@ -62,7 +62,7 @@ const CalendarWeeklyView = (props: CalendarWeeklyViewProps) => {
         key={day.toString()}
         day={day}
         currentDate={new Date()}
-        monthEvents={props.events}
+        events={props.events}
       />
     );
     day = addDays(day, 1);
