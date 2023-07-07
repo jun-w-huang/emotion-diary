@@ -20,6 +20,8 @@ import {
 } from "../context/DetailedDayModalContext";
 import { detailedDayModalReducer } from "../context/DetailedDayModalReducer";
 import DetailedDayModal from "~/components/Calendar/DetailedDayModal";
+import Logo from "~/components/Logo";
+import EmotionSVG from "~/components/EmotionSVG";
 
 const Home: NextPage = () => {
   const { isSignedIn, user } = useUser();
@@ -46,10 +48,14 @@ const Home: NextPage = () => {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="flex flex-col items-center justify-center">
-          <h1 className="py-5 text-5xl text-black">Emotion Diary</h1>
+          <Logo />
+
+          <div className="flex gap-2">
+            <EmotionSVG emotion="Joy" />
             <SignInButton>
-              <EmotionButton label="Sign in"/>
+              <EmotionButton label="Sign in" />
             </SignInButton>
+          </div>
         </div>
       </div>
     );

@@ -1,6 +1,6 @@
 import { Emotion } from "@prisma/client";
 import { Suspense, lazy } from "react";
-import JoySVG from "../../../public/emotionSVGs/Joy.svg";
+import JoySVG from "../../public/emotionSVGs/Joy.svg";
 
 interface EmotionSVGProps {
   emotion: Emotion;
@@ -19,8 +19,8 @@ export const DefaultSVG = () => {
 const EmotionSVG = (props: EmotionSVGProps) => {
   const SVG = lazy<React.ComponentType<any>>(
     () =>
-      import(`../../../public/emotionSVGs/${props.emotion}.svg`).catch(
-        () => import(`../../../public/emotionSVGs/Joy.svg`)
+      import(`../../public/emotionSVGs/${props.emotion}.svg`).catch(
+        () => import(`../../public/emotionSVGs/Joy.svg`)
       ) as Promise<{ default: React.ComponentType<any> }>
   );
 
