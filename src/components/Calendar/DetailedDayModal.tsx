@@ -25,15 +25,18 @@ const DetailedDayModal = (props: DetailedDayModalProps) => {
     });
 
   return (
-    <div className="flex min-h-[250px] max-h-96 w-full grow flex-col items-center justify-between overflow-y-scroll rounded-lg bg-white p-3 shadow-none">
+    <div className="flex max-h-96 min-h-[250px] w-full grow flex-col items-center justify-between overflow-y-scroll rounded-lg bg-white p-3 shadow-none">
       <p>{format(state.date, "eeee, MMMM d")}</p>
       <div className="flex w-full flex-col">
-        {dayEvents.length === 0 ? <p>No events on this day, click the button below to add a new one!</p>: <div>
-        {dayEvents.map((event) => (
-          <DetailedDayModalEvent event={event} key={event.id} />
-        ))}
-           </div>}
-        
+        {dayEvents.length === 0 ? (
+          <p>No events on this day, click the button below to add a new one!</p>
+        ) : (
+          <div>
+            {dayEvents.map((event) => (
+              <DetailedDayModalEvent event={event} key={event.id} />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="self-end">
