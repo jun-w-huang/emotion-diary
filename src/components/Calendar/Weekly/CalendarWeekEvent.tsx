@@ -1,15 +1,46 @@
-import { EmotionEvent } from "@prisma/client";
+import { Emotion, EmotionEvent } from "@prisma/client";
 import React, { Suspense } from "react";
 import styled from "styled-components";
 import { useEmotionRHFModalContext } from "~/context/EmotionRHFModalContext";
-import EmotionSVG, { DefaultSVG } from "../../EmotionSVG";
 
 interface CalendarWeekEventProps {
   event: EmotionEvent;
   overlappingEventsBefore: EmotionEvent[];
 }
 
+const EmotionToColorDict = {
+  Joy: "#F3B962",
+  Sadness: "#387FA3",
+  Anger: "#E0786C",
+  Fear: "#4EABB7",
+  Surprise: "#FCD756",
+  Disgust: "#5DB74E",
+  Excitement: "#FF8DAF",
+  Anticipation: "#FFD28D",
+  Love: "#EB5757",
+  Envy: "#2E9C67",
+  Guilt: "#8DA6FF",
+  Shame: "#AB5FE8",
+  Embarrassment: "#FFB7B7",
+  Hope: "#FFDA15",
+  Despair: "#3468CD",
+  Nostalgia: "#BDA6FF",
+  Loneliness: "#308CAA",
+  Gratitude: "#FFC737",
+  Contentment: "#FFAFAF",
+  Pride: "#BEF494",
+  Jealousy: "#3F7636",
+  Awe: "#A987E1",
+  Curiosity: "#FCCC70",
+  Confusion: "#FFE2AA",
+  Boredom: "#B99D88",
+  Relief: "#FFB69F",
+  Regret: "#808080",
+  Compassion: "#FFC195",
+};
+
 const WeekEvent = styled.div<{
+  emotion: Emotion;
   height: string;
   positionYOffset: string;
   positionLeftOffset: string;
@@ -22,8 +53,7 @@ const WeekEvent = styled.div<{
   flex-direction: column;
   justify-content: space-between;
 
-  // temporarily give white background, will change to different color depending on emotion in future.
-  background-color: #ffffff;
+  background-color: ${(props) => EmotionToColorDict[props.emotion]};
   min-height: fit-content;
   width: calc(100% - ${(props) => props.positionLeftOffset});
   cursor: pointer;
@@ -75,18 +105,14 @@ const CalendarWeekEvent = (props: CalendarWeekEventProps) => {
 
   return (
     <WeekEvent
+      emotion={props.event.emotion}
       height={height(props.event)}
       positionYOffset={positionYOffset(props.event)}
       positionLeftOffset={positionLeftOffset(props.overlappingEventsBefore)}
       onClick={() => onEventClick(props.event)}
       key={props.event.title}
     >
-      <p>{props.event.title}</p>
-      <div className="w-full">
-          <Suspense fallback={<DefaultSVG />}>
-            <EmotionSVG className='origin-top-left scale-[0.8]' emotion={props.event.emotion} />
-          </Suspense>
-      </div>
+      <p className="truncate">{props.event.title}</p>
     </WeekEvent>
   );
 };
