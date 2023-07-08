@@ -1,5 +1,5 @@
 import { Emotion, EmotionEvent } from "@prisma/client";
-import React, { Suspense } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useEmotionRHFModalContext } from "~/context/EmotionRHFModalContext";
 
