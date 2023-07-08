@@ -1,8 +1,8 @@
 import React from "react";
-import { format, isSaturday, isToday } from "date-fns";
+import { isSaturday, isToday } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
 import CalendarWeekEvent from "./CalendarWeekEvent";
-import { isBefore, isAfter, isSameMinute, addMinutes } from "date-fns";
+import { isBefore, isAfter } from "date-fns";
 
 interface CellProps {
   day: Date;
