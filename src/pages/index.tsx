@@ -61,7 +61,7 @@ const Home: NextPage = () => {
     );
   }
 
-  if (isLoading) {
+  if (isLoading || !events) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
         <LoadingSpinner />
@@ -97,13 +97,11 @@ const Home: NextPage = () => {
             >
               <Sidebar user={user}>
                 {detailedDayModalState.isShowingModal && (
-                  <DetailedDayModal
-                    dateEvents={detailedDayModalState.dateEvents}
-                  />
+                  <DetailedDayModal events={events}/>
                 )}
               </Sidebar>
               <div className="flex h-full w-full flex-col items-center justify-center px-4 py-12">
-                {events && <MemoizedCalendar events={events} />}
+                <MemoizedCalendar events={events} />
               </div>
             </DetailedDayModalContext.Provider>
           </EmotionRHFModalContext.Provider>
