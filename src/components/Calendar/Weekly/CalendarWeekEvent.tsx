@@ -20,6 +20,7 @@ const WeekEvent = styled.div<{
   height: ${(props) => props.height};
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 
   // temporarily give white background, will change to different color depending on emotion in future.
   background-color: #ffffff;
@@ -47,7 +48,7 @@ function height(event: EmotionEvent): string {
   // minimum height is currently 70, this allows for 3 lines of text.
   // end - start finds time in minutes, divide by 60 to get time in hours,
   // 64 is the height of each hour in the sidebar)
-  const result = Math.max(70, Math.round(((end - start) / 60) * 64));
+  const result = Math.max(64, Math.round(((end - start) / 60) * 64));
   return `${result}px`;
 }
 
@@ -80,10 +81,10 @@ const CalendarWeekEvent = (props: CalendarWeekEventProps) => {
       onClick={() => onEventClick(props.event)}
       key={props.event.title}
     >
-      <div className="h-full text-sm font-medium">{props.event.title}</div>
+      <p>{props.event.title}</p>
       <div className="w-full">
           <Suspense fallback={<DefaultSVG />}>
-            <EmotionSVG className='origin-left scale-[0.8]' emotion={props.event.emotion} />
+            <EmotionSVG className='origin-top-left scale-[0.8]' emotion={props.event.emotion} />
           </Suspense>
       </div>
     </WeekEvent>
