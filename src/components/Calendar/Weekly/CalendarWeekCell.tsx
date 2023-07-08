@@ -7,7 +7,7 @@ import { isBefore, isAfter, isSameMinute, addMinutes } from "date-fns";
 interface CellProps {
   day: Date;
   currentDate: Date;
-  events: EmotionEvent[];
+  dayEvents: EmotionEvent[];
 }
 
 // this function takes in an event and returns a list of events that overlap in time
@@ -45,25 +45,6 @@ function calcOverlappingEventsBefore(
 }
 
 const CalendarWeekCell = (props: CellProps) => {
-  const dayEvents = props.events
-    .filter(
-      (event) =>
-        format(new Date(event.start), "MM/dd/yyyy") ===
-        format(props.day, "MM/dd/yyyy")
-    )
-    .sort((eventA, eventB) => {
-      // Compare the start dates
-      if (eventA.start.getTime() !== eventB.start.getTime()) {
-        return eventA.start.getTime() - eventB.start.getTime();
-      }
-
-      // If the start dates are the same, compare the end dates
-      // Ordered so that the event that ends first is ordered AFTER.
-      const endDateA = eventA.end || eventA.start;
-      const endDateB = eventB.end || eventB.start;
-      return endDateB.getTime() - endDateA.getTime();
-    });
-
   return (
     <div
       key={props.day.toString()}
@@ -73,8 +54,8 @@ const CalendarWeekCell = (props: CellProps) => {
         w-1/7`}
     >
       <div className={`relative h-full p-1 `}>
-        {dayEvents.map((event, index) => {
-          const eventsSubset = dayEvents.slice(0, index); // Subset of events before the current event
+        {props.dayEvents.map((event, index) => {
+          const eventsSubset = props.dayEvents.slice(0, index); // Subset of events before the current event
           return (
             <CalendarWeekEvent
               key={event.id}

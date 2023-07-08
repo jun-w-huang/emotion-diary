@@ -1,7 +1,9 @@
-import { startOfWeek, endOfWeek, addDays } from "date-fns";
+import { startOfWeek, endOfWeek, addDays, format } from "date-fns";
 import CalendarWeekCell from "./CalendarWeekCell";
 import CalendarWeekHeader from "./CalendarWeekHeader";
 import { EmotionEvent } from "@prisma/client";
+import CalendarWeekHeaderCell from "./CalendarWeekHeaderCell";
+import { useDetailedDayModalContext } from "~/context/DetailedDayModalContext";
 
 interface CalendarWeeklyViewProps {
   currentDate: Date;
@@ -52,19 +54,52 @@ const CalendarWeeklyView = (props: CalendarWeeklyViewProps) => {
   const startOfWeekDate = startOfWeek(props.currentDate, { weekStartsOn: 0 });
   const endOfWeekDate = endOfWeek(props.currentDate, { weekStartsOn: 0 });
 
+  const { state } = useDetailedDayModalContext();
+
   // The CalendarWeekCells where events are displayed
   const weekCells = [];
+  // CalendarWeekHeaderCells, which are put in the header, 
+  // there is one cell for each day of the week
+  // user can click on the date of each header to control the DetailedDayModal
+  const headerCells = [];
   let day = startOfWeekDate;
 
   while (day <= endOfWeekDate) {
+
+    const dayEvents = props.events
+    .filter(
+      (event) =>
+        format(new Date(event.start), "MM/dd/yyyy") ===
+        format(day, "MM/dd/yyyy")
+    )
+    .sort((eventA, eventB) => {
+      // Compare the start dates
+      if (eventA.start.getTime() !== eventB.start.getTime()) {
+        return eventA.start.getTime() - eventB.start.getTime();
+      }
+
+      // If the start dates are the same, compare the end dates
+      // Ordered so that the event that ends first is ordered AFTER.
+      const endDateA = eventA.end || eventA.start;
+      const endDateB = eventB.end || eventB.start;
+      return endDateB.getTime() - endDateA.getTime();
+    });
+
     weekCells.push(
       <CalendarWeekCell
         key={day.toString()}
         day={day}
         currentDate={new Date()}
-        events={props.events}
+        dayEvents={dayEvents}
       />
     );
+
+    const isSelected = format((state.date), "MM/dd/yyyy") ===
+    format(day, "MM/dd/yyyy")
+
+    headerCells.push(
+      <CalendarWeekHeaderCell isSelected={isSelected} key={day.toString()} day={day} dayEvents={dayEvents}/>
+    )
     day = addDays(day, 1);
   }
 
@@ -73,7 +108,7 @@ const CalendarWeeklyView = (props: CalendarWeeklyViewProps) => {
       <TimeSidebar />
       <div className="flex flex-1 flex-col relative">
       {renderTimelines()}
-        <CalendarWeekHeader currentDate={props.currentDate} />
+        <CalendarWeekHeader headerCells={headerCells}/>
         <div className="flex flex-grow">{weekCells}</div>
       </div>
     </div>
