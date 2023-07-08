@@ -56,7 +56,6 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
                 curVal.setHours(date.hour());
                 curVal.setMinutes(date.minute());
                 fieldProps.onChange(curVal);
-                console.log(curVal);
               }
               setDisplayedTime(dayjs(date));
               fieldProps.onChange(date.toDate());
