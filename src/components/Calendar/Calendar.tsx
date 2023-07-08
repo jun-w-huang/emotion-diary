@@ -7,7 +7,7 @@ import { CalendarNavbar } from "./CalendarNavbar";
 import AddSVG from "../../../public/plus.svg";
 import { useEmotionRHFModalContext } from "~/context/EmotionRHFModalContext";
 import { useDetailedDayModalContext } from "~/context/DetailedDayModalContext";
-import { format } from "date-fns";
+import { format, startOfDay } from "date-fns";
 
 interface CalendarProps {
   events: EmotionEvent[];
@@ -62,12 +62,13 @@ const Calendar = (props: CalendarProps) => {
       {/* add new event button */}
       <button
         className="flex items-center gap-2 self-end text-emotionDarkBlue "
-        onClick={() =>
+        onClick={() => {
           dispatch({
             type: "open new",
-            date: new Date(),
+            date: startOfDay(new Date()),
           })
         }
+      }
       >
         <AddSVG />
         <h2>Add new event</h2>
