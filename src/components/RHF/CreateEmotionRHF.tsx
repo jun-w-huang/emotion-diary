@@ -37,7 +37,7 @@ export const CreateEmotionSchema = z.object({
   title: z.string().min(1, "Cannot be empty"),
   emotion: z.nativeEnum(Emotion),
   psymptom: z.nativeEnum(PhysicalSymptom),
-  pobject: z.string().min(1, "Cannot be empty"),
+  pobject: z.string().optional(),
   cause: z.string().optional(),
   isReflective: z.boolean(),
   start: z.date(),
@@ -159,7 +159,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
               <div className="flex w-full flex-col gap-4">
                 <h1 className={""}>Create a new event</h1>
                 <div>
-                  <EntryLabel error={errors.title} label={"Event Title"} />
+                  <EntryLabel required error={errors.title} label={"Event Title"} />
                   <InputFieldRHF {...register("title")} />
                 </div>
                 <div>
@@ -178,7 +178,6 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                   <EntryLabel
                     error={errors.pobject}
                     label={"What is your emotion towards or about?"}
-                    required
                   />
                   <InputFieldRHF {...register("pobject")} />
                 </div>
