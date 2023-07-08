@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, ReactNode, forwardRef } from "react";
+import React, { ButtonHTMLAttributes, forwardRef } from "react";
 
 export interface EmotionButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -6,13 +6,13 @@ export interface EmotionButtonProps
 }
 
 export const EmotionButton = forwardRef<HTMLButtonElement, EmotionButtonProps>(
-  ({ ...props }, ref) => (
+  ({ label, ...props }, ref) => (
     <button
       className={`flex h-10 w-24 items-center justify-center rounded-2xl bg-emotionDarkBlue text-white`}
       {...props}
       ref={ref}
     >
-      <label>{props.label}</label>
+      {label}
     </button>
   )
 );
