@@ -17,26 +17,31 @@ function calcOverlappingEventsBefore(
   eventsSubset: EmotionEvent[]
 ): EmotionEvent[] {
   const eventIndex = eventsSubset.findIndex((e) => e === event);
-  const overlappingEvents = eventsSubset.filter((e, index) => {
+  const overlappingEvents = eventsSubset.filter((other, index) => {
     if (index <= eventIndex) {
       return false;
     }
 
-    const eventStart = event.start;
-    const eventEnd = event.end || addMinutes(eventStart, 60);
-    const eStart = e.start || e.end;
-    const eEnd = e.end || addMinutes(eStart, 60);
+    // currently MySQL db includes seconds, we dont' actually care about seconds.
+    // possible solutions are:
+    // 1) Fix on frontend by dropping seconds in the Form
+    // 2) Fix on TRPC by dropping seconds in the router
+    // 3) Find a way to drop seconds in Prisma, but unsure how to do this...
+    event.start.setSeconds(0);
+    event.end.setSeconds(0);
+    other.start.setSeconds(0);
+    other.end.setSeconds(0);
 
-    const isSameStart = isSameMinute(eventStart, eStart);
-    const isSameEnd = isSameMinute(eventEnd, eEnd);
+    const isSameStart = event.start === other.start;
+    const isSameEnd = event.end === other.end;
 
     if (isSameStart && isSameEnd) {
       // If events start and end at the same time, consider the shorter event as overlapping
-      return isBefore(eventEnd, eEnd);
+      return isBefore(event.end, other.end);
     }
 
     return (
-      (isBefore(eventStart, eEnd) && isAfter(eventEnd, eStart)) ||
+      (isBefore(event.start, other.end) && isAfter(event.end, other.start)) ||
       (isSameStart && !isSameEnd)
     );
   });
