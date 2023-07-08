@@ -34,11 +34,11 @@ const CalendarMonthCell = (props: CellProps) => {
     });
     if (props.dayEvents.length > 2) {
       result.push(
-        <div key={"rest"} className="flex w-full items-center gap-1 pl-[9px]">
+        <div key={"rest"} className="flex w-full items-center gap-1">
           {/* This div is essentially just an SVG icon, but should probably be changed in future  */}
           <div className="h-1 w-1 rounded-full border border-black p-[7.6px]"></div>
-          <p className="truncate text-sm font-medium">
-            +{props.dayEvents.length - 2} more
+          <p className="truncate text-sm font-medium pl-1">
+            + {props.dayEvents.length - 2} more
           </p>
         </div>
       );
