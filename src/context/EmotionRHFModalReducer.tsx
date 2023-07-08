@@ -23,7 +23,8 @@ export function emotionRHFReducer(
     case "close":
       return {
         isShowingModal: false,
-        date: undefined,
+        // this date will not be used, but our state type does not allow undefined values.
+        date: new Date(),
         currentEvent: undefined,
       };
     default:

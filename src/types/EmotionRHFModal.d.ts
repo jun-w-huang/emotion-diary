@@ -3,7 +3,7 @@ import type { Dispatch } from "react";
 
 export interface EmotionRHFModalStateType {
   isShowingModal: boolean;
-  date: Date | undefined;
+  date: Date;
   currentEvent: EmotionEvent | undefined;
 }
 

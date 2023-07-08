@@ -2,7 +2,7 @@ import { TimePicker } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import { Control, Controller } from "react-hook-form";
 import { CreateEmotionFormInputs } from "./CreateEmotionRHF";
 
@@ -10,19 +10,13 @@ interface ControlledTimePickerRHFProps {
   control: Control<CreateEmotionFormInputs>;
   name: "start" | "end";
   placeholder?: string;
-  value?: Date;
+  value: Date;
 }
 
 const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
-  const [displayedTime, setDisplayedTime] = useState<Dayjs | undefined>(
-    undefined
+  const [displayedTime, setDisplayedTime] = useState<Dayjs>(
+    dayjs(props.value)
   );
-
-  useEffect(() => {
-    if (props.value) {
-      setDisplayedTime(dayjs(props.value));
-    }
-  }, [props.value]);
 
   const customSuffixIcon = (): ReactNode => {
     return (
@@ -37,7 +31,6 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
       name={props.name}
       control={props.control}
       render={({ field: { ref, ...fieldProps }, fieldState }) => (
-        <div className={""}>
           <TimePicker
             className="form-input w-full rounded-lg bg-emotionLightGray p-3"
             format="h:mm A"
@@ -49,19 +42,11 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
             minuteStep={15}
             use12Hours={true}
             value={displayedTime}
-            onBlur={fieldProps.onBlur}
             onSelect={(date) => {
-              if (props.value) {
-                const curVal = props.value;
-                curVal.setHours(date.hour());
-                curVal.setMinutes(date.minute());
-                fieldProps.onChange(curVal);
-              }
               setDisplayedTime(dayjs(date));
               fieldProps.onChange(date.toDate());
             }}
           />
-        </div>
       )}
     />
   );

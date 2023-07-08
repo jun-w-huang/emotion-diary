@@ -16,7 +16,7 @@ import { EmotionButton } from "../EmotionButton";
 interface CreateEmotionRHFProps {
   closeModal: () => void;
   existingEvent?: EmotionEvent;
-  date?: Date;
+  date: Date;
 }
 
 export type CreateEmotionFormInputs = {
@@ -101,8 +101,10 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
       pobject: props.existingEvent?.pobject ?? "",
       cause: props.existingEvent?.cause ?? "",
       isReflective: props.existingEvent?.reflective ?? true,
-      start: props.existingEvent?.start ?? undefined,
-      end: props.existingEvent?.end ?? undefined,
+      // if there's no existing event, then default end Date time is 9AM
+      start: props.existingEvent?.start ?? new Date(props.date.setHours(9)),
+      // if there's no existing event, then default end Date time is 10AM
+      end: props.existingEvent?.end ?? new Date(props.date.setHours(10)),
       description: props.existingEvent?.description ?? "",
     },
     resolver: zodResolver(CreateEmotionSchema),

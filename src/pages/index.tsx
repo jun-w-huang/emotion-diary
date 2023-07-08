@@ -82,22 +82,23 @@ const Home: NextPage = () => {
           <EmotionRHFModalContext.Provider
             value={{ state: emotionRHFState, dispatch: emotionRHFDispatch }}
           >
-            {emotionRHFState.isShowingModal && (
-              <CreateEmotionRHF
-                existingEvent={emotionRHFState.currentEvent}
-                date={emotionRHFState.date}
-                closeModal={() => emotionRHFDispatch({ type: "close" })}
-              />
-            )}
             <DetailedDayModalContext.Provider
               value={{
                 state: detailedDayModalState,
                 dispatch: detailedDayModalDispatch,
               }}
             >
+              {emotionRHFState.isShowingModal && (
+                <CreateEmotionRHF
+                  existingEvent={emotionRHFState.currentEvent}
+                  date={emotionRHFState.date}
+                  closeModal={() => emotionRHFDispatch({ type: "close" })}
+                />
+              )}
+
               <Sidebar user={user}>
                 {detailedDayModalState.isShowingModal && (
-                  <DetailedDayModal events={events}/>
+                  <DetailedDayModal events={events} />
                 )}
               </Sidebar>
               <div className="flex h-full w-4/5 flex-col items-center justify-center px-4 py-12">
