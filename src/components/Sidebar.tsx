@@ -35,7 +35,6 @@ const SidebarNavItem = forwardRef<HTMLButtonElement, SidebarNavItemProps>(
 
 SidebarNavItem.displayName = "SidebarNavItem";
 
-
 export const Sidebar = (props: SidebarProps) => {
   const router = useRouter();
   const { signOut } = useClerk();
@@ -48,7 +47,7 @@ export const Sidebar = (props: SidebarProps) => {
   };
 
   return (
-    <div className="flex w-1/5 flex-col items-center gap-4 border-black bg-[#F1F6FF] p-5">
+    <div className="flex w-1/5 min-w-[200px] grow flex-col items-center gap-4 border-black bg-[#F1F6FF] p-5">
       <div className="my-10">
         <Logo />
       </div>
@@ -65,7 +64,7 @@ export const Sidebar = (props: SidebarProps) => {
         </SidebarNavItem>
         <SidebarNavItem onClick={() => signOut()}>Sign out</SidebarNavItem>
       </div>
-      <div className="w-full">{props.children}</div>
+      <div className="flex w-full">{props.children}</div>
     </div>
   );
 };

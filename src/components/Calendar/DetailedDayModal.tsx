@@ -6,10 +6,8 @@ import DetailedDayModalEvent from "./DetailedDayModalEvent";
 import { EmotionEvent } from "@prisma/client";
 
 interface DetailedDayModalProps {
-  events: EmotionEvent[]
+  events: EmotionEvent[];
 }
-
-
 
 const DetailedDayModal = (props: DetailedDayModalProps) => {
   const { state } = useDetailedDayModalContext();
@@ -17,8 +15,7 @@ const DetailedDayModal = (props: DetailedDayModalProps) => {
 
   const dayEvents = props.events.filter(
     (event) =>
-      format(event.start, "MM/dd/yyyy") ===
-      format(state.date, "MM/dd/yyyy")
+      format(event.start, "MM/dd/yyyy") === format(state.date, "MM/dd/yyyy")
   );
 
   const onAddEventClick = (date: Date) =>
@@ -28,11 +25,11 @@ const DetailedDayModal = (props: DetailedDayModalProps) => {
     });
 
   return (
-    <div className="flex h-60 overflow-y-scroll w-full grow flex-col items-center justify-between rounded-lg bg-white p-3 shadow-none">
+    <div className="flex min-h-[250px] max-h-96 w-full grow flex-col items-center justify-between overflow-y-scroll rounded-lg bg-white p-3 shadow-none">
       <p>{format(state.date, "eeee, MMMM d")}</p>
       <div className="flex w-full flex-col">
         {dayEvents.map((event) => (
-          <DetailedDayModalEvent event={event} key={event.id}/>
+          <DetailedDayModalEvent event={event} key={event.id} />
         ))}
       </div>
 

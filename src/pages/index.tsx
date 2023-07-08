@@ -100,7 +100,7 @@ const Home: NextPage = () => {
                   <DetailedDayModal events={events}/>
                 )}
               </Sidebar>
-              <div className="flex h-full w-full flex-col items-center justify-center px-4 py-12">
+              <div className="flex h-full w-4/5 flex-col items-center justify-center px-4 py-12">
                 <MemoizedCalendar events={events} />
               </div>
             </DetailedDayModalContext.Provider>
