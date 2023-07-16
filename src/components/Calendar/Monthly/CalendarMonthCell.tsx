@@ -1,8 +1,9 @@
 import React from "react";
 import { format, isSameMonth, isToday } from "date-fns";
 import { EmotionEvent } from "@prisma/client";
-import CalendarMonthEvent from "./CalendarMonthEvent";
+import CalendarMonthEvent, { MonthEvent } from "./CalendarMonthEvent";
 import { useDetailedDayModalContext } from "~/context/DetailedDayModalContext";
+import DownArrowSVG from "../../../../public/down_arrow.svg";
 
 interface CellProps {
   day: Date;
@@ -20,7 +21,7 @@ const CalendarMonthCell = (props: CellProps) => {
       date: props.day,
       dateEvents: props.dayEvents,
     });
-  }
+  };
 
   const formatDay = "d";
   const formattedDate = format(props.day, formatDay);
@@ -34,13 +35,14 @@ const CalendarMonthCell = (props: CellProps) => {
     });
     if (props.dayEvents.length > 2) {
       result.push(
-        <div key={"rest"} className="flex w-full items-center gap-1">
-          {/* This div is essentially just an SVG icon, but should probably be changed in future  */}
-          <div className="h-1 w-1 rounded-full border border-black p-[7.6px]"></div>
-          <p className="truncate text-sm font-medium pl-1">
+        <MonthEvent key={"rest"} onClick={onDateClick}>
+          <div className="w-6 flex pl-1">
+            <DownArrowSVG className="" />
+          </div>
+          <p className="truncate text-sm font-bold">
             + {props.dayEvents.length - 2} more
           </p>
-        </div>
+        </MonthEvent>
       );
     }
 

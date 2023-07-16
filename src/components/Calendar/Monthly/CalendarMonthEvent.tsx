@@ -8,7 +8,7 @@ interface CalendarMonthEventProps {
   event: EmotionEvent;
 }
 
-const MonthEvent = styled.div`
+export const MonthEvent = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
