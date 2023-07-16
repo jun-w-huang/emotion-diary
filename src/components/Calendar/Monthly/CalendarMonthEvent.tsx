@@ -1,8 +1,8 @@
 import { EmotionEvent } from "@prisma/client";
-import React, { Suspense, lazy } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useEmotionRHFModalContext } from "~/context/EmotionRHFModalContext";
-import EmotionSVG, { DefaultSVG } from "../../EmotionSVG";
+import EmotionSVG from "../../EmotionSVG";
 
 interface CalendarMonthEventProps {
   event: EmotionEvent;
