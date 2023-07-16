@@ -2,6 +2,7 @@ import { Emotion, EmotionEvent } from "@prisma/client";
 import React from "react";
 import styled from "styled-components";
 import { useEmotionRHFModalContext } from "~/context/EmotionRHFModalContext";
+import { utcToLocal } from "~/utils/utcToLocal";
 
 interface CalendarWeekEventProps {
   event: EmotionEvent;
@@ -84,7 +85,7 @@ function height(event: EmotionEvent): string {
 
 function positionYOffset(event: EmotionEvent): string {
   // calculate start time in minutes since midnight
-  const start = event.start.getHours() * 60 + event.start.getMinutes();
+  const start = utcToLocal(event.start).getHours() * 60 + utcToLocal(event.start).getMinutes();
   // add 32 as a constant because the hitbox of component is in the center, so we push it down
   // 32 is half the size of the timeline
   const result = Math.round((start / 60) * 64) + 32;
