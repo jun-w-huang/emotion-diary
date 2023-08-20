@@ -192,14 +192,14 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                 <div>
                   <EntryLabel
                     error={errors.pobject}
-                    label={"What is your emotion towards or about?"}
+                    label={"What is your emotion about?"}
                   />
                   <InputFieldRHF {...register("pobject")} />
                 </div>
                 <div>
                   <EntryLabel
                     error={errors.psymptom}
-                    label={"Do you have any physical symptoms?"}
+                    label={"Do you have any bodily sensations?"}
                     required
                   />
                   <ComboBoxRHF
@@ -222,7 +222,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                   <EntryLabel
                     error={errors.isReflective}
                     label={
-                      "Is this emotion reflective of your self conception?"
+                      "Do you think this emotion is reflective of who you are?"
                     }
                     required
                   />
