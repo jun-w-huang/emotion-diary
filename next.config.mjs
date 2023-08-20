@@ -8,7 +8,6 @@
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-  transpilePackages: ["d3-scale", "@visx/scale"],
 
   // https://react-svgr.com/docs/next/
   webpack(config) {
@@ -33,7 +32,7 @@ const config = {
         use: ["@svgr/webpack"],
       }
     );
-
+    
     // Modify the file loader rule to ignore *.svg, since we have it handled now.
     fileLoaderRule.exclude = /\.svg$/i;
 
