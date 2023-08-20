@@ -37,7 +37,7 @@ const ComboBoxRHF = (props: ComboBoxRHFProps) => {
               <Combobox.Option key={emotion} value={emotion} as={Fragment}>
                 {({ active, selected }) => (
                   <li
-                    className={`relative w-full cursor-default p-3 ${
+                    className={`relative z-10 w-full cursor-default p-3 ${
                       active
                         ? "bg-emotionLightBlue text-white"
                         : "bg-emotionLightGray text-black"
