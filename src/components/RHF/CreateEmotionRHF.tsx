@@ -12,6 +12,11 @@ import { EntryLabel } from "./EntryLabel";
 import InputFieldRHF from "./InputFieldRHF";
 import SwitchRHF from "./SwitchRHF";
 import { EmotionButton } from "../EmotionButton";
+import dayjs, { Dayjs } from "dayjs";
+import utc from "dayjs/plugin/utc";
+import { DatePicker } from "antd";
+import ControlledDatePicker from "./ControlledDatePicker";
+dayjs.extend(utc);
 
 interface CreateEmotionRHFProps {
   closeModal: () => void;
@@ -27,6 +32,7 @@ export type CreateEmotionFormInputs = {
   pobject: string;
   cause: string;
   isReflective: boolean;
+  date: Date;
   start: Date;
   end: Date;
   description: string;
@@ -40,6 +46,7 @@ export const CreateEmotionSchema = z.object({
   pobject: z.string().optional(),
   cause: z.string().optional(),
   isReflective: z.boolean(),
+  date: z.date(),
   start: z.date(),
   end: z.date(),
   description: z.string().optional(),
@@ -101,6 +108,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
       pobject: props.existingEvent?.pobject ?? "",
       cause: props.existingEvent?.cause ?? "",
       isReflective: props.existingEvent?.reflective ?? true,
+      date: props.existingEvent?.start ?? new Date(),
       // if there's no existing event, then default end Date time is 9AM
       start: props.existingEvent?.start ?? new Date(props.date.setHours(9)),
       // if there's no existing event, then default end Date time is 10AM
@@ -124,8 +132,9 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
         pobject: values.pobject,
         cause: values.cause,
         isReflective: values.isReflective,
-        start: values.start,
-        end: values.end,
+        date: values.date,
+        start: new Date(values.start.setUTCDate(values.date.getUTCDate())),
+        end: new Date(values.end.setUTCDate(values.date.getUTCDate())),
         description: values.description,
       });
     }
@@ -161,7 +170,11 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
               <div className="flex w-full flex-col gap-4">
                 <h1 className={""}>Create a new event</h1>
                 <div>
-                  <EntryLabel required error={errors.title} label={"Event Title"} />
+                  <EntryLabel
+                    required
+                    error={errors.title}
+                    label={"Event Title"}
+                  />
                   <InputFieldRHF {...register("title")} />
                 </div>
                 <div>
@@ -214,6 +227,14 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                     required
                   />
                   <SwitchRHF control={control} name="isReflective" />
+                </div>
+                <div>
+                  <div>
+                    <EntryLabel error={errors.date} label={"Date"} />
+                    <ControlledDatePicker value={getValues().date}
+                      control={control}
+                      name="date"/>
+                  </div>
                 </div>
                 <div className="flex gap-6">
                   <div>
