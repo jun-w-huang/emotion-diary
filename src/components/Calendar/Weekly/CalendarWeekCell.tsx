@@ -22,26 +22,30 @@ function calcOverlappingEventsBefore(
       return false;
     }
 
+    // handle if event end is null. We will just use start time + 1 hour.
+    const eventEnd = event.end ?? new Date(event.start.getTime() + 3600000)
+    const otherEnd = other.end ?? new Date(other.start.getTime() + 3600000)
+
     // currently MySQL db includes seconds, we dont' actually care about seconds.
     // possible solutions are:
     // 1) Fix on frontend by dropping seconds in the Form
     // 2) Fix on TRPC by dropping seconds in the router
     // 3) Find a way to drop seconds in Prisma, but unsure how to do this...
     event.start.setSeconds(0);
-    event.end.setSeconds(0);
+    eventEnd.setSeconds(0);
     other.start.setSeconds(0);
-    other.end.setSeconds(0);
+    otherEnd.setSeconds(0);
 
     const isSameStart = event.start === other.start;
-    const isSameEnd = event.end === other.end;
+    const isSameEnd = eventEnd === otherEnd;
 
     if (isSameStart && isSameEnd) {
       // If events start and end at the same time, consider the shorter event as overlapping
-      return isBefore(event.end, other.end);
+      return isBefore(eventEnd, otherEnd);
     }
 
     return (
-      (isBefore(event.start, other.end) && isAfter(event.end, other.start)) ||
+      (isBefore(event.start, otherEnd) && isAfter(eventEnd, other.start)) ||
       (isSameStart && !isSameEnd)
     );
   });

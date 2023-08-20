@@ -10,10 +10,12 @@ interface DetailedDayModalEventProps {
 const DetailedDayModalEvent = (
   props: DetailedDayModalEventProps
 ): JSX.Element => {
+
+  const endTime = props.event.end ? format(utcToLocal(props.event.end), "p") : ""
   return (
     <div>
       <p className="text-emotionGray">
-        {format(utcToLocal(props.event.start), "p")} - {format(utcToLocal(props.event.end), "p")}
+        {format(utcToLocal(props.event.start), "p")} - {endTime}
       </p>
       <CalendarMonthEvent key={props.event.id} event={props.event} />
     </div>
