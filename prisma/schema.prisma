@@ -68,7 +68,7 @@ model EmotionEvent {
     reflective  Boolean   @default(true)
 
     start       DateTime  @default(now()) @db.DateTime(0)
-    end         DateTime  @db.DateTime(0)
+    end         DateTime? @db.DateTime(0)
     description String?   @db.VarChar(255)
 
     createdAt   DateTime  @default(now())

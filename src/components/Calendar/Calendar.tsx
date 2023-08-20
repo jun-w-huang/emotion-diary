@@ -8,6 +8,9 @@ import AddSVG from "../../../public/plus.svg";
 import { useEmotionRHFModalContext } from "~/context/EmotionRHFModalContext";
 import { useDetailedDayModalContext } from "~/context/DetailedDayModalContext";
 import { format, startOfDay } from "date-fns";
+import dayjs, { Dayjs } from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
 
 interface CalendarProps {
   events: EmotionEvent[];
@@ -63,9 +66,11 @@ const Calendar = (props: CalendarProps) => {
       <button
         className="flex items-center gap-2 self-end text-emotionDarkBlue "
         onClick={() => {
+          const currentTimeNonUTC = new Date()
+          const currentTimeUTC = new Date().setUTCHours(currentTimeNonUTC.getHours() - currentTimeNonUTC.getTimezoneOffset())
           dispatch({
             type: "open new",
-            date: startOfDay(new Date()),
+            date: new Date(currentTimeUTC),
           })
         }
       }

@@ -48,7 +48,7 @@ export const CreateEmotionSchema = z.object({
   isReflective: z.boolean(),
   date: z.date(),
   start: z.date(),
-  end: z.date(),
+  end: z.date().optional(),
   description: z.string().optional(),
 });
 
@@ -109,10 +109,10 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
       cause: props.existingEvent?.cause ?? "",
       isReflective: props.existingEvent?.reflective ?? true,
       date: props.date ?? new Date(),
-      // if there's no existing event, then default end Date time is 9AM
-      start: props.existingEvent?.start ?? new Date(props.date.setUTCHours(9)),
+      // if there's no existing event, then default start Date time is 9AM
+      start: props.existingEvent?.start ?? new Date(props.date),
       // if there's no existing event, then default end Date time is 10AM
-      end: props.existingEvent?.end ?? new Date(props.date.setUTCHours(10)),
+      end: props.existingEvent?.end ?? undefined,
       description: props.existingEvent?.description ?? "",
     },
     resolver: zodResolver(CreateEmotionSchema),
@@ -134,7 +134,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
         isReflective: values.isReflective,
         date: values.date,
         start: new Date(values.start.setUTCDate(values.date.getUTCDate())),
-        end: new Date(values.end.setUTCDate(values.date.getUTCDate())),
+        end: values.end ? new Date(values.end.setUTCDate(values.date.getUTCDate())) : undefined,
         description: values.description,
       });
     }
@@ -250,7 +250,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                     />
                   </div>
                   <div>
-                    <EntryLabel required error={errors.end} label={"Ended?"} />
+                    <EntryLabel error={errors.end} label={"End time?"} />
                     <ControlledTimePickerRHF
                       value={getValues().end}
                       control={control}
