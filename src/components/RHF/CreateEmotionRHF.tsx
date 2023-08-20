@@ -108,11 +108,11 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
       pobject: props.existingEvent?.pobject ?? "",
       cause: props.existingEvent?.cause ?? "",
       isReflective: props.existingEvent?.reflective ?? true,
-      date: props.existingEvent?.start ?? new Date(),
+      date: props.date ?? new Date(),
       // if there's no existing event, then default end Date time is 9AM
-      start: props.existingEvent?.start ?? new Date(props.date.setHours(9)),
+      start: props.existingEvent?.start ?? new Date(props.date.setUTCHours(9)),
       // if there's no existing event, then default end Date time is 10AM
-      end: props.existingEvent?.end ?? new Date(props.date.setHours(10)),
+      end: props.existingEvent?.end ?? new Date(props.date.setUTCHours(10)),
       description: props.existingEvent?.description ?? "",
     },
     resolver: zodResolver(CreateEmotionSchema),

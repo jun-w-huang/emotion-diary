@@ -27,6 +27,8 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
     return newDate.toDate();
   };
 
+  console.log(props.value)
+
   const customSuffixIcon = (): ReactNode => {
     return (
       <div className="h-1/12 text-northeastern-red flex w-1/12 justify-center text-center text-xs">
