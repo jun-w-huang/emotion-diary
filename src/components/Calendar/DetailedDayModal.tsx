@@ -21,7 +21,7 @@ const DetailedDayModal = (props: DetailedDayModalProps) => {
   const onAddEventClick = (date: Date) =>
     dispatch({
       type: "open new",
-      date: date,
+      date: new Date(date.setUTCHours(9)),
     });
 
   return (
