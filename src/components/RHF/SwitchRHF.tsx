@@ -1,38 +1,41 @@
-import { Switch } from "@headlessui/react";
-import { Control, Controller } from "react-hook-form";
-import { CreateEmotionFormInputs } from "./CreateEmotionRHF";
+import React from 'react';
+import { Control, Controller } from 'react-hook-form';
+import { CreateEmotionFormInputs } from './CreateEmotionRHF';
 
 interface SwitchRHFProps {
-    control: Control<CreateEmotionFormInputs>;
-    name: "isReflective";
-    placeholder?: string;
-    value?: Date;
-  }
+  control: Control<CreateEmotionFormInputs>;
+  name: "isReflective";
+}
 
 const SwitchRHF = (props: SwitchRHFProps) => {
-//   const [enabled, setEnabled] = useState(false);
-
   return (
-    <Controller
-      name={props.name}
-      control={props.control}
-      render={({ field: { ref, ...fieldProps }, fieldState }) => (
-        <Switch
-          checked={fieldProps.value}
-          onChange={fieldProps.onChange}
-          className={`${
-            fieldProps.value ? "bg-blue-600" : "bg-gray-200"
-          } relative inline-flex h-6 w-11 items-center rounded-full`}
-        >
-          <span className="sr-only">Enable notifications</span>
-          <span
-            className={`${
-                fieldProps.value ? "translate-x-6" : "translate-x-1"
-            } inline-block h-4 w-4 transform rounded-full bg-white transition`}
-          />
-        </Switch>
-      )}
-    />
+    <div>
+      <Controller
+        name={props.name}
+        control={props.control}
+        render={({ field: { ref, ...fieldProps }}) => {
+          const value = fieldProps.value;
+          return (
+            <div className='flex gap-5'>
+              <button
+                type="button"
+                className={`form-input rounded-md p-3 text-white w-16 ${value === true ? 'bg-emotionDarkBlue' : 'bg-emotionLightBlue'}`}
+                onClick={() => fieldProps.onChange(true)}
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                className={`form-input rounded-md p-3 text-white w-16 ${value === false ? 'bg-emotionDarkBlue' : 'bg-emotionLightBlue'}`}
+                onClick={() => fieldProps.onChange(false)}
+              >
+                No
+              </button>
+            </div>
+          );
+        }}
+      />
+    </div>
   );
 };
 
