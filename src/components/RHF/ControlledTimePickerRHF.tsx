@@ -18,16 +18,22 @@ const ControlledTimePickerRHF = (props: ControlledTimePickerRHFProps) => {
 
   useEffect(() => {
     if (props.value) {
-      setDisplayedTime(dayjs.utc(props.value))
+      setDisplayedTime(dayjs.utc(props.value));
     }
   }, [props.value]);
 
   const convertInputDateToUTC = (inputDate: Date): Date => {
-    const newDate = dayjs.utc(new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate(), inputDate.getHours(), inputDate.getMinutes()))
+    const newDate = dayjs.utc(
+      new Date(
+        inputDate.getFullYear(),
+        inputDate.getMonth(),
+        inputDate.getDate(),
+        inputDate.getHours(),
+        inputDate.getMinutes()
+      )
+    );
     return newDate.toDate();
   };
-
-  console.log(props.value)
 
   const customSuffixIcon = (): ReactNode => {
     return (
