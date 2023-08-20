@@ -160,14 +160,14 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
 
       <div className="fixed inset-0 flex items-center justify-center p-4">
         {/* The actual dialog panel  */}
-        <Dialog.Panel className="mx-auto flex min-h-fit w-9/12 flex-col gap-4 rounded-2.5xl bg-white p-6">
+        <Dialog.Panel className="mx-auto flex min-h-fit w-10/12 flex-col gap-4 rounded-2.5xl bg-white p-6">
           <form
             onSubmit={handleSubmit(onSubmit, onError)}
             className="flex flex-col"
           >
             <div className="flex flex-row gap-10 p-4">
               {/* first column */}
-              <div className="flex w-full flex-col gap-4">
+              <div className="flex h-full w-full flex-col gap-4">
                 <h1 className={""}>Create a new event</h1>
                 <div>
                   <EntryLabel
@@ -210,7 +210,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                 </div>
               </div>
               {/* second column */}
-              <div className="flex w-full flex-col gap-4">
+              <div className="flex h-full w-full flex-col gap-4">
                 <div>
                   <EntryLabel
                     error={errors.cause}
