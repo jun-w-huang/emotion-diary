@@ -1,4 +1,4 @@
-<img width="280" alt="Screenshot 2023-09-29 at 9 43 21 AM" src="https://github.com/jun-w-huang/emotion-diary/assets/93484080/6bfc54f8-ac7d-4b60-864a-a2f8fb885033">
+<img width="280" alt="logo" src="https://github.com/jun-w-huang/emotion-diary/assets/93484080/a9e96133-0fa6-48a2-8e12-0d7192c32e92">
 
 # Motivation
 Emotions are a fundamental aspect of our lives that significantly influence the way in which we think, act, and feel. Despite this, most of us seldom spend much time reflecting on our emotions, how they make us feel, what they are caused by, and how they affect our behaviour for better or worse. Emotion Diary was created to help individuals better understand their emotional patterns so that they can ultimately take action to improve their emotional lives. 
@@ -8,7 +8,7 @@ This project was initially begun as a final project for the class Philosophy of 
 # Current State of Project
 As of today, (9th September 2023), I have currently taken a (temporary?) break from developing the project, as I have been increasingly busy with other commitments. The app in its current state allows users to record their emotional events, answering prompts such as what emotion they are feeling, what caused the emotion, what is the emotion directed towards, and what the emotion actually feels like. Their events are then able to be viewed in an intuitive calendar UI. In addition, users are provided with an Analysis page where data visualization has been used to assist in providing insight into users's emotional patterns.
 
-<img width="1595" alt="Screenshot 2023-09-29 at 9 58 28 AM" src="https://github.com/jun-w-huang/emotion-diary/assets/93484080/2deed9ac-9aab-4d2e-8be7-3ae59a2d0542">
+<img width="1595" alt="calendarUI" src="https://github.com/jun-w-huang/emotion-diary/assets/93484080/e9676ba0-84b1-44e3-aaa0-d593b62ebc0f">
 
 
 # Future of Emotion Diary
