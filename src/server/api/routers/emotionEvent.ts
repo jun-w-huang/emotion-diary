@@ -1,5 +1,6 @@
 import type { Emotion, PhysicalSymptom } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
+import axios, { AxiosResponse } from "axios";
 import {
   CreateEmotionSchema,
   DeleteSchema,
@@ -10,6 +11,12 @@ import {
   privateProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
+
+const AWS_API_GATEWAY_URL = process.env.NEXT_PUBLIC_AWS_API_GATEWAY_URL!;
+
+interface SuicidalContentPredictorResponse {
+  predictions: string[];
+}
 
 export const emotionEventRouter = createTRPCRouter({
   getMyEvents: publicProcedure.query(async ({ ctx }) => {
@@ -26,6 +33,33 @@ export const emotionEventRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.userId;
 
+      // Call AWS API Gateway Suicidal content predictor
+      const suicidalContentPredictorResponse : AxiosResponse<SuicidalContentPredictorResponse> = await axios.post(
+        `${AWS_API_GATEWAY_URL}/predict-suicide-content`,
+        {
+          body: JSON.stringify({
+            title: input.title,
+            description: input.description,
+          }),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key":
+              process.env.NEXT_PUBLIC_DETECT_SUICIDAL_CONTENT_API_KEY,
+          },
+        }
+      );
+
+      const predictions: string[] =
+        suicidalContentPredictorResponse.data.predictions;
+
+      const containsSuicidalContent = predictions.find(
+        (prediction) => prediction === "suicide"
+      )
+        ? true
+        : false;
+
       const event = await ctx.prisma.emotionEvent.create({
         data: {
           title: input.title,
@@ -40,7 +74,8 @@ export const emotionEventRouter = createTRPCRouter({
           description: input.description,
         },
       });
-      return event;
+
+      return { event, containsSuicidalContent };
     }),
 
   update: privateProcedure

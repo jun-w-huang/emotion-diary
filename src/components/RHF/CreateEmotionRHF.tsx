@@ -16,6 +16,7 @@ import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { DatePicker } from "antd";
 import ControlledDatePicker from "./ControlledDatePicker";
+import MentalHealthResourcesModal from "./MentalHealthResourcesModal";
 dayjs.extend(utc);
 
 interface CreateEmotionRHFProps {
@@ -56,11 +57,18 @@ export const DeleteSchema = z.object({ id: z.string() });
 
 const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   const ctx = api.useContext();
+  const [showMentalHealthModal, setShowMentalHealthModal] = useState(false);
 
   const { mutate: create, isLoading: isCreating } =
     api.emotionEvent.create.useMutation({
-      onSuccess: () => {
-        closeModal();
+      onSuccess: (data) => {
+        console.log(data)
+        if (data.containsSuicidalContent) {
+          console.log("contains suicidal content");
+          setShowMentalHealthModal(true);
+        } else {
+          closeModal();
+        }
         void ctx.emotionEvent.getMyEvents.invalidate();
       },
       onError: (error) => {
@@ -70,7 +78,8 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
 
   const { mutate: update, isLoading: isUpdating } =
     api.emotionEvent.update.useMutation({
-      onSuccess: () => {
+      onSuccess: (data) => {
+        console.log(data);
         closeModal();
         void ctx.emotionEvent.getMyEvents.invalidate();
       },
@@ -134,7 +143,9 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
         isReflective: values.isReflective,
         date: values.date,
         start: new Date(values.start.setUTCDate(values.date.getUTCDate())),
-        end: values.end ? new Date(values.end.setUTCDate(values.date.getUTCDate())) : undefined,
+        end: values.end
+          ? new Date(values.end.setUTCDate(values.date.getUTCDate()))
+          : undefined,
         description: values.description,
       });
     }
@@ -153,11 +164,24 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
     props.closeModal();
   };
 
+  const closeMentalHealthModal = () => {
+    setShowMentalHealthModal(false);
+    closeModal();
+  }
+
+  if (showMentalHealthModal) {
+    return (
+      <MentalHealthResourcesModal
+        isOpen={showMentalHealthModal}
+        onClose={closeMentalHealthModal}
+      />
+    );
+  }
+
   return (
     <Dialog open={isOpen} onClose={closeModal} className="relative z-50">
       {/* The backdrop, rendered as a fixed sibling to the panel container */}
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-
       <div className="fixed inset-0 flex items-center justify-center p-4">
         {/* The actual dialog panel  */}
         <Dialog.Panel className="mx-auto flex min-h-fit w-10/12 flex-col gap-4 rounded-2.5xl bg-white p-6">
@@ -231,9 +255,11 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                 <div>
                   <div>
                     <EntryLabel error={errors.date} label={"Date"} />
-                    <ControlledDatePicker value={getValues().date}
+                    <ControlledDatePicker
+                      value={getValues().date}
                       control={control}
-                      name="date"/>
+                      name="date"
+                    />
                   </div>
                 </div>
                 <div className="flex gap-6">
