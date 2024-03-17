@@ -26,7 +26,7 @@ const MentalHealthResourcesModal: React.FC<MentalHealthResourcesModalProps> = ({
           </p>
           <ul>
             <li>National Suicide Prevention Lifeline: 1-800-273-TALK (8255)</li>
-            <li>Crisis Text Line: Text "HELLO" to 741741</li>
+            <li>Crisis Text Line: Text &quot;HELLO&quot; to 741741</li>
             <li>
               International Suicide Hotlines:{" "}
               <a href="https://www.opencounseling.com/suicide-hotlines">
