@@ -15,7 +15,8 @@ import {
 const AWS_API_GATEWAY_URL = process.env.NEXT_PUBLIC_AWS_API_GATEWAY_URL!;
 
 interface SuicidalContentPredictorResponse {
-  predictions: string[];
+  statusCode: number;
+  prediction: string;
 }
 
 export const emotionEventRouter = createTRPCRouter({
@@ -34,31 +35,27 @@ export const emotionEventRouter = createTRPCRouter({
       const userId = ctx.userId;
 
       // Call AWS API Gateway Suicidal content predictor
-      const suicidalContentPredictorResponse : AxiosResponse<SuicidalContentPredictorResponse> = await axios.post(
-        `${AWS_API_GATEWAY_URL}/predict-suicide-content`,
-        {
-          body: JSON.stringify({
-            title: input.title,
-            description: input.description,
-          }),
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key":
-              process.env.NEXT_PUBLIC_DETECT_SUICIDAL_CONTENT_API_KEY,
-          },
-        }
-      );
+      const suicidalContentPredictorResponse: AxiosResponse<SuicidalContentPredictorResponse> =
+        await axios.post(
+          `${AWS_API_GATEWAY_URL}/predict-suicide-content`,
+          `${input.title} ${input.description || ""}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key":
+                process.env.NEXT_PUBLIC_DETECT_SUICIDAL_CONTENT_API_KEY,
+            },
+            responseType: 'json'
+          }
+        );
 
-      const predictions: string[] =
-        suicidalContentPredictorResponse.data.predictions;
-
-      const containsSuicidalContent = predictions.find(
-        (prediction) => prediction === "suicide"
-      )
-        ? true
-        : false;
+      let containsSuicidalContent = false;
+      if (suicidalContentPredictorResponse.data.statusCode === 200) {
+        containsSuicidalContent =
+          suicidalContentPredictorResponse.data.prediction === "suicide"
+            ? true
+            : false;
+      }
 
       const event = await ctx.prisma.emotionEvent.create({
         data: {
