@@ -12,7 +12,7 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
-const AWS_API_GATEWAY_URL = process.env.NEXT_PUBLIC_AWS_API_GATEWAY_URL!;
+const AWS_API_GATEWAY_URL = process.env.AWS_API_GATEWAY_URL!;
 
 interface SuicidalContentPredictorResponse {
   statusCode: number;
@@ -43,7 +43,7 @@ export const emotionEventRouter = createTRPCRouter({
             headers: {
               "Content-Type": "application/json",
               "x-api-key":
-                process.env.NEXT_PUBLIC_DETECT_SUICIDAL_CONTENT_API_KEY,
+                process.env.DETECT_SUICIDAL_CONTENT_API_KEY,
             },
             responseType: 'json'
           }
