@@ -26,6 +26,15 @@ export default {
         emotionLightGray: '#E3E9F6',
         emotionSidebarBlue: '#F1F6FF',
       },
+      keyframes: {
+        fadeIn: {
+          from: { opacity: '0'},
+          to: { opacity: '1' },
+        },
+      },
+      animation: {
+        "fade-in": "fadeIn 1s ease-in-out",
+      },
     },
   },
   plugins: [],

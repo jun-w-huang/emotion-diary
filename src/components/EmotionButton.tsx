@@ -3,12 +3,14 @@ import React, { ButtonHTMLAttributes, forwardRef } from "react";
 export interface EmotionButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
+  className?: string; // Add className prop
 }
 
+
 export const EmotionButton = forwardRef<HTMLButtonElement, EmotionButtonProps>(
-  ({ label, ...props }, ref) => (
+  ({ label, className, ...props }, ref) => (
     <button
-      className={`flex h-10 w-24 items-center justify-center rounded-2xl bg-emotionDarkBlue text-white`}
+      className={`flex h-10 w-24 items-center justify-center rounded-2xl bg-emotionDarkBlue text-white ${className}`}
       {...props}
       ref={ref}
     >
@@ -16,5 +18,6 @@ export const EmotionButton = forwardRef<HTMLButtonElement, EmotionButtonProps>(
     </button>
   )
 );
+
 
 EmotionButton.displayName = "EmotionButton";

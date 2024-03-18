@@ -49,22 +49,18 @@ const Home: NextPage = () => {
       <div className="flex h-screen items-center justify-center">
         <div className="flex flex-col items-center justify-center">
           <Logo />
-
-          <div className="flex gap-2">
+          <div className="flex items-center justify-center gap-2">
             <EmotionSVG emotion="Joy" />
-            <SignInButton>
-              <EmotionButton label="Sign in" />
-            </SignInButton>
+            <div className="flex w-28 justify-center">
+              <SignInButton>
+                <EmotionButton
+                  className="animate-duration-1000 animate-fade-in"
+                  label="Sign in"
+                />
+              </SignInButton>
+            </div>
           </div>
         </div>
-      </div>
-    );
-  }
-
-  if (isLoading || !events) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <LoadingSpinner />
       </div>
     );
   }
@@ -97,12 +93,16 @@ const Home: NextPage = () => {
               )}
 
               <Sidebar user={user}>
-                {detailedDayModalState.isShowingModal && (
+                {detailedDayModalState.isShowingModal && events && (
                   <DetailedDayModal events={events} />
                 )}
               </Sidebar>
               <div className="flex h-full w-4/5 flex-col items-center justify-center px-4 py-12">
-                <MemoizedCalendar events={events} />
+                {!isLoading && events ? (
+                  <MemoizedCalendar events={events} />
+                ) : (
+                  <LoadingSpinner />
+                )}
               </div>
             </DetailedDayModalContext.Provider>
           </EmotionRHFModalContext.Provider>
