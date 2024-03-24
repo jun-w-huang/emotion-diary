@@ -2,8 +2,9 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
   relationMode = "prisma"
 }
 
@@ -67,8 +68,8 @@ model EmotionEvent {
     cause       String?   @db.VarChar(255)
     reflective  Boolean   @default(true)
 
-    start       DateTime  @default(now()) @db.DateTime(0)
-    end         DateTime? @db.DateTime(0)
+    start       DateTime  @default(now()) @db.Timestamp(0)
+    end         DateTime? @db.Timestamp(0)
     description String?   @db.VarChar(255)
 
     createdAt   DateTime  @default(now())
