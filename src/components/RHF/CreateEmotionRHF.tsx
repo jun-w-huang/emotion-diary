@@ -14,7 +14,6 @@ import SwitchRHF from "./SwitchRHF";
 import { EmotionButton } from "../EmotionButton";
 import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { DatePicker } from "antd";
 import ControlledDatePicker from "./ControlledDatePicker";
 import MentalHealthResourcesModal from "./MentalHealthResourcesModal";
 dayjs.extend(utc);
@@ -58,11 +57,10 @@ export const DeleteSchema = z.object({ id: z.string() });
 const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   const ctx = api.useContext();
   const [showMentalHealthModal, setShowMentalHealthModal] = useState(false);
-
   const { mutate: create, isLoading: isCreating } =
     api.emotionEvent.create.useMutation({
       onSuccess: (data) => {
-        console.log(data)
+        console.log(data);
         if (data.containsSuicidalContent) {
           console.log("contains suicidal content");
           setShowMentalHealthModal(true);
@@ -151,6 +149,8 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
     }
   };
 
+  const isSubmitting = isCreating || isUpdating || isDeleting;
+
   const onError = (errors: any, e: any) => {
     console.log("in errors");
     console.log(errors);
@@ -167,7 +167,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
   const closeMentalHealthModal = () => {
     setShowMentalHealthModal(false);
     closeModal();
-  }
+  };
 
   if (showMentalHealthModal) {
     return (
@@ -320,6 +320,7 @@ const CreateEmotionRHF = (props: CreateEmotionRHFProps): JSX.Element => {
                   onClick={() => console.log("submit")}
                   type="submit"
                   label="Done"
+                  disabled={isSubmitting}
                 />
               </div>
             </div>
